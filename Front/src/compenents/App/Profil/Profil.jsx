@@ -3,6 +3,7 @@ import { Button, Modal, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import NavBoutique from './NavBoutique.jsx';
 import VoirMesDevis from '../DashboarClientBoutique/GestionBoutique/Devis/VoirMesDevis.jsx';
+import BackButton from '../../AuthSecure/BackButton.jsx';
 
 const Profil = () => {
     const [profileData, setProfileData] = useState(null);
@@ -108,7 +109,9 @@ const Profil = () => {
     return (
                 <>
                 <section className="mt-5">
+                    {profileData && (
                     <NavBoutique />
+                )}
                     <article className="graylogo col-md-9 mx-auto">
                     <div className="col-md-6 mx-auto">
                                 {profileData ? (
@@ -155,8 +158,9 @@ const Profil = () => {
                                     <section className='p-2'>
                                         <h1 className='text-center p-2 rounded'>Connectez-vous ou créez un compte</h1>
                                         <div className="d-flex justify-content-center gap-5">
-                                        <Button className='text-white fw-bold' as={Link} to="/Connexion" aria-label='Connexion' >Connexion</Button>
-                                        <Button className='text-white fw-bold' as={Link} to="/Inscription" aria-label="Pour s'inscrire">Inscription </Button>
+                                            <BackButton />
+                                            <Button className='text-white fw-bold' as={Link} to="/Connexion" aria-label='Connexion' >Connexion</Button>
+                                            <Button className='text-white fw-bold' as={Link} to="/Inscription" aria-label="Pour s'inscrire">Inscription </Button>
                                         </div>
                                     </section>
                                 )}
