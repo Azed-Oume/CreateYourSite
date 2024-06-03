@@ -1,0 +1,330 @@
+@font-face {
+    font-family: 'Montserrat';
+    src: url('../Fonts/static/Montserrat-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+  }
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+    body {
+        font-family: 'Montserrat', sans-serif;
+        background-color: rgb(231, 232, 233) !important;
+        /* background-image: url("../compenents/images/Carrousel/engrenage.png"); */
+        color: rgb(0, 0, 0) ; 
+        opacity: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 0; /*à mettre si pas de normalize.css*/
+        margin-bottom: 200px;
+    }
+    
+    
+     h1, h2, h3, h4, h5, h6{
+      font-family: 'Montserrat', sans-serif;
+      /* background-color: rgb(207, 207, 207) !important; */
+      /* color: black !important; */
+      background-color: var(--bs-teal);
+      color: var(--bs-blue) !important;
+     }
+     p, li{
+      font-size:larger;
+     }
+
+
+
+
+
+
+  
+  @keyframes scintillement {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+  }
+  .etincelle {
+    content: "";
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    background-color: white; /* Couleur des étoiles */
+    opacity: 0;
+    animation: scintillement 2s infinite;
+  }
+
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+
+    .article-container:hover {
+        transform: scale(1.005); /* Grossissement au survol */
+        background-color: black;
+        opacity: 1;
+        border: 10px solid gray ;
+        box-shadow:
+                     /* 5px -5px 5px 6px rgb(77, 78, 78), */
+                    /* 5px 5px 5px 6px rgb(77, 78, 78), */
+                    /* -5px 5px 5px 6px rgb(77, 78, 78), */
+                    -7px -7px 10px 7px rgb(121, 122, 122);
+    }
+
+        .article-container {
+            background-color: black;
+            opacity: .7;
+          }
+
+          .highlight {
+            background-color: rgb(56, 54, 54);
+          }
+              
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+
+    
+    
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+
+    .graylogo{
+        background-color:#44546A;
+        /* background-color: black; */
+    }
+
+    .colorText{
+        background-color: hsl(10, 10%, 90%);
+        color: rgb(2, 46, 11)
+        /* background-color: hsl(0, 100%, 98%);  */
+    
+    } 
+
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+    .hover-effect:hover {
+      transition: 0.3s;
+      background-color: rgb(207, 207, 207) !important;
+      color: black;
+      transform: scale(1.1);
+      border: 3px solid gray !important;
+      box-shadow: -20px 20px 10px 0px rgba(0, 0, 0, 0.5);
+      border-radius: 2rem;
+      margin: -1rem;
+    }
+    .no-hover {
+      border: 3px solid gray;
+      border-radius: 1rem;
+    }
+    .no-hover-bg {
+      border: 3px solid gray;
+      border-radius: 1rem;
+      background-color: rgb(203, 219, 253) !important;
+    }
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+    .carrousel-container {
+      height: 50px; /* Définissez la hauteur souhaitée */
+  }
+  
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+
+  .fixed-height{
+    height: 150px;
+  }
+
+  /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+  /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+
+/* Couleur fluo pour la classe 'success' */
+.successfluo {
+  background-color: #64ffda; /* Couleur success */
+}
+
+/* Couleur fluo pour la classe 'danger' */
+.dangerfluo {
+  background-color: #ff1744; /* Couleur danger */
+}
+
+/* Couleur fluo pour la classe 'warning' */
+.warningfluo {
+  background-color: #ff9100; /* Couleur warning */
+}
+
+/* Couleur fluo pour la classe 'info' */
+.infofluo {
+  background-color: #00e5ff; /* Couleur info */
+}
+
+/* Couleur fluo pour la classe 'primary' */
+.primaryfluo {
+  background-color: #2979ff; /* Couleur primary */
+}
+
+/* Couleur fluo pour la classe 'secondary' */
+.secondaryfluo {
+  background-color: #ff4081; /* Couleur secondary */
+}
+
+/* Couleur fluo pour la classe 'dark' */
+.darkfluo {
+  background-color: #6200ea; /* Couleur dark */
+}
+
+/* Couleur fluo pour la classe 'light' */
+.lightfluo {
+  background-color: #e5e5e5; /* Couleur light */
+}
+/* Couleur fluo pour la classe gris-claire */
+.grisclair {
+  background-color: #cfcccc; /* Gris clair */
+  filter: brightness(110%); /* Augmenter la luminosité */
+}
+
+/* Couleur fluo pour le vert */
+.vertfluo {
+  background-color: #00ff00; /* Couleur verte fluo */
+}
+
+/* Couleur fluo pour le jaune */
+.jaunefluo {
+  background-color: #ffff00; /* Couleur jaune fluo */
+}
+
+/* Couleur fluo pour la classe 'info' */
+.infoparagraphfluo {
+  background-color: #00e5ff; /* Couleur info */
+}
+
+/* Couleur fluo pour la classe 'primary' */
+.primaryparagraphfluo {
+  background-color: #2979ff; /* Couleur primary */
+}
+
+/* Couleur fluo pour la classe 'secondary' */
+.secondaryparagraphfluo {
+  background-color: #ff4081; /* Couleur secondary */
+}
+
+/* Couleur fluo pour la classe 'dark' */
+.darkparagraphfluo {
+  background-color: #6200ea; /* Couleur dark */
+}
+
+/* Couleur fluo pour la classe 'light' */
+.lightparagraphfluo {
+  background-color: #e5e5e5; /* Couleur light */
+}
+
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+
+
+/* Styles pour l'animation de chute */
+
+/* monStyle.css */
+ .falling-logo {
+  opacity: 0;
+  animation: fallIn 1s ease-out forwards;
+}
+
+@keyframes fallIn {
+
+  0% {
+    opacity: 0;
+  }
+  5% {
+      transform: translateY(-100vh) rotate(0deg);
+      opacity: 0;
+  }
+
+  50% {
+      /* opacity: 1; */
+      transform: translateY(0) rotate(360deg);
+  }
+  75% {
+      opacity: 1;
+      transform:  rotate(360deg);
+  }
+
+  100% {
+      transform: translateY(0) rotate(360deg);
+      opacity: 1;
+  }
+}
+
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+/* Définition de l'animation 'deal' pour simuler la distribution des cartes */
+@keyframes deal {
+  0% {
+      transform: translateY(100vh) rotate(0deg); /* Position de départ hors de la vue et rotation initiale */
+      opacity: 0; /* Départ invisible */
+      
+  }
+  100% {
+      transform: translateY(0) rotate(360deg); /* Position finale à sa place originale avec une rotation complète */
+      opacity: 1; /* Arrivée complètement visible */
+  }
+}
+
+/* Conteneur des cartes avec des propriétés pour l'effet 3D */
+.card-container-beta {
+  transform-origin: center center; /* Origine de la transformation au centre */
+  perspective: 1000px; /* Perspective 3D pour un effet de profondeur */
+  opacity: 0; /* Initialement invisible */
+  position: relative; /* Position relative pour permettre des animations */
+}
+
+/* Classe appliquée pour animer les cartes */
+.card-container-beta.animate {
+  animation: deal 0.5s ease-in forwards; /* Applique l'animation 'deal' avec une durée de 0.5s et un easing 'ease-out' */
+}
+
+
+/* Styles pour les symboles de cartes */
+.symbol {
+  position: absolute;
+  font-size: 2rem; /* Ajustez la taille du symbole selon vos besoins */
+}
+
+.top-left {
+  top: -10px;
+  left: 5px;
+}
+
+.top-right {
+  top: -10px;
+  right: 5px;
+}
+
+.bottom-left {
+  bottom: -10px;
+  left: 5px;
+}
+
+.bottom-right {
+  bottom: -10px;
+  right: 5px;
+}
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+.my-masonry-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  margin-left: -5px; /* gutter size offset */
+  width: auto;
+}
+.my-masonry-grid_column {
+  padding-left: 5px; /* gutter size */
+  background-clip: padding-box;
+}
+
+/* Style your items */
+.my-masonry-grid_column > div {
+  margin-bottom: -10px;
+}

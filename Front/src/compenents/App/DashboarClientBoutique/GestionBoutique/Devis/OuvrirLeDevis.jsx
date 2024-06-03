@@ -1,0 +1,202 @@
+
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams, Link } from 'react-router-dom';
+import { Form, Row, Col, Button } from 'react-bootstrap';
+import NavDocument from '../../../../AuthSecure/NavDocument.jsx';
+
+const OuvrirLeDevis = ({ panier}) => {
+    const [societe, setSociete] = useState("");
+    const [client, setClient] = useState("");
+    const [devisData, setDevisData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const {devisId} = useParams();
+    const navigate = useNavigate();
+
+  const handleValiderDevis = () => {
+    navigate("/facture", { state: { devisData, societe, client } });
+};
+const handleModifierDevis = () => {
+    navigate("/modifierDevis", { state: { devisData, societe, client } });
+};
+
+    useEffect(() => {
+        const fetchSociete = async () => {
+            try { // pérmet de récuperer le profil de la société du site !
+                const response = await fetch('http://localhost:3000/api/getSociete/2');
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération des informations de la société');
+                }
+                const data = await response.json();
+                setSociete(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        const fetchClient = async () => {
+            try { // pérmet de récuperer le profil de l'utilisateu connécter
+                const token = localStorage.getItem('token');
+                const response = await fetch('http://localhost:3000/api/getUser', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération des informations du client');
+                }
+                const data = await response.json();
+                setClient(data);
+
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        const fetchDevis = async () => {
+            try { // permet de récupèrer un devis (par son Id), d'un utilisateur connécter !
+                const token = localStorage.getItem('token');
+                const response = await fetch(`http://localhost:3000/api/get/devis/utilisateur/${devisId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${token}`
+                    }
+                });    // console.log(devisId, "en ligne 123 de OuvrirLeDevis XXXXXXXXXXXX");
+
+                if (!response.ok) {
+                    throw new Error('Une erreur est survenue lors de la récupération du devis');
+                }
+
+                const data = await response.json();
+                setDevisData(data);
+                setLoading(false);
+            } catch (error) {
+                setError(error.message);
+                setLoading(false);
+            }
+        };
+        fetchSociete();
+        fetchClient();
+        fetchDevis();
+    }, [devisId]);    
+
+    if (loading) {
+        return <h2 className='p-3 col-md-9 mx-auto' style={{marginTop: "140px"}}>Chargement en cours...</h2>;
+    }
+
+    if (error) {
+        return <h2 className='p-3 col-md-9 mx-auto' style={{marginTop: "140px"}}>Erreur lors du chargement des devis : {error}</h2>;
+    }
+
+    if (!devisData || devisData.length === 0) {
+        return <h2 className='p-3 col-md-9 mx-auto' style={{marginTop: "140px"}}>Aucun devis trouvé.</h2>;
+    }
+
+    let totalDevis = 0;
+
+    return (
+        <>
+         <NavDocument data={devisData} societe={societe} client={client} type="devis" />
+
+        <div id="devis" className="col-md-11  mx-auto graylogo rounded p-3 mt-5">
+        <section>
+            <div>
+                <h3 className='p-3 text-center rounded'>Devis numéro :{devisData.devis.numero_devis} </h3>
+            </div>
+            <Form className=''>
+                <Row>
+                    {/* Informations sur la société */}
+                    <Col md={12} lg={6} className="border border-secondary p-2 rounded mb-3">
+                        <div className=''>
+                                            <div className='d-flex justify-content-between p-2'>
+                                                <img src ={societe && societe.avatar} style={{width: "100px", height: "100px", borderRadius: "50%"}} />
+                                            </div>
+                                            <div className="mb-3 text-white fw-bold fs-6">
+                                                <span>{societe && societe.societe}</span>
+                                            </div>
+                                            <div className="mb-3 text-white fw-bold fs-6">
+                                                <span>{societe && societe.rue}</span>
+                                            </div>
+                                            <div className="mb-3 text-white fw-bold fs-6">
+                                                <span>{societe && societe.ville}</span>
+                                            </div>
+                                            <div className="mb-3 text-white fw-bold fs-6">
+                                                <span>{societe && societe.code_postal}</span>
+                                            </div>
+                                            <div className="mb-3 text-white fw-bold fs-6">
+                                                <span>Contact  : MR  {societe && societe.pseudo}</span>
+                                            </div>
+                        </div>
+                    </Col>
+                    {/* Informations sur le client */}
+                    <Col md={12} lg={6} className="border border-secondary p-2 rounded mb-3">
+                        <div className=''>
+
+                                            <div className='d-flex justify-content-between p-2'>
+                                                <img src ={client && client.avatar} style={{width: "100px", height: "100px", borderRadius: "50%"}} />
+                                                <h5 className='p-3 text-center rounded fw-bold'>{client && client.pseudo} </h5>
+                                            </div>
+                                            <div className="mb-3 text-white fw-bold fs-6">
+                                                <span>{client && client.nom}</span>
+                                            </div>
+                                            <div className="mb-3 text-white fw-bold fs-6">
+                                                <span>{client && client.prenom}</span>
+                                            </div>
+                                            <div className="mb-3 text-white fw-bold fs-6">
+                                                <span>{client && client.rue}</span>
+                                            </div>
+                                            <div className="mb-3 text-white fw-bold fs-6">
+                                                <span>{client && client.ville}</span>
+                                            </div>
+                                            <div className="mb-3 text-white fw-bold fs-6">
+                                                <span>{client && client.code_postal}</span>
+                                            </div>
+                                        
+                        </div>
+                    </Col>
+                </Row>
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Nom</th>
+                                            <th>Tarif</th>
+                                            <th>Quantité</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {Array.isArray(devisData.devis.Produits) && devisData.devis.Produits.map((produit, index) => {
+                                            // Trouver la quantité correspondante à ce produit
+                                            const quantiteProduit = devisData.quantites.find(q => q.produit_id === produit.produit_id);
+                                            // Calculer le total pour ce produit
+                                            const totalProduit = produit.tarif * (quantiteProduit ? quantiteProduit.quantite : 0);
+                                            // Ajouter le total de ce produit au total général
+                                            totalDevis += totalProduit;
+
+                                            return (
+                                                <tr key={index} data-name={produit.nom} data-tarif={produit.tarif} data-quantite={quantiteProduit ? quantiteProduit.quantite : 0} data-total={totalProduit.toFixed(2)}>
+                                                    <td>{produit.nom}</td>
+                                                    <td>{produit.tarif} €</td>
+                                                    <td>{quantiteProduit ? quantiteProduit.quantite : 0}</td>
+                                                    <td>{totalProduit.toFixed(2)} €</td>
+                                                </tr>
+                                            );
+                                        })}
+
+                                        <tr>
+                                            <td colSpan="3" className="fw-bold text-end">Total du devis :</td>
+                                            <td className="fw-bold">{totalDevis.toFixed(2)} €</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+            </Form>
+        </section>
+        
+    </div>
+                        <NavDocument data={devisData} societe={societe} client={client} type="devis" />
+    </>
+    );
+};
+
+export default OuvrirLeDevis;

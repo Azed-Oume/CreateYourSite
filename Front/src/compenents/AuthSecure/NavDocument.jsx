@@ -1,0 +1,92 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
+import BackButton from "./BackButton";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+
+const NavDocument = ({ data, societe, client, type }) => {
+    const navigate = useNavigate();
+
+    const handleValidate = () => {
+        const path = type === "commande" ? "/factureCommande" : "/factureDevis";
+        navigate(path, { state: { data, societe, client } });
+    };
+
+    const handleModify = () => {
+        const path = type === "commande" ? "/modifierCommande" : "/modifierDevis";
+        navigate(path, { state: { data, societe, client } });
+    };
+
+    const handleDownloadPDF = async () => {
+        if (!societe || !client) return;
+
+        const pdf = new jsPDF();
+        pdf.setFontSize(12);
+
+        pdf.rect(20, 15, 80, 60);
+        pdf.text(`${societe.societe || ""}`, 25, 20);
+        pdf.text(`${societe.rue || ""}`, 25, 30);
+        pdf.text(`${societe.ville || ""}`, 25, 40);
+        pdf.text(`${societe.code_postal || ""}`, 25, 50);
+        pdf.text(`${societe.nom || ""}`, 25, 60);
+
+        pdf.rect(110, 15, 80, 60);
+        pdf.text(`${client.nom || ""}`, 115, 20);
+        pdf.text(`${client.prenom || ""}`, 115, 30);
+        pdf.text(`${client.rue || ""}`, 115, 40);
+        pdf.text(`${client.ville || ""}`, 115, 50);
+        pdf.text(`${client.code_postal || ""}`, 115, 60);
+
+        const numText = type === "commande" ? `Numéro Commande : ${data.commande.numero_commande || ""}` : `Numéro devis : ${data.devis.numero_devis || ""}`;
+        pdf.rect(60, 80, 90, 15);
+        pdf.text(numText, 70, 90);
+
+        let y = 100;
+        pdf.autoTable({
+            startY: y,
+            head: [["Nom", "Tarif", "Quantité", "Total"]],
+            body: data[type].Produits.map(produit => [
+                produit.nom,
+                produit.tarif + " €",
+                data.quantites.find(q => q.produit_id === produit.produit_id)?.quantite || 0,
+                (produit.tarif * (data.quantites.find(q => q.produit_id === produit.produit_id)?.quantite || 0)).toFixed(2) + " €"
+            ])
+        });
+
+        const total = data[type].Produits.reduce((total, produit) => {
+            const quantiteProduit = data.quantites.find(q => q.produit_id === produit.produit_id);
+            return total + produit.tarif * (quantiteProduit ? quantiteProduit.quantite : 0);
+        }, 0).toFixed(2);
+        pdf.text(`Total : ${total} €`, 150, pdf.autoTable.previous.finalY + 10);
+
+        const fileName = type === "commande" ? `Commande${data.commande.numero_commande}.pdf` : `devis${data.devis.numero_devis}.pdf`;
+        pdf.save(fileName);
+    };
+
+    return(
+        <nav className='d-flex justify-content-center gap-3 m-5 flex-wrap'>
+            <Button 
+                className='fw-bold'
+                aria-label={`Valider le ${type} et Passer en facture`}
+                onClick={handleValidate} >
+                    Valider le {type} et Passer en facture
+            </Button>
+            <BackButton />
+            <Button 
+                className='fw-bold'
+                aria-label={`Modifier le ${type}`}
+                onClick={handleModify} >
+                    Modifier le {type}
+            </Button>
+            <Button 
+                className='fw-bold'
+                aria-label='Télécharger à nouveau le pdf'
+                onClick={handleDownloadPDF}>
+                    Télécharger à nouveau "PDF"
+            </Button>
+        </nav>
+    );
+};
+
+export default NavDocument;

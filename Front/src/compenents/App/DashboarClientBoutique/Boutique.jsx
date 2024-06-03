@@ -1,0 +1,216 @@
+import React, { useState, useEffect } from 'react';
+import {Button, Carousel, Pagination } from 'react-bootstrap';
+import fishblue from '../../images/fishblue.png';
+import poisson_rouge from '../../images/poisson_rouge.png';
+import my_fish from '../../images/my_fish.png';
+import {FaChevronLeft, FaChevronRight} from 'react-icons/fa';
+// import Paiement from './Paiement.jsx';
+import PanierIsVisible from './PanierIsVisible.jsx';
+
+
+const Boutique = ({produit, index}) => {
+
+const [produits, setProduits] = useState([]);
+const [panier, setPanier] = useState([]);
+  const [currentPage, setCurrentPage] = useState([1]);
+  const [produitsPerPage, setProduitsPerPage] = useState(25);
+  // const [loveProduits, setLoveProduits] = useState({});
+  const [produitId, setProduitId] = useState(null);
+  const [expandedProducts, setExpandedProducts] = useState({});
+  const [isVisible, setIsVisible] = useState(false);
+  const [codePromotionnel, setCodePromotionnel] = useState('');
+  const [isCodePromotionnelValide, setIsCodePromotionnelValide] = useState(false);
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+const defaultImages = [
+  { url: my_fish},
+  { url: poisson_rouge },
+  { url: fishblue}
+];
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+const thickChevronStyle = {
+  fontSize: '5rem', // Taille de l'icône
+  color: 'green',   // Couleur de l'icône
+  fontWeight: 'bold', //
+};
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+  useEffect(() => {
+    fetchProduits(); // Ajoutez cet appel ici
+  }, [currentPage, produitsPerPage ]);
+
+  const fetchProduits = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        // permet de récupérer tout les produits
+        const response = await fetch('http://localhost:3000/api/get/product', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        if (!response.ok) {
+            if (response.status === 404) {
+                alert("Vous n'avez pas de produits pour le moment.");
+            } else {
+                throw new Error('Une erreur est survenue lors du FETCH');
+            }
+        } else {
+
+            const data = await response.json();
+            console.log(data, "en ligne 48");
+            setProduits(data.produits);
+            console.log(data, "en ligne 50");
+        }
+    } catch (error) {
+        console.error('Error fetching produits:', error);
+    }
+};
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// Fonction pour ajouter ou retirer un produit du panier
+const ajouterAuPanier = (produit) => {
+  // Vérifie si le produit est déjà dans le panier
+  const produitIndex = panier.findIndex(item => item.produit_id === produit.produit_id);
+
+  if (produitIndex !== -1) {
+      // Le produit est déjà dans le panier, donc on le retire
+      const nouveauPanier = [...panier];
+      nouveauPanier.splice(produitIndex, 1);
+      setPanier(nouveauPanier);
+      console.log(`"${produit.nom}, ${produit.id}" a été retiré du panier. en ligne 68`);
+  } else {
+      // Le produit n'est pas dans le panier, donc on l'ajoute
+      setPanier([...panier, produit]);
+      console.log(`"${produit.nom}, ${produit.produit_id}" a été ajouté au panier. en ligne 72`);
+  }
+};
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+const renderProduitDetails = (produit, index) => {
+  const isExpanded = expandedProducts[index];
+  // Condition pour déterminer si le bouton est affiché ou non
+  const isButtonVisible = produit.detail.length > 20;
+  // Classe conditionnelle pour ajuster la hauteur si le bouton n'est pas visible
+  const detailsClass = `card-text fs-5 ${!isButtonVisible && !isExpanded ? 'fixed-height' : ''}`;
+
+  return (
+    <> 
+      {/* Détails du produit avec la classe conditionnelle */}
+      <p className={detailsClass}>
+        {/* Afficher les détails complets si le produit est étendu, sinon afficher les premiers 20 caractères */}
+        {isExpanded ? produit.detail : produit.detail.slice(0, 20) + (isButtonVisible ? "..." : "")}
+      </p>
+
+      {/* Bouton pour afficher ou masquer les détails */}
+      {isButtonVisible && (
+        <Button onClick={() => handleClick(index)}>
+          {isExpanded ? "Afficher moins" : "Afficher plus"}
+        </Button>
+      )}
+    </>
+  );
+};
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+const handleClick = (index) => {
+  setExpandedProducts(prevState => ({
+    ...prevState,
+    [index]: !prevState[index]
+  }));
+};
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+const indexOfLastProduit = currentPage * produitsPerPage;
+const indexOfFirstProduit = indexOfLastProduit - produitsPerPage;
+const currentProduits = produits.slice(indexOfFirstProduit, indexOfLastProduit);
+// console.log(currentProduits, "List des produits présent dans la boutiqueen ligne 137");
+const paginate = pageNumber => setCurrentPage(pageNumber);
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+const userStatut = currentProduits.map(produit => produit.statut);
+// Filtrer les produits ayant le statut 1
+const filteredProduits = produits.filter(produit => produit.statut === 1);
+// console.log(userStatut, "Montre le statut des Produits (1 = en vente, 2 = en attente) en ligne 145");
+
+
+
+  return ( 
+
+    <>
+    <section className="container  graylogo p-4 mt-5 rounded-4 mx-auto">
+        <h2 className="text-center mx-auto rounded-3 p-3">Bienvenue dans ma Boutique :</h2>
+        <article className="row">
+        {filteredProduits.map((produit, produit_id) => (
+            <div className="col-md-6 col-lg-4" key={produit_id}>
+              <div className="card border mb-3">
+                <div className="card-body ">
+                  <h2 className="card-title fs-5 p-2 rounded text-center">{produit.nom}</h2>
+                  <div className='fixed-height'> {renderProduitDetails(produit, produit_id)} </div>
+                  {/* <p className="card-text fs-5">{produit.detail}</p> */}
+                  <p className="card-text fs-5">{produit.tarif} €</p>
+                  {/* <p className="card-text fs-5">{produit.produit_id} </p> */}
+                  {produit.photos && produit.photos.length > 0 ? (
+                              <Carousel 
+                              nextIcon={<FaChevronRight style={ thickChevronStyle } />} // Utilisation de l'icône de flèche droite avec une taille de 24px et une couleur BLEUE
+                              prevIcon={<FaChevronLeft style={ thickChevronStyle } />} // Utilisation de l'icône de flèche gauche avec une taille de 24px et une couleur BLEUE 
+                                  >
+                                {produit.photos.map((photos, image_id) => (
+                                  <Carousel.Item key={image_id}>
+                                    <img key={index} src={photos} alt={`photo ${index + 1}`} className='row col-md-9 mx-auto rounded rounded-5' style={{ width: 'auto', height: '300px', margin: '5px' }}
+                                    />
+                                  </Carousel.Item>
+                                ))}
+                              </Carousel>
+                            ) : (
+                              <Carousel  >
+                                {defaultImages.map((image, index) => (
+                                  <Carousel.Item key={index}>
+                                    <p>Pas de photos pour ce produit</p>
+                                  </Carousel.Item>
+                                ))}
+                              </Carousel>
+                            )}
+                            {/* <PanierAchat nomProduit={produit.nom} prixProduit={produit.tarif}/> */}
+                            {/* Bouton pour ajouter le produit au panier */}
+                            <Button onClick={() => ajouterAuPanier(produit)}>
+                                {panier.some(item => item.produit_id === produit.produit_id) ? "Retirer du panier" : "Ajouter au panier"}
+                            </Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </article>
+        <div className="pagination justify-content-center">
+          <Pagination>
+            <Pagination.Prev onClick={() => setCurrentPage(currentPage === 1 ? 1 : currentPage - 1)} disabled={currentPage === 1} />
+            {Array.from({ length: Math.ceil(produits.length / produitsPerPage) }, (_, i) => (
+              <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => paginate(i + 1)}>
+                {i + 1}
+              </Pagination.Item>
+            ))}
+            <Pagination.Next onClick={() => setCurrentPage(currentPage === Math.ceil(produits.length / produitsPerPage) ? currentPage : currentPage + 1)} disabled={currentPage === Math.ceil(produits.length / produitsPerPage)} />
+          </Pagination>
+        </div>
+      </section>
+      <PanierIsVisible ajouterAuPanier={ajouterAuPanier} panier={panier} />
+
+
+    </>
+
+    );
+    
+};
+
+
+export default Boutique;

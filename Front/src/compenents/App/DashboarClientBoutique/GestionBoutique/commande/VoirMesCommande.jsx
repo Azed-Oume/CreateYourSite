@@ -1,0 +1,205 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { Button, Modal } from 'react-bootstrap';
+import "../../../../../styles/monStyle.css";
+import BackButton from '../../../../AuthSecure/BackButton';
+
+const VoirMesCommande = () => {
+    const [commandeData, setCommandeData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [componentIsVisible, setComponentIsVisible] = useState(true);
+    const [showModal, setShowModal] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+
+    const handleClick = () => {
+        setComponentIsVisible(!componentIsVisible);
+        setIsVisible(!isVisible);
+    };
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        const year = date.getFullYear();
+        const month = ('0' + (date.getMonth() + 1)).slice(-2); // Ajoute un 0 devant si nécessaire
+        const day = ('0' + date.getDate()).slice(-2); // Ajoute un 0 devant si nécessaire
+        return `${year}-${month}-${day}`;
+    };
+
+    // Fonction pour ouvrir la modal
+    const handleShowModal = () => setShowModal(true);
+
+    // Fonction pour fermer la modal
+    const handleCloseModal = () => setShowModal(false);
+
+    const fetchCommande = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://localhost:3000/api/get/commande/utilisateur', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Une erreur est survenue lors de la récupération des Commandes');
+            }
+
+            const data = await response.json();
+            setCommandeData(data.commande);
+            console.log(data, " en ligne 51 XXXXXXXXXXXXXXXXXX");
+            setLoading(false);
+        } catch (error) {
+            setError(error.message);
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchCommande();
+    }, []);
+
+    const supprimerCommande = async (commandeId) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:3000/api/delete/commande/${commandeId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP ! statut : ${response.status}`);
+            }
+
+            const data = await response.json();
+            console.log('Commande supprimé avec succès:', data.message);
+            fetchCommande();
+        } catch (error) {
+            console.error('Erreur lors de la suppression de la Commande :', error);
+        }
+    };
+
+    const handleDeleteCommande = (commandeId) => {
+        supprimerCommande(commandeId);
+        handleCloseModal();
+    };
+
+    if (loading) {
+        return <div className='col-md-6 mx-auto text-center ' style={{ marginTop: "140px" }}>Chargement en cours...</div>;
+    }
+
+    if (error) {
+        return <div className='col-md-6 mx-auto text-center ' style={{ marginTop: "140px" }}>Erreur lors du chargement des Commandes : {error}</div>;
+    }
+
+    if (!commandeData || commandeData.length === 0) {
+        return (
+        <section className='graylogo p-3 rounded col-md-9 mx-auto' style={{marginTop:"50px"}}>
+         <h1 className='col-md-6 mx-auto rounded text-center '>Aucune Commande trouvé.</h1>
+         <BackButton />
+         </section>
+        )
+    }
+
+    return (
+        <div className='graylogo col-lg-10 p-2 mx-auto mt-5'>
+            <div className='col-lg-10 m-3 mx-auto bg-white text-center'>
+                <BackButton />
+                <Button
+                    variant='primary'
+                    className='m-3 fw-bold'
+                    onClick={handleClick}
+                    aria-expanded={componentIsVisible ? 'true' : 'false'}
+                    aria-controls="commandeTable"
+                >
+                    {componentIsVisible ? "Réduire la liste" : "Voir la Liste des Commandes"}
+                </Button>
+            </div>
+            {componentIsVisible && (
+                <div className='mx-auto col-lg-10 col-md-8 overflow-auto'>
+                    <table
+                        className='table'
+                        id="commandeTable"
+                        aria-hidden={!componentIsVisible ? 'true' : 'false'}
+                    >
+                        <thead>
+                            <tr>
+                                <th scope='col' className='bg-secondary text-white'>Ouvrir</th>
+                                <th scope="col" className='bg-secondary text-white'>Numéro de commande</th>
+                                <th scope="col" className='bg-secondary text-white'>Date de commande</th>
+                                <th scope="col" className='bg-secondary text-white'>Validité de la commande</th>
+                                <th scope="col" className='bg-secondary text-white'>Détails du projet</th>
+                                <th scope="col" className='bg-secondary text-white'>Statut de la commande</th>
+                                <th scope="col" className='bg-secondary text-white'>Validité de la commande</th>
+                                <th scope='col' className='bg-secondary text-white'>Supprimer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {commandeData.map((commande, index) => (
+                                <tr
+                                    key={commande.commande_id}
+                                    className={index % 2 === 0 ? "table-primary" : "table-secondary"}
+                                >
+                                    <td>
+                                        <Link to={`/ouvrirCommande/${commande.commande_id}`}>
+                                            <Button
+                                                className='fw-bold' 
+                                                aria-label='Ouvrir la Commande' >
+                                                Ouvrir
+                                            </Button>
+                                        </Link>
+                                    </td>
+                                    <td className='text-black'>{commande.numero_commande}</td>
+                                    <td>{formatDate(commande.date_commande)}</td>
+                                    <td>{commande.validite_commande}</td>
+                                    <td>{commande.detail_projet}</td>
+                                    <td>{commande.statut_commande === 1 ? 'En cours' : 'Terminé'}</td>
+                                    <td>{commande.validite_commande} </td>
+                                    <td>
+                                        {/* Bouton pour ouvrir la modal */}
+                                        <Button className='m-2' variant="danger" onClick={handleShowModal}>Supprimer</Button>
+
+                                        {/* Modal de confirmation */}
+                                        <Modal show={showModal} onHide={handleCloseModal}>
+                                            <Modal.Header closeButton>
+                                                <Modal.Title>Confirmation de Suppression de la Commande</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>
+                                                Êtes-vous sûr de vouloir supprimer cette Commande ? Cette action est irréversible.
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                                <Button variant="secondary" onClick={handleCloseModal}>Annuler</Button>
+                                                <Button variant="danger" onClick={() => handleDeleteCommande(commande.commande_id)}>Confirmer la Suppression</Button>
+                                            </Modal.Footer>
+                                        </Modal>
+                                    </td>
+                                </tr>
+
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
+            { !isVisible && (
+            <div className='col-lg-10 m-3 mx-auto bg-white text-center'>
+                <BackButton />
+                <Button
+                    variant='primary'
+                    className='m-3 fw-bold'
+                    onClick={handleClick}
+                    aria-expanded={componentIsVisible ? 'true' : 'false'}
+                    aria-controls="commandeTable"
+                >
+                    {componentIsVisible ? "Réduire la liste" : "Voir La Liste des Commandes"}
+                </Button>
+            </div>
+            )}
+        </div>
+    );
+};
+
+export default VoirMesCommande;
