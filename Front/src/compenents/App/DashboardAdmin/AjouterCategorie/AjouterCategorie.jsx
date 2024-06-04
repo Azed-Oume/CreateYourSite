@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Form, FormControl, FormGroup, FormLabel, Button, Pagination } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import ReserveForAdmin from "../../../AuthSecure/ReserveForAdmin";
 
 const AjouterCategorie = () => {
 
@@ -20,6 +21,11 @@ const handleSubmitCategorie = async (e) => {
     e.preventDefault();
     try {
         const token = localStorage.getItem('token');
+        if (!token) {
+            // Si le token est absent, ne pas faire de fetch
+            console.log('Token absent, aucune requête fetch effectuée.');
+            return;
+          }
         const response = await fetch('http://localhost:3000/api/create/categoriesproduits', {
             method: 'POST',
             headers: {
@@ -82,16 +88,7 @@ const role = localStorage.getItem('role');
             </Form>
             </div>
             ) : (
-                <div>
-                    <h1 className="p-2 rounded mb-4 text-center">Section résérver a l'Administrateur</h1>
-                    <section className='p-2 m-5'>
-                        <h1 className='text-center p-2 rounded'>Connectez-vous ou créez un compte Administrateur</h1>
-                        <div className="d-flex justify-content-center gap-5">
-                        <Button className='text-white fw-bold' as={Link} to="/Connexion" aria-label='Connexion' >Connexion</Button>
-                        <Button className='text-white fw-bold' as={Link} to="/Inscription" aria-label="Pour s'inscrire">Inscription </Button>
-                        </div>
-                    </section>
-                </div>
+                <ReserveForAdmin/>
             )}
             </section>
     );

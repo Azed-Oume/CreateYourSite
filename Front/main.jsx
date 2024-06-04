@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 // import des Fichiers bootstrap et des fichier reset 
 import '../Front/src/styles/reset.css';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
-import 'bootstrap/dist/js/bootstrap.min.js'; // Corrected here
+import 'bootstrap/dist/js/bootstrap.min.js'; 
 import "../Front/src/styles/monStyle.css";
 
 import './src/compenents/App/Animated/animated.css'; 
@@ -26,7 +26,7 @@ import AjouterAvatar from './src/compenents/App/Profil/AjouterAvatar.jsx';
 import Contact from "./src/compenents/App/ContactForm/Inscription/Contact.jsx";
 import Ajouterproduit from './src/compenents/App/DashboardAdmin/AjouterProduits/AjouterProduit.jsx';
 import AjouterCategorie from './src/compenents/App/DashboardAdmin/AjouterCategorie/AjouterCategorie.jsx';
-import MesProduits from './src/compenents/App/DashboardAdmin/MesProduits/MesProduits.jsx';
+import VoirMesProduits from './src/compenents/App/DashboardAdmin/MesProduits/VoirMesProduits.jsx';
 import ModiffierProduit from './src/compenents/App/DashboardAdmin/MesProduits/GestionProduit/ModiffierProduit.jsx';
 import AjouterPhoto from './src/compenents/App/DashboardAdmin/MesProduits/GestionProduit/AjouterPhoto.jsx';
 import ScrollToTopButton from "./src/compenents/App/ScrollToTopButton/ScrollToTopButton.jsx";
@@ -79,8 +79,8 @@ root.render(
       <Route path="/AfficherDevis" element={<AfficherDevis />} />
       <Route path="/AjouterProduit" element={<Ajouterproduit />} />
       <Route path="/AjouterCategorie" element={<AjouterCategorie />} />
-      <Route path="/VoirMesProduits" element={<MesProduits />} />
-      <Route path="/ProduitsEnAttente" element={<MesProduitsEnAttente />} />
+      <Route path="/VoirMesProduits" element={<VoirMesProduits />} />
+      <Route path="/MesProduitsEnAttente" element={<MesProduitsEnAttente />} />
       <Route path="/ModiffierProduit/:produitId" element={<ModiffierProduit />} />
       <Route path="/AjouterPhoto/:produitId" element={<AjouterPhoto />} />
       <Route path="/Blog" element={<Blog />} />

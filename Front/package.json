@@ -6,6 +6,7 @@
     "test": "jest",
     "test:watch": "jest --watchAll",
     "dev": "vite --config vite.config.jsx",
+    "start": "vite --config vite.config.jsx",
     "build": "vite build --config vite.config.jsx",
     "serve": "vite preview --config vite.config.jsx"
   },

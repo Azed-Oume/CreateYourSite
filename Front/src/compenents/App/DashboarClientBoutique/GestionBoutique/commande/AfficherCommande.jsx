@@ -16,10 +16,6 @@ const AfficherCommande = ({ panier }) => {
         setDetailProjet(e.target.value);
     };
 
-    console.log(societe, "en ligne 13 XXXXXXXXXXXXXXXXXX");
-    console.log(numeroCommande, " en ligne 14 XXXXXXXXXXXXXXXXXXXXX");
-    console.log(panierCommande, " en ligne 15 XXXXXXXXXXXXXXXXXXXXX");
-    console.log(panier, " en ligne 16 XXXXXXXXXXXXXXXXXXXXX");
     useEffect(() => {
         const fetchSociete = async () => {
             try {
@@ -37,6 +33,12 @@ const AfficherCommande = ({ panier }) => {
         const fetchClient = async () => {
             try {
                 const token = localStorage.getItem('token');
+                if (!token) {
+                    // Si le token est absent, ne pas faire de fetch
+                    console.log('Token absent, aucune requête fetch effectuée.');
+                    alert("Connectez-vous ou créez un compte pour ajouter une commande !");
+                    return;
+                  }
                 const response = await fetch('http://localhost:3000/api/getUser', {
                     headers: {
                         Authorization: `Bearer ${token}`

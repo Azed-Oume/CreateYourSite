@@ -24,6 +24,7 @@ const Blog = () => {
   const fetchArticles = async () => { // pérmet de récuperer tout les articles du blog !
     try {
         const token = localStorage.getItem('token');
+        
         const response = await fetch('http://localhost:3000/api/get/all/articles', {
             method: 'GET',
             headers: {
@@ -39,9 +40,7 @@ const Blog = () => {
             }
         } else {
             const data = await response.json();
-            console.log(data, "en ligne 41");
             setArticles(data.articles);
-            console.log(data, "en ligne 43");
         }
     } catch (error) {
         console.error('Error fetching articles:', error);
@@ -49,11 +48,16 @@ const Blog = () => {
 };
 
     const numberLove = articles;
-    console.log(numberLove, "en ligne 51");
 
     const handleLoveClick = async (articleId, love) => {
         try { 
             const token = localStorage.getItem('token');
+            if (!token) {
+                // Si le token est absent, ne pas faire de fetch
+                console.log('Token absent, aucune requête fetch effectuée.');
+                alert("Connectez-vous ou créez un compte pour ajouter un love !");
+                return;
+              }
             let newLoveCount;
             
             if (loveArticles[articleId]) {

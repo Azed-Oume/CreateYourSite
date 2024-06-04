@@ -46,6 +46,11 @@ const Profil = () => {
         const fetchProfile = async () => {
             try {
                 const token = localStorage.getItem('token');
+                if (!token) {
+                    // Si le token est absent, ne pas faire de fetch
+                    console.log('Token absent, aucune requête fetch effectuée.');
+                    return;
+                  }
                 const response = await fetch('http://localhost:3000/api/getUser', {
                     method: 'GET',
                     headers: {

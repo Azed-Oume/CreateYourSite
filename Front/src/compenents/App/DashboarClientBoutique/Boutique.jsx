@@ -63,9 +63,7 @@ const thickChevronStyle = {
         } else {
 
             const data = await response.json();
-            console.log(data, "en ligne 48");
             setProduits(data.produits);
-            console.log(data, "en ligne 50");
         }
     } catch (error) {
         console.error('Error fetching produits:', error);
@@ -75,20 +73,49 @@ const thickChevronStyle = {
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 // Fonction pour ajouter ou retirer un produit du panier
-const ajouterAuPanier = (produit) => {
-  // Vérifie si le produit est déjà dans le panier
-  const produitIndex = panier.findIndex(item => item.produit_id === produit.produit_id);
+// const ajouterAuPanier = (produit) => {
+//   // Vérifie si le produit est déjà dans le panier
+//   const produitIndex = panier.findIndex(item => item.produit_id === produit.produit_id);
 
-  if (produitIndex !== -1) {
-      // Le produit est déjà dans le panier, donc on le retire
+//   if (produitIndex !== -1) {
+//       // Le produit est déjà dans le panier, donc on le retire
+//       const nouveauPanier = [...panier];
+//       nouveauPanier.splice(produitIndex, 1);
+//       setPanier(nouveauPanier);
+//       // console.log(`"${produit.nom}, ${produit.id}" a été retiré du panier. en ligne 68`);
+//   } else {
+//       // Le produit n'est pas dans le panier, donc on l'ajoute
+//       setPanier([...panier, produit]);
+//       // console.log(`"${produit.nom}, ${produit.produit_id}" a été ajouté au panier. en ligne 72`);
+//   }
+// };
+
+const ajouterAuPanier = (produit) => {
+  const produitExistantIndex = panier.findIndex(item => item.produit_id === produit.produit_id);
+  if (produitExistantIndex !== -1) {
+      // Le produit est déjà présent dans le panier, alors augmenter la quantité
       const nouveauPanier = [...panier];
-      nouveauPanier.splice(produitIndex, 1);
+      nouveauPanier[produitExistantIndex].quantite += 1;
       setPanier(nouveauPanier);
-      console.log(`"${produit.nom}, ${produit.id}" a été retiré du panier. en ligne 68`);
   } else {
-      // Le produit n'est pas dans le panier, donc on l'ajoute
-      setPanier([...panier, produit]);
-      console.log(`"${produit.nom}, ${produit.produit_id}" a été ajouté au panier. en ligne 72`);
+      // Le produit n'est pas présent dans le panier, alors l'ajouter avec une quantité de 1
+      setPanier([...panier, { ...produit, quantite: 1 }]);
+  }
+};
+
+const retirerDuPanier = (produit_id) => {
+  const produitExistantIndex = panier.findIndex(item => item.produit_id === produit_id);
+  if (produitExistantIndex !== -1) {
+      // Vérifier si la quantité est supérieure à 1, alors décrémenter la quantité
+      if (panier[produitExistantIndex].quantite > 1) {
+          const nouveauPanier = [...panier];
+          nouveauPanier[produitExistantIndex].quantite -= 1;
+          setPanier(nouveauPanier);
+      } else {
+          // Si la quantité est de 1, retirer complètement le produit du panier
+          const nouveauPanier = panier.filter(item => item.produit_id !== produit_id);
+          setPanier(nouveauPanier);
+      }
   }
 };
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -181,10 +208,14 @@ const filteredProduits = produits.filter(produit => produit.statut === 1);
                                 ))}
                               </Carousel>
                             )}
-                            {/* <PanierAchat nomProduit={produit.nom} prixProduit={produit.tarif}/> */}
-                            {/* Bouton pour ajouter le produit au panier */}
-                            <Button onClick={() => ajouterAuPanier(produit)}>
-                                {panier.some(item => item.produit_id === produit.produit_id) ? "Retirer du panier" : "Ajouter au panier"}
+                            
+                            <Button onClick={() => ajouterAuPanier(produit)} className='d-flex gap-3 mx-auto '>
+                                <span onClick={(e) => {e.stopPropagation(); retirerDuPanier(produit.produit_id)}} style={{ fontSize: "24px", backgroundColor: "black", padding: "3px" }} >&#8681;</span>
+                                {panier.filter(item => item.produit_id === produit.produit_id).length > 0 ? 
+                                    `Quantité: ${panier.find(item => item.produit_id === produit.produit_id).quantite}` : 
+                                    "Ajouter au Panier"
+                                }
+                                <span onClick={(e) => {e.stopPropagation(); ajouterAuPanier(produit)}} style={{ fontSize: "24px",  backgroundColor: "black", padding: "3px" }}>&#8679;</span>
                             </Button>
                 </div>
               </div>

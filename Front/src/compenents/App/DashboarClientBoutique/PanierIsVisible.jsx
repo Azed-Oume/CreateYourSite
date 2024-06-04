@@ -19,7 +19,7 @@ const calculerTotalPanier = () => {
     let total = 0;
     for (let produit of panier) {
       total += parseFloat(produit.tarif);
-    }console.log(panier, "en ligne 22 XXXXXXXXXXX")
+    }
     return total;
     
   };

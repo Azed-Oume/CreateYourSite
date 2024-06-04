@@ -126,7 +126,7 @@ const Header = () => {
                                     <Nav.Link className="text-white fw-bold  " as={Link} to="/AjouterProduit" aria-label="Ajouter un Produit.">Ajout Produit</Nav.Link>
                                     <Nav.Link className="text-white fw-bold  " as={Link} to="/AjouterCategorie" aria-label="Ajouter une Catégorie.">Ajout Catégorie</Nav.Link>
                                     <Nav.Link className="text-white fw-bold  " as={Link} to="/VoirMesProduits" aria-label="Voir Mes Produits.">Produits</Nav.Link>
-                                    <Nav.Link className="text-white fw-bold  " as={Link} to="/ProduitsEnAttente" aria-label="Produits en attente de mise en vente.">Réserve</Nav.Link>
+                                    <Nav.Link className="text-white fw-bold  " as={Link} to="/MesProduitsEnAttente" aria-label="Produits en attente de mise en vente.">Réserve</Nav.Link>
                                 </div>
                                 {/* )} */}
                             </div>

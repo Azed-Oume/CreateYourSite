@@ -65,7 +65,7 @@ router.post('/api/form/contact', formController.setNoConectedContact); // Pérme
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX//
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX//
 router.post('/api/create/product', jwtGuard, roleCheck([1,2,3,4,5]), productController.setProduct); // permet de créer un produits
-router.get('/api/get/product', jwtGuard, roleCheck([1,2,3,4,5]), productController.getProduct); // permet de récupérer tout les produits
+router.get('/api/get/product', productController.getProduct); // permet de récupérer tout les produits
 router.get('/api/get/one/product/:produitId', jwtGuard, roleCheck([1,2,3,4,5]), productController.getOneProduct); // permet de récupérer un produits avec son Id
 router.patch('/api/update/product/:produitId', jwtGuard, roleCheck([1,2,3,4,5]), productController.updateProduct); // permet la mise a jour d'un produit avec son Id
 router.delete('/api/delete/product/:produitId', jwtGuard, roleCheck([1,2,3,4,5]), productController.deleteProduct); // permet de Supprimer un produit avec son Id

@@ -7,6 +7,7 @@ import poisson_rouge from '../../../images/poisson_rouge.png';
 import my_fish from '../../../images/my_fish.png';
 import SupprimerProduit from './GestionProduit/SupprimerProduit.jsx';
 import SuspendreProduit from './GestionProduit/SuspendreProduit.jsx';
+import ReserveForAdmin from '../../../AuthSecure/ReserveForAdmin.jsx';
 
 
 const MesProduitsEnAttente = () => {
@@ -26,6 +27,11 @@ const MesProduitsEnAttente = () => {
   const fetchProduits = async () => {
     try {
         const token = localStorage.getItem('token');
+        if (!token) {
+          // Si le token est absent, ne pas faire de fetch
+          console.log('Token absent, aucune requête fetch effectuée.');
+          return;
+        }
         // permet de récupérer tout les produits
         const response = await fetch('http://localhost:3000/api/get/product', {
             method: 'GET',
@@ -96,7 +102,6 @@ const handleClick = (index) => {
 const indexOfLastProduit = currentPage * produitsPerPage;
 const indexOfFirstProduit = indexOfLastProduit - produitsPerPage;
 const currentProduits = produits.slice(indexOfFirstProduit, indexOfLastProduit);
-console.log(currentProduits, "en ligne 48");
 const paginate = pageNumber => setCurrentPage(pageNumber);
 
 const defaultImages = [
@@ -116,7 +121,6 @@ const thickChevronStyle = {
 const userStatut = currentProduits.map(produit => produit.statut);
 // Filtrer les produits ayant le statut 1
 const filteredProduits = produits.filter(produit => produit.statut === 2);
-console.log(userStatut, "en ligne 120");
 
 const role = localStorage.getItem('role');
 
@@ -183,16 +187,7 @@ const role = localStorage.getItem('role');
         </div>
         </div>
             ) : (
-                <div>
-                    <h1 className="p-2 rounded mb-4 text-center">Section résérver a l'Administrateur</h1>
-                    <section className='p-2 m-5'>
-                        <h1 className='text-center p-2 rounded'>Connectez-vous ou créez un compte Administrateur</h1>
-                        <div className="d-flex justify-content-center gap-5">
-                        <Button className='text-white fw-bold' as={Link} to="/Connexion" aria-label='Connexion' >Connexion</Button>
-                        <Button className='text-white fw-bold' as={Link} to="/Inscription" aria-label="Pour s'inscrire">Inscription </Button>
-                        </div>
-                    </section>
-                </div>
+                <ReserveForAdmin/>
             )}
       </div>
       </>

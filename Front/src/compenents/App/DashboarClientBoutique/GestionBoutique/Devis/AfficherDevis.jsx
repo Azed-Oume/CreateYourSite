@@ -16,10 +16,6 @@ const AfficherDevis = ({ panier }) => {
         setDetailProjet(e.target.value);
     };
 
-    console.log(societe, "en ligne 13 XXXXXXXXXXXXXXXXXX");
-    console.log(numeroDevis, " en ligne 14 XXXXXXXXXXXXXXXXXXXXX");
-    console.log(panierDuDevis, " en ligne 15 XXXXXXXXXXXXXXXXXXXXX");
-    console.log(panier, " en ligne 16 XXXXXXXXXXXXXXXXXXXXX");
     useEffect(() => {
         const fetchSociete = async () => {
             try {
@@ -37,6 +33,12 @@ const AfficherDevis = ({ panier }) => {
         const fetchClient = async () => {
             try {
                 const token = localStorage.getItem('token');
+                if (!token) {
+                    // Si le token est absent, ne pas faire de fetch
+                    console.log('Token absent, aucune requête fetch effectuée.');
+                    alert("Connectez-vous ou créez un compte pour ajouter un devis !");
+                    return;
+                  }
                 const response = await fetch('http://localhost:3000/api/getUser', {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -332,11 +334,11 @@ const conditionsPaiement = "A la confirmation du devis"
                     </Button>
                 </div>
                 <section className="mt-4">
-                    <div className="border-top pt-3">
+                    <article className="border-top pt-3">
                         <p className='bg-white text-center p-2'>
                             <strong>Mentions légales :</strong>
                         </p>
-                        <p className="d-flex justify-content-between flex-wrap bg-white text-center p-2">
+                        <form className="d-flex justify-content-between flex-wrap bg-white text-center p-2">
                             <div className="text-center col-md-12">
                             <span>Société : {societe && societe.societe}</span>
                             <span>Adresse : {societe && `${societe.rue}, ${societe.code_postal} ${societe.ville}`}</span>
@@ -348,8 +350,8 @@ const conditionsPaiement = "A la confirmation du devis"
                             <span>Validité du devis : {validateDevis} jours</span>
                             {/* <span>Date d'émission : {date_devis}</span><br /> */}
                             </div>
-                        </p>
-                    </div>
+                        </form>
+                    </article>
                     <div>
                         <p className='bg-white text-center p-2'>
                             <strong>Important :</strong> En acceptant ce devis, vous reconnaissez avoir pris connaissance et accepter nos conditions générales de vente. Conformément à l'article 1583 du Code civil, la vente est parfaite entre les parties dès qu'elles sont convenues de la chose et du prix, même si la chose n'a pas encore été livrée ni le prix payé.
