@@ -106,8 +106,8 @@ const VoirMesCommande = () => {
     }
 
     return (
-        <div className='graylogo col-lg-10 p-2 mx-auto mt-5'>
-            <div className='col-lg-10 m-3 mx-auto bg-white text-center'>
+        <section className='graylogo col-lg-10 p-2 mx-auto mt-5'>
+            <nav className='col-lg-10 m-3 mx-auto bg-white text-center'>
                 <BackButton />
                 <Button
                     variant='primary'
@@ -118,9 +118,9 @@ const VoirMesCommande = () => {
                 >
                     {componentIsVisible ? "Réduire la liste" : "Voir la Liste des Commandes"}
                 </Button>
-            </div>
+            </nav>
             {componentIsVisible && (
-                <div className='mx-auto col-lg-10 col-md-8 overflow-auto'>
+                <form className='mx-auto col-lg-10 col-md-8 overflow-auto'>
                     <table
                         className='table'
                         id="commandeTable"
@@ -182,10 +182,10 @@ const VoirMesCommande = () => {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </form>
             )}
             { !isVisible && (
-            <div className='col-lg-10 m-3 mx-auto bg-white text-center'>
+            <nav className='col-lg-10 m-3 mx-auto bg-white text-center'>
                 <BackButton />
                 <Button
                     variant='primary'
@@ -196,9 +196,9 @@ const VoirMesCommande = () => {
                 >
                     {componentIsVisible ? "Réduire la liste" : "Voir La Liste des Commandes"}
                 </Button>
-            </div>
+            </nav>
             )}
-        </div>
+        </section>
     );
 };
 

@@ -241,56 +241,44 @@ const conditionsPaiement = "A la confirmation du devis"
 
     return (
         <>
-        <div className='mt-5'>
-        <Form className='graylogo col-md-10 mx-auto p-4 gap-2'>
-            <h3 className='p-3 text-center rounded'>{`Devis numéro : ${data.devis.numero_devis}`}</h3>
-            <Row>
-                {/* Informations sur la société */}
-                <Col md={12} lg={6} className="border border-secondary p-4 rounded">
-                    <div className='d-flex justify-content-between p-2'>
-                        <img src={societe && societe.avatar} style={{ width: "100px", height: "100px", borderRadius: "50%" }} alt="societe avatar" />
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{societe && societe.societe}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{societe && societe.rue}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{societe && societe.ville}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{societe && societe.code_postal}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>Contact : MR {societe && societe.pseudo}</span>
-                    </div>
-                </Col>
-                {/* Informations sur le client */}
-                <Col md={12} lg={6} className="border border-secondary p-4 rounded">
-                    <div className='d-flex justify-content-between p-2'>
-                        <img src={client && client.avatar} style={{ width: "100px", height: "100px", borderRadius: "50%" }} alt="client avatar" />
-                        <h5 className='p-3 text-center rounded fw-bold'>{client && client.pseudo}</h5>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{client && client.nom}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{client && client.prenom}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{client && client.rue}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{client && client.ville}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{client && client.code_postal}</span>
-                    </div>
-                </Col>
-            </Row>
-            <table className="table mt-4">
-                <thead>
+            <section className='mt-5'>
+                <Form className='graylogo col-md-10 mx-auto p-4 gap-2'>
+                <h3 className='p-3 text-center rounded'>{`Devis numéro : ${data.devis.numero_devis}`}</h3>
+                <Row>
+                    {/* Informations sur la société */}
+                    <Col md={12} lg={6} className="border border-secondary p-4 rounded">
+                    <article>
+                        <figure className='d-flex justify-content-between p-2'>
+                        <img src={societe && societe.avatar} style={{ width: "100px", height: "100px", borderRadius: "50%" }} alt="Avatar de la société" />
+                        </figure>
+                        <address className="mb-3 text-white fw-bold fs-6">
+                        <p>{societe && societe.societe}</p>
+                        <p>{societe && societe.rue}</p>
+                        <p>{societe && societe.ville}</p>
+                        <p>{societe && societe.code_postal}</p>
+                        <p>Contact : MR {societe && societe.pseudo}</p>
+                        </address>
+                    </article>
+                    </Col>
+                    {/* Informations sur le client */}
+                    <Col md={12} lg={6} className="border border-secondary p-4 rounded">
+                    <article>
+                        <figure className='d-flex justify-content-between p-2'>
+                        <img src={client && client.avatar} style={{ width: "100px", height: "100px", borderRadius: "50%" }} alt="Avatar du client" />
+                        <figcaption className='text-white fw-bold'>{client && client.pseudo}</figcaption>
+                        </figure>
+                        <address className="mb-3 text-white fw-bold fs-6">
+                        <p>{client && client.nom}</p>
+                        <p>{client && client.prenom}</p>
+                        <p>{client && client.rue}</p>
+                        <p>{client && client.ville}</p>
+                        <p>{client && client.code_postal}</p>
+                        </address>
+                    </article>
+                    </Col>
+                </Row>
+                <table className="table mt-4">
+                    <thead>
                     <tr>
                         <th>Nom</th>
                         <th>Tarif</th>
@@ -298,8 +286,8 @@ const conditionsPaiement = "A la confirmation du devis"
                         <th>Total</th>
                         <th>TVA</th>
                     </tr>
-                </thead>
-                <tbody>
+                    </thead>
+                    <tbody>
                     {Array.isArray(data.devis.Produits) && data.devis.Produits.map((produit, index) => {
                         // Trouver la quantité correspondante à ce produit
                         const quantiteProduit = panier.find(q => q.produit_id === produit.produit_id);
@@ -313,29 +301,29 @@ const conditionsPaiement = "A la confirmation du devis"
                         totalProduits.push(totalProduit);
 
                         return (
-                            <tr key={index}>
-                                <td>{produit.nom}</td>
-                                <td>{produit.tarif} €</td>
-                                <td>
-                                    {/* Boutons pour augmenter/diminuer la quantité */}
-                                    <Button onClick={() => ajusterQuantite(produit.produit_id, -1)}> - </Button>
-                                    {quantiteProduit ? quantiteProduit.quantite : 0}
-                                    <Button onClick={() => ajusterQuantite(produit.produit_id, 1)}>+</Button>
-                                </td>
-                                <td>{totalProduit.toFixed(2)} €</td>
-                                <td>{((totalProduit) * .2).toFixed(2)} €</td>
-                            </tr>
+                        <tr key={index}>
+                            <td>{produit.nom}</td>
+                            <td>{produit.tarif} €</td>
+                            <td>
+                            {/* Boutons pour augmenter/diminuer la quantité */}
+                            <Button onClick={() => ajusterQuantite(produit.produit_id, -1)}> - </Button>
+                            {quantiteProduit ? quantiteProduit.quantite : 0}
+                            <Button onClick={() => ajusterQuantite(produit.produit_id, 1)}>+</Button>
+                            </td>
+                            <td>{totalProduit.toFixed(2)} €</td>
+                            <td>{((totalProduit) * .2).toFixed(2)} €</td>
+                        </tr>
                         );
                     })}
-                </tbody>
-            </table>
-            <div className='bg-white'>
-                <p className='text-center p-2'>
+                    </tbody>
+                </table>
+                <section className='bg-white'>
+                    <p className='text-center p-2'>
                     Validité du devis : {validateDevis} Jours
-                </p>
-            </div>
-            <div className='bg-white'>
-                <label className='text-center p-2'>
+                    </p>
+                </section>
+                <section className='bg-white'>
+                    <label className='text-center p-2'>
                     Détail de votre projet en quelques mots :
                     <textarea
                         className='m-1'
@@ -343,19 +331,19 @@ const conditionsPaiement = "A la confirmation du devis"
                         onChange={handleChangeDetailProjet}
                         required>
                     </textarea>
-                </label>
-            </div>
-            <table className="table mt-4">
-                <tbody>
+                    </label>
+                </section>
+                <table className="table mt-4">
+                    <tbody>
                     <tr>
                         <td colSpan="4" className="fw-bold text-end">Total TTC :</td>
                         <td className="fw-bold">{totalDevis.toFixed(2)} €</td>
                     </tr>
-                </tbody>
-            </table>
-            <nav className='d-flex justify-content-between'>
-                <BackButton />
-                <Button
+                    </tbody>
+                </table>
+                <nav className='d-flex justify-content-between'>
+                    <BackButton />
+                    <Button
                     className='fw-bold'
                     variant='primary'
                     aria-label='Enregistrer les modifications'
@@ -364,12 +352,12 @@ const conditionsPaiement = "A la confirmation du devis"
                         // envoyerDevis(devisData.devis.numero_devis, devisData.devis.devis_id, panier);
                     }}>
                     Enregistrer les modifications
-                </Button>
-            </nav>
-        </Form>
-            
-        </div>
+                    </Button>
+                </nav>
+                </Form>
+            </section>
         </>
+
     );
 };
 

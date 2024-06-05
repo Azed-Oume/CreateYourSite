@@ -241,52 +241,40 @@ const conditionsPaiement = "A la confirmation de la commande !"
 
     return (
         <>
-        <div className='mt-5'>
+        <section className='mt-5'>
         <Form className='graylogo col-md-10 mx-auto p-4 gap-2'>
             <h3 className='p-3 text-center rounded'>{`Commande numéro : ${data.commande.numero_commande}`}</h3>
             <Row>
                 {/* Informations sur la société */}
                 <Col md={12} lg={6} className="border border-secondary p-4 rounded">
-                    <div className='d-flex justify-content-between p-2'>
-                        <img src={societe && societe.avatar} style={{ width: "100px", height: "100px", borderRadius: "50%" }} alt="societe avatar" />
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{societe && societe.societe}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{societe && societe.rue}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{societe && societe.ville}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{societe && societe.code_postal}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>Contact : MR {societe && societe.pseudo}</span>
-                    </div>
+                    <article>
+                        <figure className='d-flex justify-content-between p-2'>
+                            <img src={societe && societe.avatar} style={{ width: "100px", height: "100px", borderRadius: "50%" }} alt="societe avatar" />
+                        </figure>
+                            <address className="mb-3 text-white fw-bold fs-6">
+                            <p>{societe && societe.societe}</p>                    
+                            <p>{societe && societe.rue}</p>                    
+                            <p>{societe && societe.ville}</p>                    
+                            <p>{societe && societe.code_postal}</p>
+                            <p>Contact : MR {societe && societe.pseudo}</p>
+                            </address>
+                    </article>
                 </Col>
                 {/* Informations sur le client */}
                 <Col md={12} lg={6} className="border border-secondary p-4 rounded">
-                    <div className='d-flex justify-content-between p-2'>
-                        <img src={client && client.avatar} style={{ width: "100px", height: "100px", borderRadius: "50%" }} alt="client avatar" />
-                        <h5 className='p-3 text-center rounded fw-bold'>{client && client.pseudo}</h5>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{client && client.nom}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{client && client.prenom}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{client && client.rue}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{client && client.ville}</span>
-                    </div>
-                    <div className="mb-3 text-white fw-bold fs-6">
-                        <span>{client && client.code_postal}</span>
-                    </div>
+                    <article>
+                        <figure className='d-flex justify-content-between p-2'>
+                            <img src={client && client.avatar} style={{ width: "100px", height: "100px", borderRadius: "50%" }} alt="client avatar" />
+                            <figcaption className='text-white fw-bold'>{client && client.pseudo}</figcaption>
+                        </figure>
+                            <address className="mb-3 text-white fw-bold fs-6">
+                            <p>{client && client.nom}</p>                    
+                            <p>{client && client.prenom}</p>
+                            <p>{client && client.rue}</p>
+                            <p>{client && client.ville}</p>
+                            <p>{client && client.code_postal}</p>
+                            </address>
+                    </article>
                 </Col>
             </Row>
             <table className="table mt-4">
@@ -329,12 +317,12 @@ const conditionsPaiement = "A la confirmation de la commande !"
                     })}
                 </tbody>
             </table>
-            <div className='bg-white'>
+            <section className='bg-white'>
                 <p className='text-center p-2'>
                     Validité de la commande  : {validateCommande}
                 </p>
-            </div>
-            <div className='bg-white'>
+            </section>
+            <section className='bg-white'>
                 <label className='text-center p-2'>
                     Détail de votre projet en quelques mots :
                     <textarea
@@ -344,7 +332,7 @@ const conditionsPaiement = "A la confirmation de la commande !"
                         required>
                     </textarea>
                 </label>
-            </div>
+            </section>
             <table className="table mt-4">
                 <tbody>
                     <tr>
@@ -368,7 +356,7 @@ const conditionsPaiement = "A la confirmation de la commande !"
             </nav>
         </Form>
             
-        </div>
+        </section>
         </>
     );
 };

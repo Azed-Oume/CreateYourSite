@@ -9,7 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js'; 
 import "../Front/src/styles/monStyle.css";
 
-import './src/compenents/App/Animated/animated.css'; 
+// import './src/compenents/App/Animated/animated.css'; 
 import Header from "./src/compenents/App/Header/Header.jsx";
 import PrivateRoute from "./src/compenents/PrivateRoute/PrivateRoute.jsx";
 import Inscription from "./src/compenents/App/ContactForm/Inscription/Inscription.jsx";
@@ -33,7 +33,6 @@ import ScrollToTopButton from "./src/compenents/App/ScrollToTopButton/ScrollToTo
 import WhatsAppButton from "./src/compenents/AuthSecure/WatsAppButton.jsx";
 import Footer from "./src/compenents/App/Footer/Footer.jsx";
 import AddImageArticle from './src/compenents/App/Article/AddImageArticle.jsx';
-import Star from './src/compenents/App/Animated/Star.jsx';
 import MesProduitsEnAttente from './src/compenents/App/DashboardAdmin/MesProduits/MesProduitsEnAttente.jsx';
 import Devis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Devis/Devis.jsx';
 import AfficherDevis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Devis/AfficherDevis.jsx';
@@ -49,7 +48,6 @@ import VoirMesCommande from './src/compenents/App/DashboarClientBoutique/Gestion
 import MotDePassePerdu from './src/compenents/App/ContactForm/Inscription/MotDePassePerdu.jsx';
 import NouveauMotDePasse from './src/compenents/App/ContactForm/Inscription/NouveauMotDePasse.jsx';
 import ModifierCommande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/commande/ModifierCommande.jsx';
-import OuvrirLeCommande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/commande/OuvrirCommande.jsx';
 import OuvrirCommande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/commande/OuvrirCommande.jsx';
 import FactureDevis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/FactureDevis.jsx';
 import FactureCommande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/factureCommande.jsx';
@@ -65,46 +63,50 @@ const container = document.getElementById('app');
 const root = createRoot(container);
 root.render(
   <BrowserRouter>
-    <Header />
+      <div className="d-flex flex-column min-vh-100">
+      <Header />
+      <main className="flex-grow-1">
     <Routes>
-      <Route path="/Inscription" element={<Inscription />} />
-      <Route path="/Connexion" element={<Connexion />} />
-      <Route path="/Contact" element={<Contact />} />
-      <Route path="/" element={  <Acceuil /> } />
-      <Route path="/Profil" element={<Profil />} />
-      <Route path="/Ajouter/Avatar" element={<AjouterAvatar />} />
-      <Route path="/Boutique" element={<Boutique />} />
-      <Route path="/devis" element={<Devis />} />
-      <Route path="/VoirMesDevis" element={<VoirMesDevis />} />
-      <Route path="/AfficherDevis" element={<AfficherDevis />} />
-      <Route path="/AjouterProduit" element={<Ajouterproduit />} />
-      <Route path="/AjouterCategorie" element={<AjouterCategorie />} />
-      <Route path="/VoirMesProduits" element={<VoirMesProduits />} />
-      <Route path="/MesProduitsEnAttente" element={<MesProduitsEnAttente />} />
-      <Route path="/ModiffierProduit/:produitId" element={<ModiffierProduit />} />
-      <Route path="/AjouterPhoto/:produitId" element={<AjouterPhoto />} />
-      <Route path="/Blog" element={<Blog />} />
-      <Route path="/Cgu" element={<ConditionGeneralUtilisation />} />
-      <Route path="/Prestations" element={<Prestations />} />
-      <Route path="/Article" element={<Article />} />
-      <Route path="/AddImageArticle/:articleId" element={<AddImageArticle />} />
-      <Route path="/ReadArticles" element={<ReadArticles />} />
-      <Route path="/ouvrirDevis/:devisId" element={<OuvrirLeDevis />} />
-      <Route path="/ouvrirCommande/:commandeId" element={<OuvrirCommande />} />
-      <Route path="/factureDevis" element={<FactureDevis />} />
-      <Route path="/factureCommande" element={<FactureCommande />} />
-      <Route path="/modifierDevis" element={<ModifierDevis />} />
-      <Route path="/modifierCommande" element={<ModifierCommande />} />
-      <Route path="/commande" element={<Commande />} />
-      <Route path="/VoirMesCommande" element={<VoirMesCommande />} />
-      <Route path="/portfolio" element={<Portfolio />} />
-      <Route path="/ajouterImagesPortfolio" element={<AjouterImagePortfolio />} />
-      <Route path="/motDePassePerdu" element={<MotDePassePerdu />} />
-      <Route path="/api/reset-password/:token" element={<NouveauMotDePasse />} />
-      <Route path="/aMonSujet" element={<AmonSujet />} />
+        <Route index element={<Acceuil />} />
+        <Route path="Inscription" element={<Inscription />} />
+        <Route path="Connexion" element={<Connexion />} />
+        <Route path="Contact" element={<Contact />} />
+        <Route path="Profil" element={<Profil />} />
+        <Route path="Ajouter/Avatar" element={<AjouterAvatar />} />
+        <Route path="Boutique" element={<Boutique />} />
+        <Route path="devis" element={<Devis />} />
+        <Route path="VoirMesDevis" element={<VoirMesDevis />} />
+        <Route path="AfficherDevis" element={<AfficherDevis />} />
+        <Route path="AjouterProduit" element={<Ajouterproduit />} />
+        <Route path="AjouterCategorie" element={<AjouterCategorie />} />
+        <Route path="VoirMesProduits" element={<VoirMesProduits />} />
+        <Route path="MesProduitsEnAttente" element={<MesProduitsEnAttente />} />
+        <Route path="ModiffierProduit/:produitId" element={<ModiffierProduit />} />
+        <Route path="AjouterPhoto/:produitId" element={<AjouterPhoto />} />
+        <Route path="Blog" element={<Blog />} />
+        <Route path="Cgu" element={<ConditionGeneralUtilisation />} />
+        <Route path="Prestations" element={<Prestations />} />
+        <Route path="Article" element={<Article />} />
+        <Route path="AddImageArticle/:articleId" element={<AddImageArticle />} />
+        <Route path="ReadArticles" element={<ReadArticles />} />
+        <Route path="ouvrirDevis/:devisId" element={<OuvrirLeDevis />} />
+        <Route path="ouvrirCommande/:commandeId" element={<OuvrirCommande />} />
+        <Route path="factureDevis" element={<FactureDevis />} />
+        <Route path="factureCommande" element={<FactureCommande />} />
+        <Route path="modifierDevis" element={<ModifierDevis />} />
+        <Route path="modifierCommande" element={<ModifierCommande />} />
+        <Route path="commande" element={<Commande />} />
+        <Route path="VoirMesCommande" element={<VoirMesCommande />} />
+        <Route path="portfolio" element={<Portfolio />} />
+        <Route path="ajouterImagesPortfolio" element={<AjouterImagePortfolio />} />
+        <Route path="motDePassePerdu" element={<MotDePassePerdu />} />
+        <Route path="api/reset-password/:token" element={<NouveauMotDePasse />} />
+        <Route path="aMonSujet" element={<AmonSujet />} />
     </Routes>
+    </main>
     <ScrollToTopButton />
     <WhatsAppButton phoneNumber="+33768221452" />
     <Footer />
+    </div>
   </BrowserRouter>
 );

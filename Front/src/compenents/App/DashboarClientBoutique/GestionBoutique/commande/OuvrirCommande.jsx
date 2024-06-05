@@ -97,104 +97,87 @@ const handleModifierCommande = () => {
 
     return (
         <>
-        <NavDocument data={commandeData} societe={societe} client={client} type="commande" />
+            <NavDocument data={commandeData} societe={societe} client={client} type="commande" />
 
-        <div id="commande" className="col-md-11  mx-auto graylogo rounded p-3 mt-5">
-        <section>
-            <div>
-                <h3 className='p-3 text-center rounded'>Commande numéro :{commandeData.commande.numero_commande} </h3>
-            </div>
-            <Form className=''>
-                <Row>
-                    {/* Informations sur la société */}
-                    <Col md={12} lg={6} className="border border-secondary p-2 rounded mb-3">
-                        <div className=''>
-                                            <div className='d-flex justify-content-between p-2'>
-                                                <img src ={societe && societe.avatar} style={{width: "100px", height: "100px", borderRadius: "50%"}} />
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{societe && societe.societe}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{societe && societe.rue}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{societe && societe.ville}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{societe && societe.code_postal}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>Contact  : MR  {societe && societe.pseudo}</span>
-                                            </div>
-                        </div>
-                    </Col>
-                    {/* Informations sur le client */}
-                    <Col md={12} lg={6} className="border border-secondary p-2 rounded mb-3">
-                        <div className=''>
+            <section id="commande" className="col-md-11  mx-auto graylogo rounded p-3 mt-5">
+            <article>
+                <header>
+                    <h3 className='p-3 text-center rounded'>Commande numéro :{commandeData.commande.numero_commande} </h3>
+                </header>
+                <Form className=''>
+                    <Row>
+                        {/* Informations sur la société */}
+                        <Col md={12} lg={6} className="border border-secondary p-2 rounded mb-3">
+                            <article>
+                                <figure className='d-flex justify-content-between p-2'>
+                                    <img src ={societe && societe.avatar} style={{width: "100px", height: "100px", borderRadius: "50%"}} alt="Avatar de la société"/>
+                                </figure>
+                                <address className="text-white fw-bold fs-6">
+                                    <p>{societe && societe.societe}</p>
+                                    <p>{societe && societe.rue}</p>
+                                    <p>{societe && societe.ville}</p>
+                                    <p>{societe && societe.code_postal}</p>
+                                    <p>Contact  : MR  {societe && societe.pseudo}</p>
+                                </address>
+                            </article>
+                        </Col>
+                        {/* Informations sur le client */}
+                        <Col md={12} lg={6} className="border border-secondary p-2 rounded mb-3">
+                            <article>
+                                <figure className='d-flex justify-content-between p-2'>
+                                    <img src ={client && client.avatar} style={{width: "100px", height: "100px", borderRadius: "50%"}} alt="Avatar du client"  />
+                                    <figcaption className='text-white fw-bold'>{client && client.pseudo} </figcaption>
+                                </figure>
+                                    <address className="text-white fw-bold fs-6">
+                                        <p>{client && client.nom}</p>
+                                        <p>{client && client.prenom}</p>
+                                        <p>{client && client.rue}</p>
+                                        <p>{client && client.ville}</p>
+                                        <p>{client && client.code_postal}</p>
+                                    </address>
+                                            
+                            </article>
+                        </Col>
+                    </Row>
+                                    <table className="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nom</th>
+                                                <th>Tarif</th>
+                                                <th>Quantité</th>
+                                                <th>Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {Array.isArray(commandeData.commande.Produits) && commandeData.commande.Produits.map((produit, index) => {
+                                                // Trouver la quantité correspondante à ce produit
+                                                const quantiteProduit = commandeData.quantites.find(q => q.produit_id === produit.produit_id);
+                                                // Calculer le total pour ce produit
+                                                const totalProduit = produit.tarif * (quantiteProduit ? quantiteProduit.quantite : 0);
+                                                // Ajouter le total de ce produit au total général
+                                                totalCommande += totalProduit;
 
-                                            <div className='d-flex justify-content-between p-2'>
-                                                <img src ={client && client.avatar} style={{width: "100px", height: "100px", borderRadius: "50%"}} />
-                                                <h5 className='p-3 text-center rounded fw-bold'>{client && client.pseudo} </h5>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{client && client.nom}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{client && client.prenom}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{client && client.rue}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{client && client.ville}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{client && client.code_postal}</span>
-                                            </div>
-                                        
-                        </div>
-                    </Col>
-                </Row>
-                                <table className="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Nom</th>
-                                            <th>Tarif</th>
-                                            <th>Quantité</th>
-                                            <th>Total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {Array.isArray(commandeData.commande.Produits) && commandeData.commande.Produits.map((produit, index) => {
-                                            // Trouver la quantité correspondante à ce produit
-                                            const quantiteProduit = commandeData.quantites.find(q => q.produit_id === produit.produit_id);
-                                            // Calculer le total pour ce produit
-                                            const totalProduit = produit.tarif * (quantiteProduit ? quantiteProduit.quantite : 0);
-                                            // Ajouter le total de ce produit au total général
-                                            totalCommande += totalProduit;
+                                                return (
+                                                    <tr key={index} data-name={produit.nom} data-tarif={produit.tarif} data-quantite={quantiteProduit ? quantiteProduit.quantite : 0} data-total={totalProduit.toFixed(2)}>
+                                                        <td>{produit.nom}</td>
+                                                        <td>{produit.tarif} €</td>
+                                                        <td>{quantiteProduit ? quantiteProduit.quantite : 0}</td>
+                                                        <td>{totalProduit.toFixed(2)} €</td>
+                                                    </tr>
+                                                );
+                                            })}
 
-                                            return (
-                                                <tr key={index} data-name={produit.nom} data-tarif={produit.tarif} data-quantite={quantiteProduit ? quantiteProduit.quantite : 0} data-total={totalProduit.toFixed(2)}>
-                                                    <td>{produit.nom}</td>
-                                                    <td>{produit.tarif} €</td>
-                                                    <td>{quantiteProduit ? quantiteProduit.quantite : 0}</td>
-                                                    <td>{totalProduit.toFixed(2)} €</td>
-                                                </tr>
-                                            );
-                                        })}
-
-                                        <tr>
-                                            <td colSpan="3" className="fw-bold text-end">Total de la commande :</td>
-                                            <td className="fw-bold">{totalCommande.toFixed(2)} €</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-            </Form>
+                                            <tr>
+                                                <td colSpan="3" className="fw-bold text-end">Total de la commande :</td>
+                                                <td className="fw-bold">{totalCommande.toFixed(2)} €</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                </Form>
+            </article>
+            
         </section>
-        
-    </div>
-                        <NavDocument data={commandeData} societe={societe} client={client} type="commande" />
+                            <NavDocument data={commandeData} societe={societe} client={client} type="commande" />
     </>
     );
 };

@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Carrousel from './Caroussel/Carrousel.jsx';
 import { gsap } from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import GeneratedLogos from '../logos/GeneratedLogos.jsx';
+import AnimatedAcceuil from './AnimatedAcceuil.jsx';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Acceuil = () => {
+  const [isVisible, setIsVisible] = useState(false);
+
   
   useEffect(() => {
     // Vérifier si l'écran est petit (inférieur ou égal à 768px de large)
@@ -38,10 +41,14 @@ const Acceuil = () => {
 
   return (
     <>
+    { isVisible ? (
+      <AnimatedAcceuil />
+    ) : (
+      <>
       <Carrousel />
-      <section className="slide-article row col-md-10 mx-auto graylogo mt-4 rounded overflow-hidden">
-        <article className="border-bottom mb-4 " style={{ marginTop: "10px" }}>
-          <h1 className="slide-article h1 text-center mx-auto rounded hover-effect m-1 p-4">
+      <section className="slide-article row col-md-10 mx-auto graylogo mt-2  rounded overflow-hidden">
+        <article className="border-bottom mb-4 " >
+          <h1 className="slide-article h1 text-center mx-auto rounded hover-effect mt-2 p-4">
             Bienvenue sur mon site de Développeur Full-Stack Indépendant
           </h1>
 
@@ -129,6 +136,8 @@ const Acceuil = () => {
           </aside>
         </article>
       </section>
+      </>
+      )}
     </>
   );
 }

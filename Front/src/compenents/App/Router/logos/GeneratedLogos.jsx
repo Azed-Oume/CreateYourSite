@@ -38,7 +38,7 @@ const GeneratedLogos = () => {
                     }
                 }
             },
-            { threshold: 0.1 }
+            { threshold: 0.1}
         );
 
         if (containerRef.current) {
@@ -55,7 +55,7 @@ const GeneratedLogos = () => {
     return (
         <section ref={containerRef} className="d-flex justify-content-center text-white fw-bold gap-5 flex-wrap">
             {isLogosVisible && logos.map((logo, index) => (
-                <figure key={logo.name} className="falling-logo" style={{ animationDelay: `${0.4 * index}s` }}>
+                <figure key={logo.name} className="falling-logo" style={{ animationDelay: `${0.08 * index}s` }}>
                     <img src={logo.logoUrl} alt={logo.name} style={{ width: "100px" }} />
                     <figcaption>{logo.name}</figcaption>
                 </figure>

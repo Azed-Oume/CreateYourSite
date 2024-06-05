@@ -109,7 +109,7 @@ const AjouterAvatar = () => {
         {userStatut === 1 && <h1 className='fw-bold d-flex justify-content-center align-items-center' style={{ color: "#f28500" }}>En attente de validation</h1>}
             {userStatut === 2 && <h1 className='fw-bold d-flex justify-content-center align-items-center' style={{ color: "#f28500" }}>Inscription refusé</h1>}
             {userStatut == 3 && (
-        <section className="bg-white mx-auto  row container col-12" style={{ marginTop: "140px" }}>
+        <section className="bg-white mx-auto mt-5 row container col-12" >
             <div align="center">
                 <img
                     src={logo}

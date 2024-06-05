@@ -18,6 +18,7 @@ const Ajouterproduit = () => {
     }, []);
 
     
+    
     const role = localStorage.getItem('role');
     const fetchCategoriesProduits = async () => {
         try {
@@ -104,7 +105,8 @@ const handleSubmit = async (e) => {
     
     return (
         <section className="container graylogo p-4 rounded-4 mx-auto mt-5" >
-             
+             {/* {isVisible && (
+                <div> */}
              {role === "1" ? (
                 <div>
                     <Form className="col-md-4 mx-auto bg-white border border-secondary p-2 rounded"  onSubmit={handleSubmit}>
@@ -168,7 +170,9 @@ const handleSubmit = async (e) => {
                 </div>
         ) : (
             <ReserveForAdmin/>
-        )}
+        // )}
+        // </div>
+    )}
         </section>
     );
 };

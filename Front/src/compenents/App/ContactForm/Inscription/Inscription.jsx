@@ -126,7 +126,7 @@ const Inscription = () => {
     switch (step) {
       case 1:
         return (
-          <>
+          <section >
             <FormGroup className="col-md-6 mx-auto">
               <FormLabel htmlFor="nom" className="form-control bg-secondary text-white fw-bold mb-2">Nom</FormLabel>
               <FormControl
@@ -201,7 +201,7 @@ const Inscription = () => {
                 <option value="Client">Client</option>
               </FormControl>
             </FormGroup>
-          </>
+          </section>
         );
       case 2:
         return (

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Form } from 'react-bootstrap';
 import logo from "../images/logofondblanc.png";
 import ReserveForAdmin from '../AuthSecure/ReserveForAdmin';
 
@@ -67,7 +68,7 @@ const AjouterPhotoPortfolio = () => {
     };
 
     return (
-        <div className="container graylogo p-4 rounded-4 mx-auto mt-5">
+        <section className="container graylogo p-4 rounded-4 mx-auto mt-5">
             {role === "1" ? (
                 <>
                 <h1 className="text-center mb-4">Ajouter des Photos à Votre Portfolio</h1>
@@ -131,7 +132,7 @@ const AjouterPhotoPortfolio = () => {
             <ReserveForAdmin/>
         )}
             
-        </div>
+        </section>
     );
 };
 

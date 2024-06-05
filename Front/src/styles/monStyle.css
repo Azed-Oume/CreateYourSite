@@ -16,7 +16,9 @@
         flex-direction: column;
         justify-content: space-between;
         margin: 0; /*à mettre si pas de normalize.css*/
-        margin-bottom: 200px;
+        padding: 0;
+        height: 100%;
+  
     }
     
     
@@ -228,7 +230,7 @@
 /* monStyle.css */
  .falling-logo {
   opacity: 0;
-  animation: fallIn 1s ease-out forwards;
+  animation: fallIn .7s ease-out forwards;
 }
 
 @keyframes fallIn {
@@ -313,18 +315,25 @@
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 .my-masonry-grid {
-  display: -webkit-box; /* Not needed if autoprefixing */
-  display: -ms-flexbox; /* Not needed if autoprefixing */
   display: flex;
-  margin-left: -5px; /* gutter size offset */
+  margin-left: -10px; /* gutter size offset */
   width: auto;
 }
 .my-masonry-grid_column {
-  padding-left: 5px; /* gutter size */
+  padding-left: 10px; /* gutter size */
   background-clip: padding-box;
 }
 
-/* Style your items */
-.my-masonry-grid_column > div {
-  margin-bottom: -10px;
+.my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */
+  background: gray;
+  margin-bottom: -5px;
+}
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.spinner {
+  animation: spin 3s linear infinite;
 }

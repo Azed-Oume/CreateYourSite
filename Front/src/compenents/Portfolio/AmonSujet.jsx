@@ -25,69 +25,78 @@ const AmonSujet = () => {
 
     return(
         <>
-        <section className="bg-white mt-5">
+        <section className="container  graylogo p-4 mt-5 rounded-4 mx-auto">
             <article className="">
-                <h1 className="text-center mt-2"> A propos de moi</h1>
-                {/* Informations sur la société */}
-                        <div className="mx-auto border border-secondary col-md-6 p-2 rounded mb-3">
-                                        
-                                        <div className='fw-bold'>
-                                            <div className='d-flex justify-content-between p-2'>
-                                                <img src ={societe && societe.avatar} style={{width: "100px", height: "100px", borderRadius: "50%"}} />
-                                            </div>
-                                            <div className="mb-3">
-                                                <span>{societe && societe.societe}</span>
-                                            </div>
-                                            <div className="mb-3 ">
-                                                <span>{societe && societe.rue}</span>
-                                            </div>
-                                            <div className="mb-3 ">
-                                                <span>{societe && societe.ville}</span>
-                                            </div>
-                                            <div className="mb-3 ">
-                                                <span>{societe && societe.code_postal}</span>
-                                            </div>
-                                            <div className="mb-3 ">
-                                                <span>{societe && societe.telephone}</span>
-                                            </div>
-                                            <div className="mb-3 ">
-                                                <span>Contact  : MR  {societe && societe.pseudo}</span>
-                                            </div>
-                                            <div className="mb-3 ">
-                                                <span>Déscription :  {societe && societe.biographie}</span>
-                                            </div>
-                                        </div>
-                        </div>
-                <div className="">
-                <h2 className="text-center">Mon expérience professionnelle</h2>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <h2 className="text-center">Ils me fonts confiance</h2>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
-                <p>du contenus</p>
+                <div>
+                    <header>
+                        <h1 className="p-3 text-center rounded"> A propos de moi</h1>
+                    </header>
+                    {/* Informations sur la société */}
+                        <Col className="border border-secondary p-2 rounded mb-3">
+                            <article className="mx-auto text-white border border-secondary col-md-6 p-2 rounded mb-3">
+                            <figure className='d-flex justify-content-between p-2'>
+                                    <img src={societe && societe.avatar} style={{ width: "100px", height: "100px", borderRadius: "50%" }} alt="Avatar de la société" />
+                                    </figure>
+                                <address className="mb-3 fw-bold fs-6">
+                                    <p>{societe && societe.societe}</p>
+                                    <p>{societe && societe.rue}</p>
+                                    <p>{societe && societe.ville}</p>
+                                    <p>{societe && societe.code_postal}</p>
+                                    <p>{societe && societe.telephone}</p>
+                                    <p>Contact : MR {societe && societe.pseudo}</p>
+                                    <p>Déscription : {societe && societe.biographie}</p>
+                                    </address>
+                            </article>
+                        </Col>
+                </div>
+                <div className="row">
+                    <Col md={6} lg={6} className="border border-secondary p-2 rounded mb-3">
+                        <header>
+                            <h2 className="p-3 text-center rounded">Mon expérience professionnelle</h2>
+                        </header>
+                        <article className="mx-auto text-white border border-secondary p-2 rounded mb-3">
+                            <address className="mb-3 fw-bold fs-6">
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                            </address>
+                        </article>
+                    </Col>
+                    <Col md={6} lg={6} className="border border-secondary p-2 rounded mb-3">
+                        <header>
+                            <h2 className="p-3 text-center rounded">Ils me fonts confiance</h2>
+                        </header>
+                        <article className="mx-auto text-white border border-secondary p-2 rounded mb-3">
+                            <address className="mb-3 fw-bold fs-6">
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                                <p>du contenus</p>
+                            </address>
+                        </article>
+                    </Col>
                 </div>
             </article>
         </section>
-        <div>
-        <BackButton />
-        <a href="mailto:azed92390@hotmail.fr" className="btn btn-primary m-2" aria-label="Envoyer un mail">
-              ENVOYEZ UN MAIL
-            </a>
+        <nav className="d-flex justify-content-center m-2 gap-5">
+            <div >
+                <BackButton />
             </div>
+            <a href="mailto:azed92390@hotmail.fr" className="btn btn-primary" aria-label="Envoyer un mail">
+                  ENVOYEZ UN MAIL
+            </a>
+        </nav>
         </>
     )
 };

@@ -18,7 +18,7 @@ const Footer = () => {
 
     return (
         
-        <footer className="bg-black border " style={{width:"100%",marginTop: "140px", position: "absolute"}}>
+        <footer className="bg-black border ">
             <Navbar className='navbar bg-black' expand="lg" expanded={expanded}>
                 <div className="container">
                     <Navbar.Brand as={Link} to="/">

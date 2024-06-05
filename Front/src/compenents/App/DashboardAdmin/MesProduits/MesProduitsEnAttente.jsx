@@ -128,7 +128,7 @@ const role = localStorage.getItem('role');
 
     <>
     {/* { userStatut === 2 && ( */}
-      <div className="container graylogo p-4 mt-5 rounded-4 mx-auto" >
+      <section className="container graylogo p-4 mt-5 rounded-4 mx-auto" >
       {role === "1" ? (
                 <div>
         <h2 className="text-center mx-auto p-4">Gestion des Stock </h2>
@@ -189,7 +189,7 @@ const role = localStorage.getItem('role');
             ) : (
                 <ReserveForAdmin/>
             )}
-      </div>
+      </section>
       </>
 
     );

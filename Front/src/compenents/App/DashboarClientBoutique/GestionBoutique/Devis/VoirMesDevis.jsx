@@ -105,8 +105,8 @@ const VoirMesDevis = () => {
     }
 
     return (
-        <div className='graylogo col-lg-10 p-2 mx-auto mt-5'>
-            <div className='col-lg-10 m-3 mx-auto bg-white text-center'>
+        <section className='graylogo col-lg-10 p-2 mx-auto mt-5'>
+            <nav className='col-lg-10 m-3 mx-auto bg-white text-center'>
                 <BackButton />
                 <Button
                     variant='primary'
@@ -117,9 +117,9 @@ const VoirMesDevis = () => {
                 >
                     {componentIsVisible ? "Réduire la liste" : "Voir Ma Liste de Devis"}
                 </Button>
-            </div>
+            </nav>
             {componentIsVisible && (
-                <div className='mx-auto col-lg-10 col-md-8 overflow-auto'>
+                <form className='mx-auto col-lg-10 col-md-8 overflow-auto'>
                     <table
                         className='table'
                         id="devisTable"
@@ -181,10 +181,10 @@ const VoirMesDevis = () => {
                             ))}
                         </tbody>
                     </table>
-                </div>
+                </form>
             )}
             { !isVisible && (
-            <div className='col-lg-10 m-3 mx-auto bg-white text-center'>
+            <nav className='col-lg-10 m-3 mx-auto bg-white text-center'>
                 <BackButton />
                 <Button
                     variant='primary'
@@ -195,9 +195,9 @@ const VoirMesDevis = () => {
                 >
                     {componentIsVisible ? "Réduire la liste" : "Voir Ma Liste de Devis"}
                 </Button>
-            </div>
+            </nav>
             )}
-        </div>
+        </section>
     );
 };
 

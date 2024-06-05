@@ -10,11 +10,21 @@ const AfficherCommande = ({ panier }) => {
     const [societe, setSociete] = useState("");
     const [client, setClient] = useState("");
     const [numeroCommande, setNumeroCommande] = useState('En attente de génération...'); // Variable d'état pour stocker le numéro de devis
-
+    const [isVisible, setIsVisible] = useState(false);
     const [detailProjet, setDetailProjet] = useState("");
     const handleChangeDetailProjet = (e) => {
         setDetailProjet(e.target.value);
     };
+
+    console.log(panier, " en ligne 19 XXXXXXXXXXXXX");
+    useEffect(() => {
+        if (panier && panier.length > 0) {
+            setIsVisible(true); // Mettre à jour isVisible si le panier n'est pas vide
+        } else {
+            setIsVisible(false); // Sinon, masquer le devis
+        }
+    }, [panier]); // Surveiller les changements dans le panier pour mettre à jour la visibilité
+
 
     useEffect(() => {
         const fetchSociete = async () => {
@@ -172,7 +182,7 @@ const AfficherCommande = ({ panier }) => {
     
 
 
-   // Fonction pour envoyer le devis en base de données
+   // Fonction pour envoyer la commande en base de données
 const envoyerCommande = async (numeroCommande, panierCommande) => {
     console.log(panierCommande, "en ligne 155 XXXXXXXXX");
     if (!panierCommande.length) {
@@ -225,162 +235,139 @@ const conditionsPaiement = "A la commande "
 
 
     return (
-        <div id="devis" className="col-md-11 mx-auto graylogo rounded p-3">
-            <section>
-                <div>
-                    <h3 className='p-3 text-center rounded'>Commande numéro : {numeroCommande} </h3>
-                </div>
-                <Form className=''>
-                    <Row>
-                        {/* Informations sur la société */}
-                        <Col md={12} lg={6} className="border border-secondary p-2 rounded mb-3">
-                                        
-                                        <div className=''>
-                                            <div className='d-flex justify-content-between p-2'>
-                                                <img src ={societe && societe.avatar} style={{width: "100px", height: "100px", borderRadius: "50%"}} />
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{societe && societe.societe}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{societe && societe.rue}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{societe && societe.ville}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{societe && societe.code_postal}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{societe && societe.telephone}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>Contact  : MR  {societe && societe.pseudo}</span>
-                                            </div>
-                                        </div>
-                        </Col>
-                        {/* Informations sur le client */}
-                        <Col md={12} lg={6} className="border border-secondary p-2 rounded mb-3">
-                                        <div className=''>
-
-                                            <div className='d-flex justify-content-between p-2'>
-                                                <img src ={client && client.avatar} style={{width: "100px", height: "100px", borderRadius: "50%"}} />
-                                                <h5 className='p-3 text-center rounded fw-bold'>{client && client.pseudo} </h5>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{client && client.nom}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{client && client.prenom}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{client && client.rue}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{client && client.ville}</span>
-                                            </div>
-                                            <div className="mb-3 text-white fw-bold fs-6">
-                                                <span>{client && client.code_postal}</span>
-                                            </div>
-                                        </div>
-                        </Col>
-                    </Row>
-                    <table className="table">
-                        <thead >
-                            <tr>
-                                <th>Nom</th>
-                                <th>Tarif</th>
-                                <th>Quantité</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {panier && panier.map((produit, index) => (
-                                <tr key={index} data-name={produit.nom} data-tarif={produit.tarif} data-quantite={produit.quantite} data-total={(produit.tarif * produit.quantite).toFixed(2)}>
-                                    <td>{produit.nom}</td>
-                                    <td>{produit.tarif} €</td>
-                                    <td>{produit.quantite}</td>
-                                    <td>{(produit.tarif * produit.quantite).toFixed(2)} €</td>
+            <>
+            {isVisible && (
+                <section id="devis" className="container  graylogo p-4 mt-5 rounded-4 mx-auto">
+                    <header>
+                        <h3 className='p-3 text-center rounded'>Commande numéro : {numeroCommande} </h3>
+                    </header>
+                    <Form>
+                        <Row>
+                            {/* Informations sur la société */}
+                            <Col md={12} lg={6} className="border border-secondary p-2 rounded mb-3">
+                                <article>
+                                    <figure className='d-flex justify-content-between p-2'>
+                                        <img src={societe && societe.avatar} style={{ width: "100px", height: "100px", borderRadius: "50%" }} alt="Avatar de la société" />
+                                    </figure>
+                                    <address className="mb-3 text-white fw-bold fs-6">
+                                        <p>{societe && societe.societe}</p>
+                                        <p>{societe && societe.rue}</p>
+                                        <p>{societe && societe.ville}</p>
+                                        <p>{societe && societe.code_postal}</p>
+                                        <p>{societe && societe.telephone}</p>
+                                        <p>Contact : MR {societe && societe.pseudo}</p>
+                                    </address>
+                                </article>
+                            </Col>
+                            {/* Informations sur le client */}
+                            <Col md={12} lg={6} className="border border-secondary p-2 rounded mb-3">
+                                <article>
+                                    <figure className='d-flex justify-content-between p-2'>
+                                        <img src={client && client.avatar} style={{ width: "100px", height: "100px", borderRadius: "50%" }} alt="Avatar du client" />
+                                        <figcaption className='p-3 text-center text-white rounded fw-bold'>{client && client.pseudo}</figcaption>
+                                    </figure>
+                                    <address className="mb-3 text-white fw-bold fs-6">
+                                        <p>{client && client.nom}</p>
+                                        <p>{client && client.prenom}</p>
+                                        <p>{client && client.rue}</p>
+                                        <p>{client && client.ville}</p>
+                                        <p>{client && client.code_postal}</p>
+                                    </address>
+                                </article>
+                            </Col>
+                        </Row>
+                        <table className="table">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Tarif</th>
+                                    <th>Quantité</th>
+                                    <th>Total</th>
                                 </tr>
-                            ))}
-                            {/* Total du devis */}
-                            <tr>
-                                <td colSpan="3" className="fw-bold text-end">Total de la commande :</td>
-                                <td className="fw-bold">
-                                    <span name="total" value={panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2)}>{panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2)} €</span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    
-                    <div className='bg-white '>
-                        <p className='text-center p-2'>
-                                    validité de la commande : {validateCommande}
-                        </p>
+                            </thead>
+                            <tbody>
+                                {panier && panier.map((produit, index) => (
+                                    <tr key={index} data-name={produit.nom} data-tarif={produit.tarif} data-quantite={produit.quantite} data-total={(produit.tarif * produit.quantite).toFixed(2)}>
+                                        <td>{produit.nom}</td>
+                                        <td>{produit.tarif} €</td>
+                                        <td>{produit.quantite}</td>
+                                        <td>{(produit.tarif * produit.quantite).toFixed(2)} €</td>
+                                    </tr>
+                                ))}
+                                {/* Total de la commande */}
+                                <tr>
+                                    <td colSpan="3" className="fw-bold text-end">Total de la commande :</td>
+                                    <td className="fw-bold">
+                                        <span name="total" value={panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2)}>{panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2)} €</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <section className='bg-white '>
+                            <p className='text-center p-2'>Validité de la commande : {validateCommande}</p>
+                        </section>
+                        <section className='bg-white text-center p-2'>
+                            <label>Informations complémentaires pour la livraison :</label>
+                            <textarea className='m-1' value={detailProjet} onChange={handleChangeDetailProjet} required></textarea>
+                        </section>
+                    </Form>
+                    <div className="text-center mt-3">
+                        <Button variant="primary" onClick={handleDownloadPDF}>
+                        Sauvegarder et télécharger le bon de commande.PDF
+                        </Button>
                     </div>
-                    <label className='bg-white text-center p-2'>
-                        Informations complémentaire pour la livraison  :
-                            <textarea
-                                className='m-1'
-                                value={detailProjet}
-                                onChange={handleChangeDetailProjet}
-                                required>
-                            </textarea>
-                    </label>
-                </Form>
-                <div className="text-center">
-                    <Button variant="primary" onClick={handleDownloadPDF}>
-                        Télécharger PDF
-                    </Button>
-                </div>
-                <section className="mt-4">
-                    <article className="border-top pt-3 pb-3 ">
-                        <h4 className='text-center p-2'>
-                            <strong>Mentions légales :</strong>
-                        </h4>
-                        <form className="bg-light " >
-                            <div className="d-flex justify-content-center p-2 flex-wrap" style={{fontSize: '10px'}}>
-                            <p>{societe && societe.societe} - </p>
-                            <p> - {societe && `${societe.rue}, ${societe.code_postal} ${societe.ville}`} - </p>
-                            <p> -Tel : {societe && societe.telephone} - </p>
-                            <p> - mail : {societe && societe.email} - </p>
-                            <p> - Siret : {societe && societe.siret} - </p>
-                            <p> - tav : {societe && societe.numero_tva} - </p>
-                            {/* <p> - {conditionsPaiement} - </p>
-                            <p> - {validateCommande} - </p> */}
-                            {/* <p style={{fontSize: '15px'}}>Date d'émission : {date_commande}</p><br /> */}
-                            </div>
-                        </form>
-                    </article>
-                    <div style={{fontSize: '10px'}} className='bg-white p-2'>
-                        <p >
-                            <strong>Important :</strong> En passant cette commande, vous reconnaissez avoir pris connaissance et accepter nos conditions générales de vente. Conformément à l'article 1583 du Code civil, la vente est parfaite entre les parties dès qu'elles sont convenues de la chose et du prix, même si la chose n'a pas encore été livrée ni le prix payé.
-                        </p>
-                        <p >
-                            <strong>Engagement de paiement :</strong> Cett commande et ferme et vous engage à régler la somme due. Toute commande validée est due et doit être payée selon les conditions de paiement convenues.
-                        </p>
-                        <p >
-                            <strong>Retard de paiement :</strong> Conformément à l'article L441-10 du Code de commerce, tout retard de paiement entraîne, de plein droit et sans formalité préalable, l'application de pénalités de retard calculées sur la base du taux d'intérêt légal majoré de 10 points. Une indemnité forfaitaire pour frais de recouvrement de 40 euros sera également due (article D441-5 du Code de commerce).
-                        </p>
-                        <p >
-                            <strong>Rétractation :</strong> Pour les consommateurs (au sens de l'article liminaire du Code de la consommation), vous bénéficiez d'un droit de rétractation de 14 jours à compter de la conclusion du contrat, conformément à l'article L221-18 du Code de la consommation. Ce droit ne s'applique pas aux prestations de services pleinement exécutées avant la fin du délai de rétractation avec votre accord préalable exprès et renoncement exprès à votre droit de rétractation.
-                        </p>
-                        <p >
-                            <strong>Protection des données :</strong> Conformément à la loi Informatique et Libertés du 6 janvier 1978 modifiée et au règlement général sur la protection des données (RGPD), vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition aux données personnelles vous concernant. Pour exercer ce droit, vous pouvez nous contacter à l'adresse email suivante : {societe && societe.email}. Vos données ne seront utilisées que dans le cadre de votre commande et ne seront en aucun cas partagées avec des tiers sans votre consentement explicite.
-                        </p>
-                        <p >
-                            <strong>Force majeure :</strong> La société ne pourra être tenue pour responsable de l'inexécution de l'une de ses obligations en cas de force majeure telle que définie par la jurisprudence française, notamment en cas de catastrophe naturelle, incendie, grève, etc.
-                        </p>
-                        <p >
-                            <strong>Litiges :</strong> En cas de litige, les parties s'efforceront de résoudre leur différend à l'amiable. À défaut, les tribunaux compétents seront ceux du siège social de la société, sauf disposition légale contraire. Pour les consommateurs, tout litige peut également être soumis au médiateur de la consommation.
-                        </p>
-                        <p >
-                            <strong>Acceptation :</strong> L'acceptation du devis par voie électronique vaut acceptation expresse du client. Conformément à l'article 1369-2 du Code civil, ce devis, validé par voie électronique, constitue un écrit électronique et a, entre les parties, la même valeur probante qu'un document papier.
-                        </p>
-                    </div>
+                    <section className="mt-4">
+                        <article className="border-top pt-3 pb-3 ">
+                            <h4 className='text-center p-2'>
+                                <strong>Mentions légales :</strong>
+                            </h4>
+                            <section className="bg-light ">
+                                <address className="text-center col-md-12">
+                                    <p>Société : {societe && societe.societe} - </p>
+                                    <p>Adresse : {societe && `${societe.rue}, ${societe.code_postal} ${societe.ville}`} - </p>
+                                    <p>Téléphone : {societe && societe.telephone} - </p>
+                                    <p>Mail : {societe && societe.email} - </p>
+                                    <p>Siret : {societe && societe.siret} - </p>
+                                    <p>Tav : {societe && societe.numero_tva} - </p>
+                                    <p>Conditions de paiement : {conditionsPaiement} - </p>
+                                    <p>Validité de la commande : {validateCommande} - </p> 
+                                    {/* <p style={{ fontSize: '15px' }}>Date d'émission : {date_commande}</p><br />  */}
+                                </address>
+                            </section>
+                        </article>
+                        <footer style={{ fontSize: '10px' }} className='bg-white p-2'>
+                            <p>
+                                <strong>Important :</strong> En passant cette commande, vous reconnaissez avoir pris connaissance et accepter nos conditions générales de vente. Conformément à l'article 1583 du Code civil, la vente est parfaite entre les parties dès qu'elles sont convenues de la chose et du prix, même si la chose n'a pas encore été livrée ni le prix payé.
+                            </p>
+                            <p>
+                                <strong>Engagement de paiement :</strong> Cette commande est ferme et vous engage à régler la somme due. Toute commande validée est due et doit être payée selon les conditions de paiement convenues.
+                            </p>
+                            <p>
+                                <strong>Retard de paiement :</strong> Conformément à l'article L441-10 du Code de commerce, tout retard de paiement entraîne, de plein droit et sans formalité préalable, l'application de pénalités de retard calculées sur la base du taux d'intérêt légal majoré de 10 points. Une indemnité forfaitaire pour frais de recouvrement de 40 euros sera également due (article D441-5 du Code de commerce).
+                            </p>
+                            <p>
+                                <strong>Rétractation :</strong> Pour les consommateurs (au sens de l'article liminaire du Code de la consommation), vous bénéficiez d'un droit de rétractation de 14 jours à compter de la conclusion du contrat, conformément à l'article L221-18 du Code de la consommation. Ce droit ne s'applique pas aux prestations de services pleinement exécutées avant la fin du délai de rétractation avec votre accord préalable exprès et renoncement exprès à votre droit de rétractation.
+                            </p>
+                            <p>
+                                <strong>Protection des données :</strong> Conformément à la loi Informatique et Libertés du 6 janvier 1978 modifiée et au règlement général sur la protection des données (RGPD), vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition aux données personnelles vous concernant. Pour exercer ce droit, vous pouvez nous contacter à l'adresse email suivante : {societe && societe.email}. Vos données ne seront utilisées que dans le cadre de votre commande et ne seront en aucun cas partagées avec des tiers sans votre consentement explicite.
+                            </p>
+                            <p>
+                                <strong>Force majeure :</strong> La société ne pourra être tenue pour responsable de l'inexécution de l'une de ses obligations en cas de force majeure telle que définie par la jurisprudence française, notamment en cas de catastrophe naturelle, incendie, grève, etc.
+                            </p>
+                            <p>
+                                <strong>Litiges :</strong> En cas de litige, les parties s'efforceront de résoudre leur différend à l'amiable. À défaut, les tribunaux compétents seront ceux du siège social de la société, sauf disposition légale contraire. Pour les consommateurs, tout litige peut également être soumis au médiateur de la consommation.
+                            </p>
+                            <p>
+                                <strong>Acceptation :</strong> L'acceptation du devis par voie électronique vaut acceptation expresse du client. Conformément à l'article 1369-2 du Code civil, ce devis, validé par voie électronique, constitue un écrit électronique et a, entre les parties, la même valeur probante qu'un document papier.
+                            </p>
+                        </footer>
+                    </section>
                 </section>
-            </section>
-        </div>
+                )}
+            </>
+
+
     );
 };
 

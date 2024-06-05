@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import '../../styles/monStyle.css'; // Assurez-vous d'importer votre fichier CSS
 import AjouterDescription from "./AjouterDescription";
 import Masonry from "react-masonry-css";
-import { FaRegCommentDots } from 'react-icons/fa';
+import { FaRegCommentDots, FaSpinner } from 'react-icons/fa';
 import { Button } from "react-bootstrap";
 import NavPortfolio from "./NavPortfolio";
 
@@ -16,15 +16,6 @@ const Portfolio = () => {
     
     const [checked, setChecked] = useState([]);
 
-    // const handleCheckboxChange = (index) => {
-    //     setChecked(prev =>{
-    //         if (prev.includes(index)){
-    //             return prev.filter(i => i !== index);
-    //         }else {
-    //             return [...prev, index]
-    //         }
-    //     });
-    // };
     const handleCheckboxChange = (index) => {
         setChecked(prev => {
             if (prev.includes(index)) {
@@ -98,87 +89,100 @@ const Portfolio = () => {
     }, []);
 
     return (
+        <>
 
-        <section className="m-4 p-3 mx-auto">
-    {role !== "1" ? (
-        <h1 className="p-2 mt-3 rounded mb-4 text-center">Portfolio</h1>
-    ) : (
-        <h1 className="p-2 rounded mb-4 text-center">Ajouter des Descriptions ou les Modifier</h1>
-    )}
-    
-    <NavPortfolio />
+            <section className="m-3 p-3 mx-auto">
+                {role !== "1" ? (
+                    <h1 className="p-2 mt-3 rounded mb-4 text-center">Portfolio</h1>
+                ) : (
+                    <h1 className="p-2 mt-3 rounded mb-4 text-center">Ajouter des Descriptions ou les Modifier</h1>
+                )}
+                {image && image.length === 0 ? (
+                    <h1 className="p-2 mt-3 rounded mb-4 text-center">
+                    Télécharement en cours...  
+                    <FaSpinner className="ml-2 spinner"  />
+                </h1> 
+                ) : (
+                    <>
+                    <NavPortfolio />
 
-    <section className="bg-black m-4 p-3 mx-auto">
-        <Masonry
-            breakpointCols={breakpointColumnsObj}
-            className="my-masonry-grid"
-            columnClassName="my-masonry-grid_column"
-        >
-            {image.map((image, index) => (
-                <div
-                    key={index}
-                    className={`bg-white card-container-beta mb-1 ${animatedIndices.includes(index) ? 'animate' : ''}`}
-                    role="complementary"
-                    aria-labelledby={`image-${index}-title`}
-                    style={{ position: 'relative' }} // Ajout de la position relative ici
-                >
-                    <figure className={`card-container-beta mb-0 ${animatedIndices.includes(index) ? 'animate' : ''}`}>
-                    {image.description && (
-                            <Button
-                                variant=""
-                                className={`card-container-beta m-1 vertfluo ${animatedIndices.includes(index) ? 'animate' : ''}`}
-                                onClick={() => handleCheckboxChange(index)}
-                                style={{ 
-                                    cursor: 'pointer', 
-                                    display: 'flex', 
-                                    alignItems: 'center', 
-                                    position: 'absolute', 
-                                    top: '5px', 
-                                    right: '20px', 
-                                    opacity: '.1' // Opacité définie à 90%
-                                }}
-                            >
-                                <FaRegCommentDots />
-                            </Button>
-                        )}
+            
+                <section className="bg-black m-4 p-2 mx-auto">
+                        <Masonry
+                            breakpointCols={breakpointColumnsObj}
+                            className="my-masonry-grid   col-md-3"
+                            columnClassName="my-masonry-grid_column"
+                        >
+                            {image.map((image, index) => (
+                                <div
+                                    key={index}
+                                    className={`card-container-beta bg-white  ${animatedIndices.includes(index) ? 'animate' : ''}`}
+                                    role="complementary"
+                                    aria-labelledby={`image-${index}-title`}
+                                    style={{ position: 'relative' }} // Ajout de la position relative ici
+                                >
+                                    <figure 
+                                    className={`card-container-beta ${animatedIndices.includes(index) ? 'animate' : ''}`}
+                                    >
+                                    {image.description && (
+                                            <Button
+                                                variant=""
+                                                className={`card-container-beta ${animatedIndices.includes(index) ? 'animate' : ''}`}
+                                                onClick={() => handleCheckboxChange(index)}
+                                                style={{ 
+                                                    cursor: 'pointer', 
+                                                    display: 'flex', 
+                                                    alignItems: 'center', 
+                                                    position: 'absolute', 
+                                                    top: '5px', 
+                                                    right: '20px', 
+                                                    opacity: '.1' 
+                                                }}
+                                            >
+                                                <FaRegCommentDots />
+                                            </Button>
+                                        )}
 
-                        <img
-                            src={image.url}
-                            className="card-image border border-secondary p-1"
-                            alt={`Image de ${image.description}`}
-                            style={{ width: "100%", height: "auto" }}
-                            id={`image-${index}-title`}
-                        />
-                        <span className="symbol top-left" role="img" aria-label={randomSymbols[index]} style={{ color: getSymbolColor(randomSymbols[index]) }}>{randomSymbols[index]}</span>
-                        <span className="symbol top-right" role="img" aria-label={randomSymbols[index]} style={{ color: getSymbolColor(randomSymbols[index]) }}>{randomSymbols[index]}</span>
-                        <span className="symbol bottom-left" role="img" aria-label={randomSymbols[index]} style={{ color: getSymbolColor(randomSymbols[index]) }}>{randomSymbols[index]}</span>
-                        <span className="symbol bottom-right" role="img" aria-label={randomSymbols[index]} style={{ color: getSymbolColor(randomSymbols[index]) }}>{randomSymbols[index]}</span>
-                    </figure>
-                    {checked.includes(index) && (
-                        <div className={`card card-container mx-auto ${animatedIndices.includes(index) ? 'animate' : ''}`} style={{ width: "100%", height: "auto" }}>
-                            {role !== '1' && image.description ? (
-                                <p className="text-center fw-bold" aria-label={image.description}>{image.description}</p>
-                            ) : role === '1' ? (
-                                <>
-                                    {image.description ? (
-                                        <>
-                                            <p className="text-center" aria-label={image.description}>{image.description}</p>
-                                            <AjouterDescription id={image.id} initialDescription={image.description} getAllImages={getAllImages} />
-                                        </>
-                                    ) : (
-                                        <AjouterDescription id={image.id} initialDescription={image.description} getAllImages={getAllImages} />
+                                        <img
+                                            src={image.url}
+                                            className="card-image border border-secondary "
+                                            alt={`Image de ${image.description}`}
+                                            style={{ width: "100%", height: "auto" }}
+                                            id={`image-${index}-title`}
+                                        />
+                                        <span className="symbol top-left" role="img" aria-label={randomSymbols[index]} style={{ color: getSymbolColor(randomSymbols[index]) }}>{randomSymbols[index]}</span>
+                                        <span className="symbol top-right" role="img" aria-label={randomSymbols[index]} style={{ color: getSymbolColor(randomSymbols[index]) }}>{randomSymbols[index]}</span>
+                                        <span className="symbol bottom-left" role="img" aria-label={randomSymbols[index]} style={{ color: getSymbolColor(randomSymbols[index]) }}>{randomSymbols[index]}</span>
+                                        <span className="symbol bottom-right" role="img" aria-label={randomSymbols[index]} style={{ color: getSymbolColor(randomSymbols[index]) }}>{randomSymbols[index]}</span>
+                                    </figure>
+                                    {checked.includes(index) && (
+                                        <div className={`card card-container mx-auto ${animatedIndices.includes(index) ? 'animate' : ''}`} style={{ width: "100%", height: "auto" }}>
+                                            {role !== '1' && image.description ? (
+                                                <p className="text-center fw-bold" aria-label={image.description}>{image.description}</p>
+                                            ) : role === '1' ? (
+                                                <>
+                                                    {image.description ? (
+                                                        <>
+                                                            <p className="text-center" aria-label={image.description}>{image.description}</p>
+                                                            <AjouterDescription id={image.id} initialDescription={image.description} getAllImages={getAllImages} />
+                                                        </>
+                                                    ) : (
+                                                        <AjouterDescription id={image.id} initialDescription={image.description} getAllImages={getAllImages} />
+                                                    )}
+                                                </>
+                                            ) : (
+                                                <p className="text-center">Pas de description</p>
+                                            )}
+                                        </div>
                                     )}
-                                </>
-                            ) : (
-                                <p className="text-center">Pas de description</p>
-                            )}
-                        </div>
-                    )}
-                </div>
-            ))}
-        </Masonry>
-    </section>
-</section>
+                                </div>
+                            ))}
+                        </Masonry>
+                    </section>
+                    </>
+                    ) }
+            </section>
+        </>
     );
 };
 

@@ -103,15 +103,8 @@ const Contact = () => {
           article.style.opacity = 1;
           // Animation de rebondissement
           bounceAndStop(article, [
-            { x: -150, duration: 0.3 },
-            { x: 0, duration: 0.2 },
-            { x: -100, duration: 0.2 },
-            { x: 0, duration: 0.1 },
-            { x: -60, duration: 0.1 },
-            { x: 0, duration: 0.1 },
-            { x: 40, duration: 0.1 },
-            { x: 0, duration: 0.1 },
-            { x: 20, duration: 0.1 },
+            { x: -150, duration: 0.2 },
+            { x: -10, duration: 0.1 },
             { x: 0, duration: 0.1 },
           ]);
         },
@@ -136,7 +129,7 @@ const Contact = () => {
 
   return (
     <>
-      <div className="contact container graylogo col-md-10 rounded-4 p-2" style={{ marginTop: "300px" }}>
+      <div className="contact container graylogo col-md-10 rounded-4 mt-5 p-2">
         <h2 className="h2 text-center graylogo rounded-4 text-white  mx-auto p-2 ">Formulaire de Contact :</h2>
         <Form className="row mb-2 mt-4 mx-auto" method="POST" onSubmit={handleSubmit}>
           <FormGroup className="col-md-6 mx-auto">
