@@ -6,7 +6,8 @@
     "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "node-dev index --clear --notify=false"
+        "dev": "node-dev index --clear --notify=false",
+        "start": "node-dev index --clear --notify=false"
     },
     "keywords": [],
     "author": "",

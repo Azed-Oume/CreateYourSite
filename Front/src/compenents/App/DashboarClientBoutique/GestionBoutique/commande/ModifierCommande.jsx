@@ -284,7 +284,7 @@ const conditionsPaiement = "A la confirmation de la commande !"
                         <th>Tarif</th>
                         <th>Quantité</th>
                         <th>Total</th>
-                        <th>TVA</th>
+                        <th>Dont tva</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -311,10 +311,15 @@ const conditionsPaiement = "A la confirmation de la commande !"
                                     <Button onClick={() => ajusterQuantite(produit.produit_id, 1)}>+</Button>
                                 </td>
                                 <td>{totalProduit.toFixed(2)} €</td>
-                                <td>{((totalProduit) * .2).toFixed(2)} €</td>
+                                <td>{(((totalProduit) / 120) * 20).toFixed(2)} €</td>
                             </tr>
+                            
                         );
                     })}
+                    <tr>
+                        <td colSpan="3" className="fw-bold text-end ">Total TTC :</td>
+                        <td className="fw-bold ">{totalCommande.toFixed(2)} €</td>
+                    </tr>
                 </tbody>
             </table>
             <section className='bg-white'>
@@ -333,14 +338,7 @@ const conditionsPaiement = "A la confirmation de la commande !"
                     </textarea>
                 </label>
             </section>
-            <table className="table mt-4">
-                <tbody>
-                    <tr>
-                        <td colSpan="4" className="fw-bold text-end">Total TTC :</td>
-                        <td className="fw-bold">{totalCommande.toFixed(2)} €</td>
-                    </tr>
-                </tbody>
-            </table>
+            
             <nav className='d-flex justify-content-between'>
                 <BackButton />
                 <Button

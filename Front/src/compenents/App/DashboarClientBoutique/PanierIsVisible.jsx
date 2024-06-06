@@ -1,31 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Form, FormControl, FormGroup, FormLabel, Modal } from "react-bootstrap";
 import Paiement from "./Paiement";
 
-const PanierIsVisible = ({ajouterAuPanier, panier}) => {
-    
+const PanierIsVisible = ({ panier}) => {
+    console.log(panier, " en ligne 7 XXXXXXXXXXXXXXXXXXXXXXXXXX");
 const [isVisible, setIsVisible] = useState(false);
 const [codePromotionnel, setCodePromotionnel] = useState('');
 const [isCodeVisible, setIsCodeVisible] = useState(false);
 const [showModal, setShowModal] = useState(false); // Modal de paiement
 const [showPaiementModal, setShowPaiementModal] = useState(false); // Modal de paiement
 const [totalAvecRemise, setTotalAvecRemise] = useState(null); // Définissez l'état pour totalAvecRemise
+const [payementIsVisible, setPayementIsVisible] = useState(false);
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
+let total = 0;
 // Calcul du total du panier
 const calculerTotalPanier = () => {
-    let total = 0;
-    for (let produit of panier) {
-      total += parseFloat(produit.tarif);
-    }
-    return total;
-    
-  };
+  console.log('panier:', panier); // Ajoutez ceci pour vérifier le contenu du panier
+  total = panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0);
+  console.log('total avant toFixed:', total); // Ajoutez ceci pour vérifier la valeur de total avant toFixed
+  return total;
+};
+
+// Appel de la fonction et formatage du total
+const totalFormatted = parseFloat(calculerTotalPanier()).toFixed(2);
+console.log(totalFormatted, " en ligne 30 XXXXXXXXXXXXXXXXXXXXXXXXXX");
+
   const calculerNombreArticlesDansPanier = () => {
     return panier.length;
   };
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Dans la fonction handlePaiment on calcul la remise en fonction du codePromotionnel
@@ -62,10 +67,18 @@ const obtenirPourcentageRemise = (codePromotionnel) => {
         return 0; // Aucune remise si le code n'est pas valide
     }
   };
-
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+useEffect(() => {
+  if (calculerTotalPanier() > 0 ) {
+     setPayementIsVisible(true);
+  } else{setPayementIsVisible(false)}
+ })
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     return(
         <>
-        <div className="m-1">            
+        <section className="m-1">            
                 <Button 
                     variant='success'
                     className=' mx-auto fw-bold p-2' 
@@ -77,30 +90,37 @@ const obtenirPourcentageRemise = (codePromotionnel) => {
                         {isVisible && (
                               <div style={{ overflow: "auto", height: "300px"}}> 
                                   {/* Affichage du contenu du panier */}
-                                  <div className='col-md-2 mx-auto graylogo rounded p-2' style={{ position: "fixed", top: "220px", start: "500px", translate: "middle", zIndex:"10", opacity:".9", overflow: "auto", height: "600px", width: "300px"}}>
-                                    {/* Bouton pour voir le panier */}
-                                      <h5 className="p-2 rounded">Mon panier :</h5>
-                                      {panier.map((produit, index) => (
-                                          <div className='text-white fw-bold' key={index}>
-                                              <p className='fs-6'>{produit.nom} - {produit.tarif} €</p>
-                                          </div>
-                                      ))}
+                                  <Form className='col-md-2 mx-auto graylogo rounded p-2' style={{ position: "fixed", top: "220px", start: "500px", translate: "middle", zIndex:"10", opacity:"1", overflow: "auto", height: "600px", width: "400px"}}>
                                       {/* Affichage du total du panier */}
-                                      <div>
-                                          <h5 className="p-2 rounded">Total du panier :</h5>
-                                          <p className='text-white fw-bold fs-6'>{(calculerTotalPanier()).toFixed(2)} €</p>
-                                      </div>
-                                      
-                                      <Button
-                                        variant='success'
-                                        className=' mx-auto fw-bold p-2'
-                                        onClick={finaliserAchats}
-                                      >
-                                        {codePromotionnel ? "Finaliser mes achats (avec remise)" : "Finaliser mes achats"}
-                                      </Button>
-
-
-                                      <div>
+                                      <table className="table">
+                                          <thead>
+                                          <tr>
+                                              <th>Nom</th>
+                                              <th>Tarif</th>
+                                              <th>Quantité</th>
+                                              <th>Total</th>
+                                          </tr>
+                                          </thead>
+                                          <tbody>
+                                          {panier && panier.map((produit, index) => (
+                                              <tr key={index} data-name={produit.nom} data-tarif={produit.tarif} data-quantite={produit.quantite} data-total={(produit.tarif * produit.quantite).toFixed(2)}>
+                                              <td>{produit.nom}</td>
+                                              <td>{produit.tarif} €</td>
+                                              <td>{produit.quantite}</td>
+                                              <td>{(produit.tarif * produit.quantite).toFixed(2)} €</td>
+                                              </tr>
+                                          ))}
+                                          {/* Total du devis */}
+                                          <tr>
+                                              <td colSpan="3" className="fw-bold text-end">Total du panier :</td>
+                                              <td className="fw-bold">{(calculerTotalPanier()).toFixed(2)} € </td>
+                                          </tr>
+                                          </tbody>
+                                      </table>
+                                          <h5 className="p-2 rounded">Total du panier :  {(calculerTotalPanier()).toFixed(2)} €</h5>
+                                          {payementIsVisible && (
+                                            <div>
+                                        <FormGroup className="fw-bold">
                                       <Button 
                                           variant='info'
                                           className=' mx-auto fw-bold m-2 p-2' 
@@ -109,28 +129,34 @@ const obtenirPourcentageRemise = (codePromotionnel) => {
                                       </Button>
                                               {isCodeVisible && (
                                         <div>
-                                        <input
-                                          type="text"
-                                          placeholder="Code promotionnel"
-                                          value={codePromotionnel}
-                                          onChange={(e) => setCodePromotionnel(e.target.value)}
-                                        />
-                                        <h5>Remise du panier :</h5>
-                                        <p className='text-white fw-bold fs-6'>{((calculerTotalPanier() / 100) * obtenirPourcentageRemise(codePromotionnel)).toFixed(2)} €</p>
-                                        <div>
-                                          <h5>Total du panier remise :</h5>
-                                          <p className='text-white fw-bold fs-6'>
-                                            {((calculerTotalPanier() - (calculerTotalPanier() / 100) * obtenirPourcentageRemise(codePromotionnel))).toFixed(2)} €
-                                          </p>
-                                        </div>
-                                        </div>   
-                                                                             
+                                          <FormControl
+                                            className="fw-bold p-2 mb-2 rounded"
+                                            type="text"
+                                            placeholder="Code promotionnel"
+                                            value={codePromotionnel}
+                                            onChange={(e) => setCodePromotionnel(e.target.value)}
+                                          />
+                                            <FormLabel className="bg-white p-2 rounded">Remise du panier :   {((calculerTotalPanier() / 100) * obtenirPourcentageRemise(codePromotionnel)).toFixed(2)} € </FormLabel>
+                                            <FormLabel className="bg-white p-2 rounded">Total du panier remise : {((calculerTotalPanier() - (calculerTotalPanier() / 100) * obtenirPourcentageRemise(codePromotionnel))).toFixed(2)} €</FormLabel>
+                                        </div>             
                                               )}
-                                      </div>
-                                  </div>
+                                              </FormGroup>
+                                          
+                                              <Button
+                                                variant='success'
+                                                className=' mx-auto fw-bold p-2'
+                                                onClick={finaliserAchats}
+                                              >
+                                                {codePromotionnel ? "Finaliser mes achats (avec remise)" : "Finaliser mes achats"}
+                                              </Button>
+                                              </div>
+                                              )}
+                                  </Form>
                               </div>
                           )}
+                                              
                                              {/* Modal de paiement */}
+                                              
                                              <Modal show={showModal} onHide={() => setShowModal(false)}>
                                               <Modal.Header closeButton>
                                                 <Modal.Title>Montant de vos achats</Modal.Title>
@@ -140,6 +166,7 @@ const obtenirPourcentageRemise = (codePromotionnel) => {
                                                   <p>Total avec remise : {((calculerTotalPanier() - (calculerTotalPanier() / 100) * obtenirPourcentageRemise(codePromotionnel))).toFixed(2)} €</p>
                                                 ) : (
                                                   <p>Total du panier : {calculerTotalPanier().toFixed(2)} €</p>
+                                                  // <span className='text-white fw-bold fs-6' name="total" value={panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2)}>{panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2)} €</span>
                                                 )}
                                               </Modal.Body>
                                               <Modal.Footer>
@@ -148,16 +175,16 @@ const obtenirPourcentageRemise = (codePromotionnel) => {
                                                 </Button>
                                               </Modal.Footer>
                                             </Modal>
-
-                                             {/* Modal de paiement */}
+                                            
+                                             {/* Modal de paiement pour carte bancaire */}
                                 <Modal show={showPaiementModal} onHide={() => setShowPaiementModal(false)}>
-                                <Paiement 
-                                    total={codePromotionnel ? totalAvecRemise : calculerTotalPanier()} // Utilisez le total avec remise si un code promotionnel est appliqué, sinon utilisez le total sans remise
-                                    codePromotionnel={codePromotionnel}
-                                    finaliserAchats={finaliserAchats}
-                                />
+                                  <Paiement 
+                                      total={codePromotionnel ? totalAvecRemise : calculerTotalPanier()} // Utilisez le total avec remise si un code promotionnel est appliqué, sinon utilisez le total sans remise
+                                      codePromotionnel={codePromotionnel}
+                                      finaliserAchats={finaliserAchats}
+                                  />
                                 </Modal>
-                          </div>    
+                          </section>    
         </>
     )
 }

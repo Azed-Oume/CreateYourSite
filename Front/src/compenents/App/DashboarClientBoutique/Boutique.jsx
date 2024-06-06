@@ -210,12 +210,12 @@ const filteredProduits = produits.filter(produit => produit.statut === 1);
                             )}
                             
                             <Button onClick={() => ajouterAuPanier(produit)} className='d-flex gap-3 mx-auto '>
-                                <span onClick={(e) => {e.stopPropagation(); retirerDuPanier(produit.produit_id)}} style={{ fontSize: "24px", backgroundColor: "black", padding: "3px" }} >&#8681;</span>
+                                <span className='rounded' onClick={(e) => {e.stopPropagation(); retirerDuPanier(produit.produit_id)}} style={{ fontSize: "24px", backgroundColor: "black", padding: "3px" }} >&#8681; - </span>
                                 {panier.filter(item => item.produit_id === produit.produit_id).length > 0 ? 
                                     `Quantité: ${panier.find(item => item.produit_id === produit.produit_id).quantite}` : 
                                     "Ajouter au Panier"
                                 }
-                                <span onClick={(e) => {e.stopPropagation(); ajouterAuPanier(produit)}} style={{ fontSize: "24px",  backgroundColor: "black", padding: "3px" }}>&#8679;</span>
+                                <span className='rounded' onClick={(e) => {e.stopPropagation(); ajouterAuPanier(produit)}} style={{ fontSize: "24px",  backgroundColor: "black", padding: "3px" }}>&#8679; + </span>
                             </Button>
                 </div>
               </div>
@@ -234,7 +234,7 @@ const filteredProduits = produits.filter(produit => produit.statut === 1);
           </Pagination>
         </div>
       </section>
-      <PanierIsVisible ajouterAuPanier={ajouterAuPanier} panier={panier} />
+      <PanierIsVisible  panier={panier} />
 
 
     </>

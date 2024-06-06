@@ -284,7 +284,7 @@ const conditionsPaiement = "A la confirmation du devis"
                         <th>Tarif</th>
                         <th>Quantité</th>
                         <th>Total</th>
-                        <th>TVA</th>
+                        <th>Dont tva</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -315,7 +315,11 @@ const conditionsPaiement = "A la confirmation du devis"
                         </tr>
                         );
                     })}
-                    </tbody>
+                    <tr>
+                        <td colSpan="3" className="fw-bold text-end">Total TTC :</td>
+                        <td className="fw-bold">{totalDevis.toFixed(2)} €</td>
+                    </tr>
+                  </tbody>
                 </table>
                 <section className='bg-white'>
                     <p className='text-center p-2'>
@@ -333,14 +337,7 @@ const conditionsPaiement = "A la confirmation du devis"
                     </textarea>
                     </label>
                 </section>
-                <table className="table mt-4">
-                    <tbody>
-                    <tr>
-                        <td colSpan="4" className="fw-bold text-end">Total TTC :</td>
-                        <td className="fw-bold">{totalDevis.toFixed(2)} €</td>
-                    </tr>
-                    </tbody>
-                </table>
+
                 <nav className='d-flex justify-content-between'>
                     <BackButton />
                     <Button

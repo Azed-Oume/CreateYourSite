@@ -318,49 +318,49 @@ const conditionsPaiement = "A la commande "
                         </Button>
                     </div>
                     <section className="mt-4">
-                        <article className="border-top pt-3 pb-3 ">
-                            <h4 className='text-center p-2'>
-                                <strong>Mentions légales :</strong>
-                            </h4>
-                            <section className="bg-light ">
-                                <address className="text-center col-md-12">
-                                    <p>Société : {societe && societe.societe} - </p>
-                                    <p>Adresse : {societe && `${societe.rue}, ${societe.code_postal} ${societe.ville}`} - </p>
-                                    <p>Téléphone : {societe && societe.telephone} - </p>
-                                    <p>Mail : {societe && societe.email} - </p>
-                                    <p>Siret : {societe && societe.siret} - </p>
-                                    <p>Tav : {societe && societe.numero_tva} - </p>
-                                    <p>Conditions de paiement : {conditionsPaiement} - </p>
-                                    <p>Validité de la commande : {validateCommande} - </p> 
-                                    {/* <p style={{ fontSize: '15px' }}>Date d'émission : {date_commande}</p><br />  */}
-                                </address>
-                            </section>
-                        </article>
                         <footer style={{ fontSize: '10px' }} className='bg-white p-2'>
-                            <p>
-                                <strong>Important :</strong> En passant cette commande, vous reconnaissez avoir pris connaissance et accepter nos conditions générales de vente. Conformément à l'article 1583 du Code civil, la vente est parfaite entre les parties dès qu'elles sont convenues de la chose et du prix, même si la chose n'a pas encore été livrée ni le prix payé.
-                            </p>
-                            <p>
-                                <strong>Engagement de paiement :</strong> Cette commande est ferme et vous engage à régler la somme due. Toute commande validée est due et doit être payée selon les conditions de paiement convenues.
-                            </p>
-                            <p>
-                                <strong>Retard de paiement :</strong> Conformément à l'article L441-10 du Code de commerce, tout retard de paiement entraîne, de plein droit et sans formalité préalable, l'application de pénalités de retard calculées sur la base du taux d'intérêt légal majoré de 10 points. Une indemnité forfaitaire pour frais de recouvrement de 40 euros sera également due (article D441-5 du Code de commerce).
-                            </p>
-                            <p>
-                                <strong>Rétractation :</strong> Pour les consommateurs (au sens de l'article liminaire du Code de la consommation), vous bénéficiez d'un droit de rétractation de 14 jours à compter de la conclusion du contrat, conformément à l'article L221-18 du Code de la consommation. Ce droit ne s'applique pas aux prestations de services pleinement exécutées avant la fin du délai de rétractation avec votre accord préalable exprès et renoncement exprès à votre droit de rétractation.
-                            </p>
-                            <p>
-                                <strong>Protection des données :</strong> Conformément à la loi Informatique et Libertés du 6 janvier 1978 modifiée et au règlement général sur la protection des données (RGPD), vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition aux données personnelles vous concernant. Pour exercer ce droit, vous pouvez nous contacter à l'adresse email suivante : {societe && societe.email}. Vos données ne seront utilisées que dans le cadre de votre commande et ne seront en aucun cas partagées avec des tiers sans votre consentement explicite.
-                            </p>
-                            <p>
-                                <strong>Force majeure :</strong> La société ne pourra être tenue pour responsable de l'inexécution de l'une de ses obligations en cas de force majeure telle que définie par la jurisprudence française, notamment en cas de catastrophe naturelle, incendie, grève, etc.
-                            </p>
-                            <p>
-                                <strong>Litiges :</strong> En cas de litige, les parties s'efforceront de résoudre leur différend à l'amiable. À défaut, les tribunaux compétents seront ceux du siège social de la société, sauf disposition légale contraire. Pour les consommateurs, tout litige peut également être soumis au médiateur de la consommation.
-                            </p>
-                            <p>
-                                <strong>Acceptation :</strong> L'acceptation du devis par voie électronique vaut acceptation expresse du client. Conformément à l'article 1369-2 du Code civil, ce devis, validé par voie électronique, constitue un écrit électronique et a, entre les parties, la même valeur probante qu'un document papier.
-                            </p>
+                            <article >
+                                <h4 className='text-center rounded p-2'>
+                                    <strong>Mentions légales :</strong>
+                                </h4>
+                                    <address className="d-flex flex-wrap col-md-12">
+                                        <p><strong> Société :</strong> {societe && societe.societe} - </p>
+                                        <p><strong>Adresse :</strong> {societe && `${societe.rue}, ${societe.code_postal} ${societe.ville}`} - </p>
+                                        <p><strong>Téléphone :</strong> {societe && societe.telephone} - </p>
+                                        <p><strong>Mail :</strong> {societe && societe.email} - </p>
+                                        <p><strong>Siret :</strong> {societe && societe.siret} - </p>
+                                        <p><strong>tva :</strong> {societe && societe.numero_tva} - </p>
+                                        <p><strong>Conditions de paiement :</strong> {conditionsPaiement} - </p>
+                                        <p><strong>Validité de la commande :</strong> {validateCommande} - </p> 
+                                        {/* <p style={{ fontSize: '15px' }}>Date d'émission : {date_commande}</p><br />  */}
+                                    </address>
+                            </article>
+                            <article>
+                                <p>
+                                    <strong>Important :</strong> En passant cette commande, vous reconnaissez avoir pris connaissance et accepter nos conditions générales de vente. Conformément à l'article 1583 du Code civil, la vente est parfaite entre les parties dès qu'elles sont convenues de la chose et du prix, même si la chose n'a pas encore été livrée ni le prix payé.
+                                </p>
+                                <p>
+                                    <strong>Engagement de paiement :</strong> Cette commande est ferme et vous engage à régler la somme due. Toute commande validée est due et doit être payée selon les conditions de paiement convenues.
+                                </p>
+                                <p>
+                                    <strong>Retard de paiement :</strong> Conformément à l'article L441-10 du Code de commerce, tout retard de paiement entraîne, de plein droit et sans formalité préalable, l'application de pénalités de retard calculées sur la base du taux d'intérêt légal majoré de 10 points. Une indemnité forfaitaire pour frais de recouvrement de 40 euros sera également due (article D441-5 du Code de commerce).
+                                </p>
+                                <p>
+                                    <strong>Rétractation :</strong> Pour les consommateurs (au sens de l'article liminaire du Code de la consommation), vous bénéficiez d'un droit de rétractation de 14 jours à compter de la conclusion du contrat, conformément à l'article L221-18 du Code de la consommation. Ce droit ne s'applique pas aux prestations de services pleinement exécutées avant la fin du délai de rétractation avec votre accord préalable exprès et renoncement exprès à votre droit de rétractation.
+                                </p>
+                                <p>
+                                    <strong>Protection des données :</strong> Conformément à la loi Informatique et Libertés du 6 janvier 1978 modifiée et au règlement général sur la protection des données (RGPD), vous disposez d'un droit d'accès, de rectification, de suppression et d'opposition aux données personnelles vous concernant. Pour exercer ce droit, vous pouvez nous contacter à l'adresse email suivante : {societe && societe.email}. Vos données ne seront utilisées que dans le cadre de votre commande et ne seront en aucun cas partagées avec des tiers sans votre consentement explicite.
+                                </p>
+                                <p>
+                                    <strong>Force majeure :</strong> La société ne pourra être tenue pour responsable de l'inexécution de l'une de ses obligations en cas de force majeure telle que définie par la jurisprudence française, notamment en cas de catastrophe naturelle, incendie, grève, etc.
+                                </p>
+                                <p>
+                                    <strong>Litiges :</strong> En cas de litige, les parties s'efforceront de résoudre leur différend à l'amiable. À défaut, les tribunaux compétents seront ceux du siège social de la société, sauf disposition légale contraire. Pour les consommateurs, tout litige peut également être soumis au médiateur de la consommation.
+                                </p>
+                                <p>
+                                    <strong>Acceptation :</strong> L'acceptation du devis par voie électronique vaut acceptation expresse du client. Conformément à l'article 1369-2 du Code civil, ce devis, validé par voie électronique, constitue un écrit électronique et a, entre les parties, la même valeur probante qu'un document papier.
+                                </p>
+                            </article>
                         </footer>
                     </section>
                 </section>
