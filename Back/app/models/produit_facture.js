@@ -24,6 +24,10 @@ const Produit_facture = sequelize.define('Produit_facture', {
             model: Produits,
             key: "produit_id"
         }
+    },    
+    quantite: {
+        type: DataTypes.INTEGER,
+        allowNull: false // Vous pouvez ajuster cela selon vos besoins
     }
 },{
     tableName: "produit_facture",

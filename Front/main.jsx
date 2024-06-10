@@ -20,7 +20,7 @@ import Blog from './src/compenents/App/Router/Blog/Blog.jsx';
 import Article from './src/compenents/App/Article/Addarticle.jsx';
 import ReadArticles from './src/compenents/App/Article/ReadArticle.jsx';
 import Prestations from './src/compenents/App/Router/Prestation/Prestations.jsx';
-import Boutique from './src/compenents/App/DashboarClientBoutique/Boutique.jsx';
+import Boutique from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Boutique/Boutique.jsx';
 import Profil from "./src/compenents/App/Profil/Profil.jsx";
 import AjouterAvatar from './src/compenents/App/Profil/AjouterAvatar.jsx';
 import Contact from "./src/compenents/App/ContactForm/Inscription/Contact.jsx";
@@ -38,7 +38,6 @@ import Devis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/D
 import AfficherDevis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Devis/AfficherDevis.jsx';
 import VoirMesDevis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Devis/VoirMesDevis.jsx';
 import OuvrirLeDevis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Devis/OuvrirLeDevis.jsx';
-import Facture from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/FactureDevis.jsx';
 import ModifierDevis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Devis/ModifierDevis.jsx';
 import Commande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/commande/Commande.jsx';
 import Portfolio from './src/compenents/Portfolio/Portfolio.jsx';
@@ -49,9 +48,9 @@ import MotDePassePerdu from './src/compenents/App/ContactForm/Inscription/MotDeP
 import NouveauMotDePasse from './src/compenents/App/ContactForm/Inscription/NouveauMotDePasse.jsx';
 import ModifierCommande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/commande/ModifierCommande.jsx';
 import OuvrirCommande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/commande/OuvrirCommande.jsx';
-import FactureDevis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/FactureDevis.jsx';
-import FactureCommande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/factureCommande.jsx';
+import Facture from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/facture.jsx';
 import AmonSujet from './src/compenents/Portfolio/AmonSujet.jsx';
+import ReserveForUser from './src/compenents/AuthSecure/ReservForUser.jsx';
 
 function detectLanguage() {
   const userLang = navigator.language || navigator.userLanguage;
@@ -91,8 +90,7 @@ root.render(
         <Route path="ReadArticles" element={<ReadArticles />} />
         <Route path="ouvrirDevis/:devisId" element={<OuvrirLeDevis />} />
         <Route path="ouvrirCommande/:commandeId" element={<OuvrirCommande />} />
-        <Route path="factureDevis" element={<FactureDevis />} />
-        <Route path="factureCommande" element={<FactureCommande />} />
+        <Route path="facture" element={<Facture />} />
         <Route path="modifierDevis" element={<ModifierDevis />} />
         <Route path="modifierCommande" element={<ModifierCommande />} />
         <Route path="commande" element={<Commande />} />
@@ -102,6 +100,7 @@ root.render(
         <Route path="motDePassePerdu" element={<MotDePassePerdu />} />
         <Route path="api/reset-password/:token" element={<NouveauMotDePasse />} />
         <Route path="aMonSujet" element={<AmonSujet />} />
+        <Route path="reserver-pour-utilisateur" element={<ReserveForUser/>} />
     </Routes>
     </main>
     <ScrollToTopButton />

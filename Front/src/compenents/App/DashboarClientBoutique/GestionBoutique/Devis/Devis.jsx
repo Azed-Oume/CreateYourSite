@@ -4,11 +4,9 @@ import fishblue from '../../../../images/fishblue.png';
 import poisson_rouge from '../../../../images/poisson_rouge.png';
 import my_fish from '../../../../images/my_fish.png';
 import {FaChevronLeft, FaChevronRight} from 'react-icons/fa';
-import Paiement from '../../Paiement.jsx';
-import NavBoutique from '../../../Profil/NavBoutique.jsx';
-import PanierIsVisible from '../../PanierIsVisible.jsx';
-// import DevisIsVisible from './DevisIsVisible.jsx';
+import PanierIsVisible from '../Boutique/PanierIsVisible.jsx';
 import AfficherDevis from './AfficherDevis.jsx';
+import ReserveForUser from '../../../../AuthSecure/ReservForUser.jsx';
 
 
 const Devis = ({produit, index}) => {
@@ -22,6 +20,14 @@ const Devis = ({produit, index}) => {
   const [isVisible, setIsVisible] = useState(false);
   const [codePromotionnel, setCodePromotionnel] = useState('');
   const [isCodePromotionnelValide, setIsCodePromotionnelValide] = useState(false);
+  const [compenentIsVisible, setCompenentIsVisible] = useState(false);
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+const token = localStorage.getItem('token');
+useEffect(() => {
+  if (token) 
+        setCompenentIsVisible(true);
+  }, [token]);
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -162,6 +168,7 @@ const filteredProduits = produits.filter(produit => produit.statut === 1);
   return ( 
 
     <>
+    {compenentIsVisible ? (
     <section className="container  graylogo p-4 mt-5 rounded-4 mx-auto" style={{ marginBottom:"" }}>
         <h2 className="text-center mx-auto rounded-3 p-3">Vous souhaitez obtenir un devis :</h2>
         <h3 className="text-center mx-auto rounded-3 p-3">Commencez par selectionnez un produit, </h3>
@@ -226,13 +233,17 @@ const filteredProduits = produits.filter(produit => produit.statut === 1);
           </Pagination>
         </div>
       </section>
+      ) : (
+        <ReserveForUser />
+    )}
       <AfficherDevis  panier={panier}  />
-
-
-    </>
-
-    );
+      
+      {compenentIsVisible &&  (
+          <PanierIsVisible  panier={panier} />
+      )}
     
+    </>
+    );
 };
 
 

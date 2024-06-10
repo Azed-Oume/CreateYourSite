@@ -46,7 +46,7 @@ const AfficherCommande = ({ panier }) => {
                 if (!token) {
                     // Si le token est absent, ne pas faire de fetch
                     console.log('Token absent, aucune requête fetch effectuée.');
-                    alert("Connectez-vous ou créez un compte pour ajouter une commande !");
+                    // alert("Connectez-vous ou créez un compte pour ajouter une commande !");
                     return;
                   }
                 const response = await fetch('http://localhost:3000/api/getUser', {

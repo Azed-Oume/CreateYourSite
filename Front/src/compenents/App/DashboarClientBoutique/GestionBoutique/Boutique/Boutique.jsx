@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {Button, Carousel, Pagination } from 'react-bootstrap';
-import fishblue from '../../images/fishblue.png';
-import poisson_rouge from '../../images/poisson_rouge.png';
-import my_fish from '../../images/my_fish.png';
+import fishblue from '../../../../images/fishblue.png';
+import poisson_rouge from '../../../../images/poisson_rouge.png';
+import my_fish from '../../../../images/my_fish.png';
 import {FaChevronLeft, FaChevronRight} from 'react-icons/fa';
 // import Paiement from './Paiement.jsx';
 import PanierIsVisible from './PanierIsVisible.jsx';
@@ -71,24 +71,6 @@ const thickChevronStyle = {
 };
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-
-// Fonction pour ajouter ou retirer un produit du panier
-// const ajouterAuPanier = (produit) => {
-//   // Vérifie si le produit est déjà dans le panier
-//   const produitIndex = panier.findIndex(item => item.produit_id === produit.produit_id);
-
-//   if (produitIndex !== -1) {
-//       // Le produit est déjà dans le panier, donc on le retire
-//       const nouveauPanier = [...panier];
-//       nouveauPanier.splice(produitIndex, 1);
-//       setPanier(nouveauPanier);
-//       // console.log(`"${produit.nom}, ${produit.id}" a été retiré du panier. en ligne 68`);
-//   } else {
-//       // Le produit n'est pas dans le panier, donc on l'ajoute
-//       setPanier([...panier, produit]);
-//       // console.log(`"${produit.nom}, ${produit.produit_id}" a été ajouté au panier. en ligne 72`);
-//   }
-// };
 
 const ajouterAuPanier = (produit) => {
   const produitExistantIndex = panier.findIndex(item => item.produit_id === produit.produit_id);
@@ -185,7 +167,7 @@ const filteredProduits = produits.filter(produit => produit.statut === 1);
                   <h2 className="card-title fs-5 p-2 rounded text-center">{produit.nom}</h2>
                   <div className='fixed-height'> {renderProduitDetails(produit, produit_id)} </div>
                   {/* <p className="card-text fs-5">{produit.detail}</p> */}
-                  <p className="card-text fs-5">{produit.tarif} €</p>
+                  <p className="card-text mt-5 fs-5">{produit.tarif} €</p>
                   {/* <p className="card-text fs-5">{produit.produit_id} </p> */}
                   {produit.photos && produit.photos.length > 0 ? (
                               <Carousel 

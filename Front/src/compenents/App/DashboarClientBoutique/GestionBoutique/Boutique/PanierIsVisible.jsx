@@ -1,17 +1,19 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Button, Form, FormControl, FormGroup, FormLabel, Modal } from "react-bootstrap";
-import Paiement from "./Paiement";
+import Paiement from "./Paiement.jsx";
+import ReserveForAdmin from "../../../../AuthSecure/ReserveForAdmin.jsx";
 
 const PanierIsVisible = ({ panier}) => {
     console.log(panier, " en ligne 7 XXXXXXXXXXXXXXXXXXXXXXXXXX");
 const [isVisible, setIsVisible] = useState(false);
-const [codePromotionnel, setCodePromotionnel] = useState('');
 const [isCodeVisible, setIsCodeVisible] = useState(false);
+const [payementIsVisible, setPayementIsVisible] = useState(false);
+const [codePromotionnel, setCodePromotionnel] = useState('');
 const [showModal, setShowModal] = useState(false); // Modal de paiement
 const [showPaiementModal, setShowPaiementModal] = useState(false); // Modal de paiement
 const [totalAvecRemise, setTotalAvecRemise] = useState(null); // Définissez l'état pour totalAvecRemise
-const [payementIsVisible, setPayementIsVisible] = useState(false);
+
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 let total = 0;
@@ -78,6 +80,7 @@ useEffect(() => {
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     return(
         <>
+        
         <section className="m-1">            
                 <Button 
                     variant='success'
@@ -185,6 +188,7 @@ useEffect(() => {
                                   />
                                 </Modal>
                           </section>    
+                          
         </>
     )
 }

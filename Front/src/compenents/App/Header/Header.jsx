@@ -115,6 +115,7 @@ const Header = () => {
                                         <Nav.Link className='text-white fw-bold  ' as={Link} to="/Boutique" aria-label='Accéder a la boutique' >Boutique</Nav.Link>
                                         <Nav.Link className='text-white fw-bold  ' as={Link} to="/devis" aria-label='faire un devis en 2 minutes'> Devis </Nav.Link>
                                         <Nav.Link className='text-white fw-bold  ' as={Link} to="/commande" aria-label='faire une commande en 2 minutes'> Commande </Nav.Link>
+                                        <Nav.Link className='text-white fw-bold  ' as={Link} to="/facture" aria-label='faire une commande en 2 minutes'> Facture </Nav.Link>
                                         <Nav.Link as={Link} to="/Contact" className="text-white fw-bold rotation-negative " aria-label="Page pour contacter le responsable du site.">Contact</Nav.Link>
                                     </div>
                             {/* )} */}
