@@ -28,6 +28,8 @@
       /* color: black !important; */
       background-color: var(--bs-teal);
       color: var(--bs-blue) !important;
+      border-radius: 10px;
+      padding: 5px;
      }
      p, li{
       font-size:larger;

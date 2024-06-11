@@ -138,44 +138,46 @@ const handleModifierDevis = () => {
                             </article>
                         </Col>
                         </Row>
-                        <table className="table">
-                        <thead>
-                            <tr>
-                            <th>Nom</th>
-                            <th>Tarif</th>
-                            <th>Quantité</th>
-                            <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {Array.isArray(devisData.devis.Produits) && devisData.devis.Produits.map((produit, index) => {
-                            // Trouver la quantité correspondante à ce produit
-                            const quantiteProduit = devisData.quantites.find(q => q.produit_id === produit.produit_id);
-                            // Calculer le total pour ce produit
-                            const totalProduit = produit.tarif * (quantiteProduit ? quantiteProduit.quantite : 0);
-                            // Ajouter le total de ce produit au total général
-                            totalDevis += totalProduit;
+                                <table className="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Nom</th>
+                                                <th>Tarif HT</th>
+                                                <th>Quantité</th>
+                                                <th>TVA 20%</th>
+                                                <th>Total TTC</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {Array.isArray(devisData.devis.Produits) && devisData.devis.Produits.map((produit, index) => {
+                                            // Trouver la quantité correspondante à ce produit
+                                            const quantiteProduit = devisData.quantites.find(q => q.produit_id === produit.produit_id);
+                                            // Calculer le total pour ce produit
+                                            const totalProduit = produit.tarif * (quantiteProduit ? quantiteProduit.quantite : 0);
+                                            // Ajouter le total de ce produit au total général
+                                            totalDevis += totalProduit;
 
-                            return (
-                                <tr key={index} data-name={produit.nom} data-tarif={produit.tarif} data-quantite={quantiteProduit ? quantiteProduit.quantite : 0} data-total={totalProduit.toFixed(2)}>
-                                <td>{produit.nom}</td>
-                                <td>{produit.tarif} €</td>
-                                <td>{quantiteProduit ? quantiteProduit.quantite : 0}</td>
-                                <td>{totalProduit.toFixed(2)} €</td>
-                                </tr>
-                            );
-                            })}
+                                            return (
+                                                <tr key={index} data-name={produit.nom} data-tarif={produit.tarif} data-quantite={quantiteProduit ? quantiteProduit.quantite : 0} data-total={totalProduit.toFixed(2)}>
+                                                <td>{produit.nom}</td>
+                                                <td>{produit.tarif} €</td>
+                                                <td>{quantiteProduit ? quantiteProduit.quantite : 0}</td>
+                                                <td>{(produit.tarif * .2).toFixed(2)}</td>
+                                                <td>{(totalProduit * 1.2).toFixed(2)} €</td>
+                                                </tr>
+                                            );
+                                            })}
 
-                            <tr>
-                            <td colSpan="3" className="fw-bold text-end">Total du devis :</td>
-                            <td className="fw-bold">{totalDevis.toFixed(2)} €</td>
-                            </tr>
-                        </tbody>
-                        </table>
+                                            <tr>
+                                            <td colSpan="4" className="fw-bold text-end">Total du devis :</td>
+                                            <td className="fw-bold">{(totalDevis * 1.2).toFixed(2)} €</td>
+                                            </tr>
+                                        </tbody>
+                                </table>
                     </Form>
                     </article>
                 </section>
-            <NavDocument data={devisData} societe={societe} client={client} type="devis" />
+            <NavDocument data={devisData} societe={societe} client={client} type="devis"  />
             </>
 
     );

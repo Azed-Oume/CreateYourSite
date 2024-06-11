@@ -143,9 +143,10 @@ const handleModifierCommande = () => {
                                         <thead>
                                             <tr>
                                                 <th>Nom</th>
-                                                <th>Tarif</th>
+                                                <th>Tarif HT</th>
                                                 <th>Quantité</th>
-                                                <th>Total</th>
+                                                <th>TVA 20%</th>
+                                                <th>Total TTC</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -162,14 +163,15 @@ const handleModifierCommande = () => {
                                                         <td>{produit.nom}</td>
                                                         <td>{produit.tarif} €</td>
                                                         <td>{quantiteProduit ? quantiteProduit.quantite : 0}</td>
-                                                        <td>{totalProduit.toFixed(2)} €</td>
+                                                        <td>{(produit.tarif * .2).toFixed(2)}</td>
+                                                        <td>{(totalProduit * 1.2).toFixed(2)} €</td>
                                                     </tr>
                                                 );
                                             })}
 
                                             <tr>
-                                                <td colSpan="3" className="fw-bold text-end">Total de la commande :</td>
-                                                <td className="fw-bold">{totalCommande.toFixed(2)} €</td>
+                                                <td colSpan="4" className="fw-bold text-end">Total de la commande :</td>
+                                                <td className="fw-bold">{(totalCommande * 1.2).toFixed(2)} €</td>
                                             </tr>
                                         </tbody>
                                     </table>

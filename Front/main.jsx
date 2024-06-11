@@ -51,6 +51,8 @@ import OuvrirCommande from './src/compenents/App/DashboarClientBoutique/GestionB
 import Facture from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/facture.jsx';
 import AmonSujet from './src/compenents/Portfolio/AmonSujet.jsx';
 import ReserveForUser from './src/compenents/AuthSecure/ReservForUser.jsx';
+import FactureCommande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/FactureCommande.jsx';
+import FactureDevis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/FactureDevis.jsx';
 
 function detectLanguage() {
   const userLang = navigator.language || navigator.userLanguage;
@@ -101,6 +103,8 @@ root.render(
         <Route path="api/reset-password/:token" element={<NouveauMotDePasse />} />
         <Route path="aMonSujet" element={<AmonSujet />} />
         <Route path="reserver-pour-utilisateur" element={<ReserveForUser/>} />
+        <Route path="factureCommande" element={<FactureCommande/>} />
+        <Route path="factureDevis" element={<FactureDevis/>} />
     </Routes>
     </main>
     <ScrollToTopButton />

@@ -12,6 +12,8 @@ const AfficherCommande = ({ panier }) => {
     const [numeroCommande, setNumeroCommande] = useState('En attente de génération...'); // Variable d'état pour stocker le numéro de devis
     const [isVisible, setIsVisible] = useState(false);
     const [detailProjet, setDetailProjet] = useState("");
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     const handleChangeDetailProjet = (e) => {
         setDetailProjet(e.target.value);
     };
@@ -24,7 +26,8 @@ const AfficherCommande = ({ panier }) => {
             setIsVisible(false); // Sinon, masquer le devis
         }
     }, [panier]); // Surveiller les changements dans le panier pour mettre à jour la visibilité
-
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     useEffect(() => {
         const fetchSociete = async () => {
@@ -68,10 +71,11 @@ const AfficherCommande = ({ panier }) => {
         fetchSociete();
         fetchClient();
     }, []);
-
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     useEffect(() => {
         if (client) {
-            // Génération du numéro de devis unique
+            // Génération du numéro de commande unique
             const generateNumeroCommande = () => {
                 const date = new Date();
                 const annee = date.getFullYear().toString().substr(-2);
@@ -83,16 +87,17 @@ const AfficherCommande = ({ panier }) => {
                 const prenomClient = client.prenom.slice(0, 2).toUpperCase();
                 const randomDigits = Math.floor(100 + Math.random() * 900);
                 const numeroCommande = `CMD${annee}${mois}${jour}${minutes}${seconds}/${nomClient}${prenomClient}/${randomDigits}`;
-                setNumeroCommande(numeroCommande); // Met à jour la variable d'état avec le numéro de devis généré
+                setNumeroCommande(numeroCommande); // Met à jour la variable d'état avec le numéro de commande généré
             };
 
-            generateNumeroCommande(); // Appel de la fonction pour générer le numéro de devis unique
+            generateNumeroCommande(); // Appel de la fonction pour générer le numéro de commande unique
         }
     }, [client]);
-
-
-
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     const validateCommande = "Aprés réglement";
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX    
     // Fonction pour générer le PDF
     const handleDownloadPDF = async () => {
         if (!societe || !client || !numeroCommande) return;
@@ -111,8 +116,8 @@ const AfficherCommande = ({ panier }) => {
         pdf.text(`${societe.nom || ""}`, 25, 60);
         // Génération du numéro de devis unique
         
-        pdf.rect(55, 80, 110, 10); // Rectangle pour encadrer les informations sur le client
-        pdf.text(`Commande numéro: ${numeroCommande}`, 60 ,85); // Affiche le numéro de Commande à la position spécifiée
+        pdf.rect(55, 83, 110, 10); // Rectangle pour encadrer les informations sur le client
+        pdf.text(`Commande numéro: ${numeroCommande}`, 60 ,90); // Affiche le numéro de Commande à la position spécifiée
         
         // Encadré pour les informations sur le client
         pdf.rect(110, 15, 80, 60); // Rectangle pour encadrer les informations sur le client
@@ -128,17 +133,18 @@ const AfficherCommande = ({ panier }) => {
 
         pdf.autoTable({
             startY: y, // Position verticale de départ du tableau
-            head: [["Contenu de la Commande", "", "", ""]], // En-tête du tableau
+            head: [["Contenu de la Commande", "", "", "",""]], // En-tête du tableau
             body: [
                 // Les données du panier
-                ['Nom', 'Tarif', 'Quantité', 'Total'],
-                ...panier.map(produit => [produit.nom, produit.tarif + ' €', produit.quantite, (produit.tarif * produit.quantite).toFixed(2) + ' €'])
+                // ['Nom', 'Tarif', 'Quantité', 'Total'],
+                ["Nom", "Tarif HT", "Quantité", "TVA 20%", "Total TTC"],
+                ...panier.map(produit => [produit.nom, produit.tarif + ' €', produit.quantite, (produit.tarif *.2).toFixed(2), (produit.tarif * produit.quantite * 1.2).toFixed(2) + ' €'])
             ]
         });
 
-        // Total du devis
-        const total = panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2); // Calcul du total du devis
-        pdf.text(`${validateCommande} : ${total} €`, 140, pdf.autoTable.previous.finalY + 10); // Affichage du total du devis
+        // Total de la commande
+        const total = panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2); // Calcul du total de la commande
+        pdf.text(`Total a régler : ${(total * 1.2).toFixed(2)} €`, 140, pdf.autoTable.previous.finalY + 10); // Affichage du total de la commande
 
         pdf.text(`Commande à régler ! `, 140, pdf.autoTable.previous.finalY + 20); 
     
@@ -159,7 +165,7 @@ const AfficherCommande = ({ panier }) => {
         ];
     
         // Position verticale de départ des mentions légales
-        let marginTop = 220;
+        let marginTop = 230;
          // Réduire la taille de la police uniquement pour les mentions légales
         pdf.setFontSize(8); // Taille de police réduite pour les mentions légales
 
@@ -171,7 +177,7 @@ const AfficherCommande = ({ panier }) => {
                 const lines = pdf.splitTextToSize(mention, 170);
                 const textHeight = pdf.getTextDimensions(lines).h;
                 pdf.text(lines, 20, marginTop);
-                marginTop += textHeight + 2; // Ajuste la position verticale pour la prochaine mention légale
+                marginTop += textHeight + 1; // Ajuste la position verticale pour la prochaine mention légale
             });
     
         // Télécharge le PDF avec le nom 'devis.pdf'
@@ -179,20 +185,17 @@ const AfficherCommande = ({ panier }) => {
         
         await envoyerCommande(numeroCommande, panier);
     };
-    
-
-
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
    // Fonction pour envoyer la commande en base de données
 const envoyerCommande = async (numeroCommande, panierCommande) => {
-    console.log(panierCommande, "en ligne 155 XXXXXXXXX");
+    
     if (!panierCommande.length) {
         throw new Error('Le panier est vide');
     };
-    // if (telechargementClic) return;
-    console.log(numeroCommande, " en ligne 158 XXXXXXXXXXXXXXXXXXXXX");
-    console.log(panierCommande, "en ligne 159 XXXXXXXXXXXXXXXXXX");
+    
     try {
-        console.log(panierCommande, "en ligne 161 XXXXXXXXX");
+        
         const token = localStorage.getItem('token');
         const response = await fetch('http://localhost:3000/api/create/commande', {
             method: 'POST',
@@ -217,22 +220,23 @@ const envoyerCommande = async (numeroCommande, panierCommande) => {
         // Vérifier si la requête a réussi
         if (!response.ok) {
             // Gérer les erreurs de requête
-            throw new Error('Une erreur est survenue lors de la création du devis');
+            throw new Error('Une erreur est survenue lors de la création de la commande');
         }
 
         // Récupérer les données de la réponse
         const data = await response.json();
-        console.log(data);
-        window.location.href = "/Boutique";
+        
+        window.location.href = "/commande";
 
     } catch (error) {
         // Gérer les erreurs
         console.error(error);
-        alert('Une erreur est survenue lors de la création du devis');
+        alert('Une erreur est survenue lors de la création de la commande');
     }
 };
 const conditionsPaiement = "A la commande "
-
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
     return (
             <>
@@ -280,25 +284,34 @@ const conditionsPaiement = "A la commande "
                             <thead>
                                 <tr>
                                     <th>Nom</th>
-                                    <th>Tarif</th>
+                                    <th>Tarif HT</th>
                                     <th>Quantité</th>
-                                    <th>Total</th>
+                                    <th>TVA 20%</th>
+                                    <th>Total TTC</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {panier && panier.map((produit, index) => (
-                                    <tr key={index} data-name={produit.nom} data-tarif={produit.tarif} data-quantite={produit.quantite} data-total={(produit.tarif * produit.quantite).toFixed(2)}>
+                                    <tr
+                                        key={index}
+                                        data-name={produit.nom}
+                                        data-tarif={produit.tarif}
+                                        data-quantite={produit.quantite}
+                                        data-tva={(produit.tarif * .2).toFixed(2)}
+                                        data-total={(produit.tarif * produit.quantite * 1.2).toFixed(2)}
+                                    >
                                         <td>{produit.nom}</td>
                                         <td>{produit.tarif} €</td>
                                         <td>{produit.quantite}</td>
-                                        <td>{(produit.tarif * produit.quantite).toFixed(2)} €</td>
-                                    </tr>
+                                        <td>{produit.tarif * .2}</td>
+                                        <td>{(produit.tarif * produit.quantite * 1.2).toFixed(2)} €</td>
+                                  </tr>
                                 ))}
                                 {/* Total de la commande */}
                                 <tr>
-                                    <td colSpan="3" className="fw-bold text-end">Total de la commande :</td>
+                                    <td colSpan="4" className="fw-bold text-end">Total de la commande :</td>
                                     <td className="fw-bold">
-                                        <span name="total" value={panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2)}>{panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2)} €</span>
+                                        <span name="total" value={panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0).toFixed(2)}>{panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0).toFixed(2)} €</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -309,7 +322,12 @@ const conditionsPaiement = "A la commande "
                         </section>
                         <section className='bg-white text-center p-2'>
                             <label>Informations complémentaires pour la livraison :</label>
-                            <textarea className='m-1' value={detailProjet} onChange={handleChangeDetailProjet} required></textarea>
+                            <textarea 
+                                className='m-1' 
+                                value={detailProjet} 
+                                onChange={handleChangeDetailProjet} 
+                                required>
+                                </textarea>
                         </section>
                     </Form>
                     <div className="text-center mt-3">

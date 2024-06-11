@@ -39,18 +39,19 @@ const NavDocument = ({ data, societe, client, type }) => {
         pdf.text(`${client.code_postal || ""}`, 115, 60);
 
         const numText = type === "commande" ? `Numéro Commande : ${data.commande.numero_commande || ""}` : `Numéro devis : ${data.devis.numero_devis || ""}`;
-        pdf.rect(60, 80, 90, 15);
-        pdf.text(numText, 70, 90);
+        pdf.rect(55, 83, 105, 10);
+        pdf.text(numText, 60, 90);
 
         let y = 100;
         pdf.autoTable({
             startY: y,
-            head: [["Nom", "Tarif", "Quantité", "Total"]],
+            head: [["Nom", "Tarif HT", "Quantité", "TVA 20%", "Total TTC"]],
             body: data[type].Produits.map(produit => [
                 produit.nom,
                 produit.tarif + " €",
                 data.quantites.find(q => q.produit_id === produit.produit_id)?.quantite || 0,
-                (produit.tarif * (data.quantites.find(q => q.produit_id === produit.produit_id)?.quantite || 0)).toFixed(2) + " €"
+                (produit.tarif * .2).toFixed(2),
+                ((produit.tarif * (data.quantites.find(q => q.produit_id === produit.produit_id)?.quantite || 0)) * 1.2).toFixed(2) + " €"
             ])
         });
 
@@ -58,7 +59,7 @@ const NavDocument = ({ data, societe, client, type }) => {
             const quantiteProduit = data.quantites.find(q => q.produit_id === produit.produit_id);
             return total + produit.tarif * (quantiteProduit ? quantiteProduit.quantite : 0);
         }, 0).toFixed(2);
-        pdf.text(`Total : ${total} €`, 150, pdf.autoTable.previous.finalY + 10);
+        pdf.text(`Total : ${total * 1.2} €`, 150, pdf.autoTable.previous.finalY + 10);
 
         const fileName = type === "commande" ? `Commande${data.commande.numero_commande}.pdf` : `devis${data.devis.numero_devis}.pdf`;
         pdf.save(fileName);

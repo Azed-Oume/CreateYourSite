@@ -90,7 +90,7 @@ const AfficherDevis = ({ panier }) => {
                 const nomClient = client.nom.slice(0, 2).toUpperCase();
                 const prenomClient = client.prenom.slice(0, 2).toUpperCase();
                 const randomDigits = Math.floor(100 + Math.random() * 900);
-                const numeroDevis = `${annee}${mois}${jour}${minutes}${seconds}/${nomClient}${prenomClient}/${randomDigits}`;
+                const numeroDevis = `DEV${annee}${mois}${jour}${minutes}${seconds}/${nomClient}${prenomClient}/${randomDigits}`;
                 setNumeroDevis(numeroDevis); // Met à jour la variable d'état avec le numéro de devis généré
             };
             generateNumeroDevis(); // Appel de la fonction pour générer le numéro de devis unique
@@ -117,8 +117,8 @@ const AfficherDevis = ({ panier }) => {
         pdf.text(`${societe.nom || ""}`, 25, 60);
         // Génération du numéro de devis unique
         
-        pdf.rect(60, 80, 90, 15); // Rectangle pour encadrer les informations sur le client
-        pdf.text(`Devis numéro: ${numeroDevis}`, 70 ,90); // Affiche le numéro de devis à la position spécifiée
+        pdf.rect(55, 83, 105, 10); // Rectangle pour encadrer les informations sur le client
+        pdf.text(`Devis numéro: ${numeroDevis}`, 60 ,90); // Affiche le numéro de devis à la position spécifiée
         
         // Encadré pour les informations sur le client
         pdf.rect(110, 15, 80, 60); // Rectangle pour encadrer les informations sur le client
@@ -134,17 +134,17 @@ const AfficherDevis = ({ panier }) => {
 
         pdf.autoTable({
             startY: y, // Position verticale de départ du tableau
-            head: [["Contenu du devis", "", "", ""]], // En-tête du tableau
+            head: [["Contenu du devis", "", "", "", ""]], // En-tête du tableau
             body: [
                 // Les données du panier
-                ['Nom', 'Tarif', 'Quantité', 'Total'],
-                ...panier.map(produit => [produit.nom, produit.tarif + ' €', produit.quantite, (produit.tarif * produit.quantite).toFixed(2) + ' €'])
+                ["Nom", "Tarif HT", "Quantité", "TVA 20%", "Total TTC"],
+                ...panier.map(produit => [produit.nom, produit.tarif + ' €', produit.quantite, (produit.tarif *.2).toFixed(2), (produit.tarif * produit.quantite * 1.2).toFixed(2) + ' €'])
             ]
         });
 
         // Total du devis
         const total = panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2); // Calcul du total du devis
-        pdf.text(`${validateDevis} : ${total} €`, 140, pdf.autoTable.previous.finalY + 10); // Affichage du total du devis
+        pdf.text(`Total a régler : ${(total * 1.2).toFixed(2)} €`, 140, pdf.autoTable.previous.finalY + 10); // Affichage du total du devis
 
         pdf.text(`Devis valable 7 Jours`, 140, pdf.autoTable.previous.finalY + 20); // Affichage de la validité du devis
     
@@ -165,7 +165,7 @@ const AfficherDevis = ({ panier }) => {
         ];
     
         // Position verticale de départ des mentions légales
-        let marginTop = 220;
+        let marginTop = 230;
          // Réduire la taille de la police uniquement pour les mentions légales
         pdf.setFontSize(8); // Taille de police réduite pour les mentions légales
 
@@ -177,7 +177,7 @@ const AfficherDevis = ({ panier }) => {
                 const lines = pdf.splitTextToSize(mention, 170);
                 const textHeight = pdf.getTextDimensions(lines).h;
                 pdf.text(lines, 20, marginTop);
-                marginTop += textHeight + 2; // Ajuste la position verticale pour la prochaine mention légale
+                marginTop += textHeight + 1; // Ajuste la position verticale pour la prochaine mention légale
             });
     
         // Télécharge le PDF avec le nom 'devis.pdf'
@@ -190,15 +190,13 @@ const AfficherDevis = ({ panier }) => {
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX  
    // Fonction pour envoyer le devis en base de données
 const envoyerDevis = async (numeroDevis, panierDuDevis) => {
-    console.log(panierDuDevis, "en ligne 155 XXXXXXXXX");
+    
     if (!panierDuDevis.length) {
         throw new Error('Le panier est vide');
     };
-    // if (telechargementClic) return;
-    console.log(numeroDevis, " en ligne 158 XXXXXXXXXXXXXXXXXXXXX");
-    console.log(panierDuDevis, "en ligne 159 XXXXXXXXXXXXXXXXXX");
+    
     try {
-        console.log(panierDuDevis, "en ligne 161 XXXXXXXXX");
+        
         const token = localStorage.getItem('token');
         const response = await fetch('http://localhost:3000/api/create/devis', {
             method: 'POST',
@@ -228,8 +226,8 @@ const envoyerDevis = async (numeroDevis, panierDuDevis) => {
 
         // Récupérer les données de la réponse
         const data = await response.json();
-        console.log(data);
-        window.location.href = "/Boutique";
+        
+        window.location.href = "/devis";
 
     } catch (error) {
         // Gérer les erreurs
@@ -264,12 +262,12 @@ const envoyerDevis = async (numeroDevis, panierDuDevis) => {
                 />
               </figure>
               <address className="mb-3 text-white fw-bold fs-6">
-                <p>{societe?.societe}</p>
-                <p>{societe?.rue}</p>
-                <p>{societe?.ville}</p>
-                <p>{societe?.code_postal}</p>
-                <p>{societe?.telephone}</p>
-                <p>Contact : MR {societe?.pseudo}</p>
+                <p>{societe && societe.societe}</p>
+                <p>{societe && societe.rue}</p>
+                <p>{societe && societe.ville}</p>
+                <p>{societe && societe.code_postal}</p>
+                <p>{societe && societe.telephone}</p>
+                <p>Contact : MR {societe && societe.pseudo}</p>
               </address>
             </article>
           </Col>
@@ -290,47 +288,50 @@ const envoyerDevis = async (numeroDevis, panierDuDevis) => {
                 </figcaption>
               </figure>
               <address className="mb-3 text-white fw-bold fs-6">
-                <p>{client?.nom}</p>
-                <p>{client?.prenom}</p>
-                <p>{client?.rue}</p>
-                <p>{client?.ville}</p>
-                <p>{client?.code_postal}</p>
+                <p>{client && client.nom}</p>
+                <p>{client && client.prenom}</p>
+                <p>{client && client.rue}</p>
+                <p>{client && client.ville}</p>
+                <p>{client && client.code_postal}</p>
               </address>
             </article>
           </Col>
         </Row>
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">Nom</th>
-              <th scope="col">Tarif</th>
-              <th scope="col">Quantité</th>
-              <th scope="col">Total</th>
-            </tr>
-          </thead>
-          <tbody>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Tarif HT</th>
+                            <th>Quantité</th>
+                            <th>TVA 20%</th>
+                            <th>Total TTC</th>
+                        </tr>
+                    </thead>
+                  <tbody>
             {panier?.map((produit, index) => (
               <tr
                 key={index}
                 data-name={produit.nom}
                 data-tarif={produit.tarif}
                 data-quantite={produit.quantite}
-                data-total={(produit.tarif * produit.quantite).toFixed(2)}
+                data-tva={(produit.tarif * .2).toFixed(2)}
+                data-total={(produit.tarif * produit.quantite * 1.2).toFixed(2)}
               >
                 <td>{produit.nom}</td>
                 <td>{produit.tarif} €</td>
                 <td>{produit.quantite}</td>
-                <td>{(produit.tarif * produit.quantite).toFixed(2)} €</td>
+                <td>{produit.tarif * .2}</td>
+                <td>{(produit.tarif * produit.quantite * 1.2).toFixed(2)} €</td>
               </tr>
             ))}
             {/* Total du devis */}
             <tr>
-              <td colSpan="3" className="fw-bold text-end">
+              <td colSpan="4" className="fw-bold text-end">
                 Total du devis :
               </td>
               <td className="fw-bold">
-                <span name="total" value={panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2)}>
-                  {panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0).toFixed(2)} €
+                <span name="total" value={panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0).toFixed(2)}>
+                  {panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0).toFixed(2)} €
                 </span>
               </td>
             </tr>
@@ -346,8 +347,8 @@ const envoyerDevis = async (numeroDevis, panierDuDevis) => {
             className="m-1"
             value={detailProjet}
             onChange={handleChangeDetailProjet}
-            required
-          />
+            required>
+          </textarea>
         </section>
       </Form>
       <div className="text-center mt-3">
