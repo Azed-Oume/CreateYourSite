@@ -89,16 +89,22 @@ const VoirMesCommande = () => {
     };
 
     if (loading) {
-        return <div className='col-md-6 mx-auto text-center ' style={{ marginTop: "140px" }}>Chargement en cours...</div>;
+        return <section className='graylogo text-white container p-2 mt-5'>
+                    <p>Chargement en cours...</p>
+                    <BackButton />
+                </section>;
     }
 
     if (error) {
-        return <div className='col-md-6 mx-auto text-center ' style={{ marginTop: "140px" }}>Erreur lors du chargement des Commandes : {error}</div>;
+        return <section className='graylogo text-white container p-2 mt-5'>
+                    <p> Erreur lors du chargement des commandes : {error}</p>
+                    <BackButton/>
+                </section>;
     }
 
     if (!commandeData || commandeData.length === 0) {
         return (
-        <section className='graylogo p-3 rounded col-md-9 mx-auto' style={{marginTop:"50px"}}>
+        <section className='graylogo container p-2 mt-5'>
          <h1 className='col-md-6 mx-auto rounded text-center '>Aucune Commande trouvé.</h1>
          <BackButton />
          </section>
@@ -106,84 +112,85 @@ const VoirMesCommande = () => {
     }
 
     return (
-        <section className='graylogo col-lg-10 p-2 mx-auto mt-5'>
-            <nav className='col-lg-10 m-3 mx-auto bg-white text-center'>
-                <BackButton />
-                <Button
-                    variant='primary'
-                    className='m-3 fw-bold'
-                    onClick={handleClick}
-                    aria-expanded={componentIsVisible ? 'true' : 'false'}
-                    aria-controls="commandeTable"
-                >
-                    {componentIsVisible ? "Réduire la liste" : "Voir la Liste des Commandes"}
-                </Button>
-            </nav>
-            {componentIsVisible && (
-                <form className='mx-auto col-lg-10 col-md-8 overflow-auto'>
-                    <table
-                        className='table'
-                        id="commandeTable"
-                        aria-hidden={!componentIsVisible ? 'true' : 'false'}
+        <>
+            <section className='graylogo container p-2 mt-5'>
+                <nav className='col-lg-10 m-3 mx-auto bg-white text-center'>
+                    <BackButton />
+                    <Button
+                        variant='primary'
+                        className='m-3 fw-bold'
+                        onClick={handleClick}
+                        aria-expanded={componentIsVisible ? 'true' : 'false'}
+                        aria-controls="commandeTable"
                     >
-                        <thead>
-                            <tr>
-                                <th scope='col' className='bg-secondary text-white'>Ouvrir</th>
-                                <th scope="col" className='bg-secondary text-white'>Numéro de commande</th>
-                                <th scope="col" className='bg-secondary text-white'>Date de commande</th>
-                                <th scope="col" className='bg-secondary text-white'>Validité de la commande</th>
-                                <th scope="col" className='bg-secondary text-white'>Détails du projet</th>
-                                <th scope="col" className='bg-secondary text-white'>Statut de la commande</th>
-                                <th scope="col" className='bg-secondary text-white'>Validité de la commande</th>
-                                <th scope='col' className='bg-secondary text-white'>Supprimer</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {commandeData.map((commande, index) => (
-                                <tr
-                                    key={commande.commande_id}
-                                    className={index % 2 === 0 ? "table-primary" : "table-secondary"}
-                                >
-                                    <td>
-                                        <Link to={`/ouvrirCommande/${commande.commande_id}`}>
-                                            <Button
-                                                className='fw-bold' 
-                                                aria-label='Ouvrir la Commande' >
-                                                Ouvrir
-                                            </Button>
-                                        </Link>
-                                    </td>
-                                    <td className='text-black'>{commande.numero_commande}</td>
-                                    <td>{formatDate(commande.date_commande)}</td>
-                                    <td>{commande.validite_commande}</td>
-                                    <td>{commande.detail_projet}</td>
-                                    <td>{commande.statut_commande === 1 ? 'En cours' : 'Terminé'}</td>
-                                    <td>{commande.validite_commande} </td>
-                                    <td>
-                                        {/* Bouton pour ouvrir la modal */}
-                                        <Button className='m-2' variant="danger" onClick={handleShowModal}>Supprimer</Button>
-
-                                        {/* Modal de confirmation */}
-                                        <Modal show={showModal} onHide={handleCloseModal}>
-                                            <Modal.Header closeButton>
-                                                <Modal.Title>Confirmation de Suppression de la Commande</Modal.Title>
-                                            </Modal.Header>
-                                            <Modal.Body>
-                                                Êtes-vous sûr de vouloir supprimer cette Commande ? Cette action est irréversible.
-                                            </Modal.Body>
-                                            <Modal.Footer>
-                                                <Button variant="secondary" onClick={handleCloseModal}>Annuler</Button>
-                                                <Button variant="danger" onClick={() => handleDeleteCommande(commande.commande_id)}>Confirmer la Suppression</Button>
-                                            </Modal.Footer>
-                                        </Modal>
-                                    </td>
+                        {componentIsVisible ? "Réduire la liste" : "Voir mes Commandes"}
+                    </Button>
+                </nav>
+                {componentIsVisible && (
+                    <form className='mx-auto overflow-auto'>
+                        <table
+                            className='table'
+                            id="commandeTable"
+                            aria-hidden={!componentIsVisible ? 'true' : 'false'}
+                        >
+                            <thead>
+                                <tr>
+                                    <th scope='col' className='bg-secondary text-white'>Ouvrir</th>
+                                    <th scope="col" className='bg-secondary text-white'>Numéro de commande</th>
+                                    <th scope="col" className='bg-secondary text-white'>Date de commande</th>
+                                    <th scope="col" className='bg-secondary text-white'>Validité de la commande</th>
+                                    <th scope="col" className='bg-secondary text-white'>Détails du projet</th>
+                                    <th scope="col" className='bg-secondary text-white'>Statut de la commande</th>
+                                    <th scope="col" className='bg-secondary text-white'>Validité de la commande</th>
+                                    <th scope='col' className='bg-secondary text-white'>Supprimer</th>
                                 </tr>
+                            </thead>
+                            <tbody>
+                                {commandeData.map((commande, index) => (
+                                    <tr
+                                        key={commande.commande_id}
+                                        className={index % 2 === 0 ? "table-primary" : "table-secondary"}
+                                    >
+                                        <td>
+                                            <Link to={`/ouvrirCommande/${commande.commande_id}`}>
+                                                <Button
+                                                    className='fw-bold' 
+                                                    aria-label='Ouvrir la Commande' >
+                                                    Ouvrir
+                                                </Button>
+                                            </Link>
+                                        </td>
+                                        <td className='text-black'>{commande.numero_commande}</td>
+                                        <td>{formatDate(commande.date_commande)}</td>
+                                        <td>{commande.validite_commande}</td>
+                                        <td>{commande.detail_projet}</td>
+                                        <td>{commande.statut_commande === 1 ? 'En cours' : 'Terminé'}</td>
+                                        <td>{commande.validite_commande} </td>
+                                        <td>
+                                            {/* Bouton pour ouvrir la modal */}
+                                            <Button className='m-2' variant="danger" onClick={handleShowModal}>Supprimer</Button>
 
-                            ))}
-                        </tbody>
-                    </table>
-                </form>
-            )}
+                                            {/* Modal de confirmation */}
+                                            <Modal show={showModal} onHide={handleCloseModal}>
+                                                <Modal.Header closeButton>
+                                                    <Modal.Title>Confirmation de Suppression de la Commande</Modal.Title>
+                                                </Modal.Header>
+                                                <Modal.Body>
+                                                    Êtes-vous sûr de vouloir supprimer cette Commande ? Cette action est irréversible.
+                                                </Modal.Body>
+                                                <Modal.Footer>
+                                                    <Button variant="secondary" onClick={handleCloseModal}>Annuler</Button>
+                                                    <Button variant="danger" onClick={() => handleDeleteCommande(commande.commande_id)}>Confirmer la Suppression</Button>
+                                                </Modal.Footer>
+                                            </Modal>
+                                        </td>
+                                    </tr>
+
+                                ))}
+                            </tbody>
+                        </table>
+                    </form>
+                )}
             { !isVisible && (
             <nav className='col-lg-10 m-3 mx-auto bg-white text-center'>
                 <BackButton />
@@ -194,11 +201,12 @@ const VoirMesCommande = () => {
                     aria-expanded={componentIsVisible ? 'true' : 'false'}
                     aria-controls="commandeTable"
                 >
-                    {componentIsVisible ? "Réduire la liste" : "Voir La Liste des Commandes"}
+                    {componentIsVisible ? "Réduire la liste" : "Voir mes Commandes"}
                 </Button>
             </nav>
             )}
         </section>
+        </>
     );
 };
 

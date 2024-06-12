@@ -9,13 +9,11 @@ import Produit_facture from "../models/produit_facture.js";
 
 const factureController = {
 
-    
-    
-    createFacture : async (req, res) => {
+    createFacture: async (req, res) => {
         const t = await sequelize.transaction(); // Début de la transaction Sequelize
         try {
             // Extraire les données du formulaire de la demande
-            const { numeroFacture, validateFacture, detailProjet, panier } = req.body;
+            const { numeroFacture, validateFacture, detailProjet, panier, montantTotal, modePaiement, informationPaiement } = req.body;
             console.log(numeroFacture, validateFacture, detailProjet, panier, "en ligne 17 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
             
             // Récupérer l'ID de l'utilisateur connecté à partir des informations stockées dans la demande
@@ -30,35 +28,39 @@ const factureController = {
                 throw new Error('Utilisateur non trouvé');
             }
     
-                // Enregistrer le devis dans la table Devis avec le nom du client
-                const nouvelleFacture = await Facture.create({
-                    // Données du devis
-                    utilisateur_id: utilisateurId,
-                    numero_facture: numeroFacture,
-                    validite_facture: validateFacture,
-                    detail_projet: detailProjet,
-                    nom_client: utilisateur.nom
+            // Enregistrer la facture dans la table Facture avec le nom du client
+            const nouvelleFacture = await Facture.create({
+                utilisateur_id: utilisateurId,
+                numero_facture: numeroFacture,
+                nom_client: User.nom,
+                date_facture: new Date(),
+                date_echeance: validateFacture,
+                montant_total: montantTotal,
+                detail_projet: detailProjet,
+                mode_paiement: modePaiement,
+                statut_facture: 1, // ou une autre valeur par défaut
+                information_paiement: informationPaiement
+            }, { transaction: t });
+
+            // Récupérer l'ID de la facture créée
+            const factureId = nouvelleFacture.facture_id;
+
+            // Enregistrer les produits associés à la facture dans la table Produit_facture
+            await Promise.all(panier.map(async (produit) => {
+                // Enregistrer chaque produit du panier dans la table Produit_facture
+                await Produit_facture.create({
+                    facture_id: factureId, // Utiliser l'ID de la facture créée
+                    produit_id: produit.produit_id,
+                    quantite: produit.quantite
                 }, { transaction: t });
+            }));
 
-                // Récupérer l'ID du devis créé
-                const factureId = nouvelleFacture.facture_id;
+            // Valider la transaction
+            await t.commit();
 
-                // Enregistrer les produits associés au devis dans la table Produit_devis
-                await Promise.all(panier.map(async (produit) => {
-                    // Enregistrer chaque produit du panier dans la table Produit_devis
-                    await Produit_facture.create({
-                        facture_id: factureId, // Utiliser l'ID du devis créé
-                        produit_id: produit.produit_id,
-                        quantite: produit.quantite
-                    }, { transaction: t });
-                }));
-
-                // Valider la transaction
-                await t.commit();
-
-                // Répondre avec un succès
-                res.status(201).json({ message: 'Facture créé avec succès' });
-                console.log("Facture créé avec succès");
+            // Répondre avec un succès
+            res.status(201).json({ message: 'Facture créée avec succès' });
+            console.log("Facture créée avec succès");
         } catch (error) {
             console.error(error);
             // Si une erreur se produit, annuler la transaction
@@ -68,6 +70,65 @@ const factureController = {
             res.status(500).json({ error: 'Erreur lors de la création de la facture' });
         }
     },
+    
+
+    // createFacture : async (req, res) => {
+    //     const t = await sequelize.transaction(); // Début de la transaction Sequelize
+    //     try {
+    //         // Extraire les données du formulaire de la demande
+    //         const { numeroFacture, validateFacture, detailProjet, panier } = req.body;
+    //         console.log(numeroFacture, validateFacture, detailProjet, panier, "en ligne 17 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            
+    //         // Récupérer l'ID de l'utilisateur connecté à partir des informations stockées dans la demande
+    //         const utilisateurId = req.user.utilisateur_id;
+    //         console.log(utilisateurId, "en ligne 21 XXXXXXXXXXXXX");
+            
+    //         // Rechercher l'utilisateur dans la table Utilisateurs
+    //         const utilisateur = await User.findOne({ where: { utilisateur_id: utilisateurId } });
+    
+    //         // Vérifier si l'utilisateur existe
+    //         if (!utilisateur) {
+    //             throw new Error('Utilisateur non trouvé');
+    //         }
+    
+    //             // Enregistrer le devis dans la table Devis avec le nom du client
+    //             const nouvelleFacture = await Facture.create({
+    //                 // Données du devis
+    //                 utilisateur_id: utilisateurId,
+    //                 numero_facture: numeroFacture,
+    //                 validite_facture: validateFacture,
+    //                 detail_projet: detailProjet,
+    //                 nom_client: utilisateur.nom
+    //             }, { transaction: t });
+
+    //             // Récupérer l'ID du devis créé
+    //             const factureId = nouvelleFacture.facture_id;
+
+    //             // Enregistrer les produits associés au devis dans la table Produit_devis
+    //             await Promise.all(panier.map(async (produit) => {
+    //                 // Enregistrer chaque produit du panier dans la table Produit_devis
+    //                 await Produit_facture.create({
+    //                     facture_id: factureId, // Utiliser l'ID du devis créé
+    //                     produit_id: produit.produit_id,
+    //                     quantite: produit.quantite
+    //                 }, { transaction: t });
+    //             }));
+
+    //             // Valider la transaction
+    //             await t.commit();
+
+    //             // Répondre avec un succès
+    //             res.status(201).json({ message: 'Facture créé avec succès' });
+    //             console.log("Facture créé avec succès");
+    //     } catch (error) {
+    //         console.error(error);
+    //         // Si une erreur se produit, annuler la transaction
+    //         await t.rollback();
+
+    //         // Répondre avec une erreur
+    //         res.status(500).json({ error: 'Erreur lors de la création de la facture' });
+    //     }
+    // },
 
     getFactureUtilisateur: async (req, res) => {
         const t = await sequelize.transaction(); // Début de la transaction Sequelize
@@ -142,121 +203,121 @@ const factureController = {
     },
 
 
-    deleteFacture: async (req, res) => {
-        const t = await sequelize.transaction(); // Début de la transaction Sequelize
-        try {
-            // Récupérer l'ID de la facture à partir des paramètres de la requête
-            const factureId = req.params.factureId;
-            console.log(factureId, " en ligne 148 du getDevisUtilisateurId");
+    // deleteFacture: async (req, res) => {
+    //     const t = await sequelize.transaction(); // Début de la transaction Sequelize
+    //     try {
+    //         // Récupérer l'ID de la facture à partir des paramètres de la requête
+    //         const factureId = req.params.factureId;
+    //         console.log(factureId, " en ligne 148 du getDevisUtilisateurId");
     
-            // Récupérer l'ID de l'utilisateur connecté à partir des informations stockées dans la demande
-            const utilisateurId = req.user.utilisateur_id;
-            console.log(utilisateurId, "en ligne 151 XXXXXXXXXXXXX");
+    //         // Récupérer l'ID de l'utilisateur connecté à partir des informations stockées dans la demande
+    //         const utilisateurId = req.user.utilisateur_id;
+    //         console.log(utilisateurId, "en ligne 151 XXXXXXXXXXXXX");
     
-            // Rechercher l'utilisateur dans la table Utilisateurs
-            const utilisateur = await User.findOne({ where: { utilisateur_id: utilisateurId } });
+    //         // Rechercher l'utilisateur dans la table Utilisateurs
+    //         const utilisateur = await User.findOne({ where: { utilisateur_id: utilisateurId } });
     
-            // Vérifier si l'utilisateur existe
-            if (!utilisateur) {
-                throw new Error('Utilisateur non trouvé');
-            }
+    //         // Vérifier si l'utilisateur existe
+    //         if (!utilisateur) {
+    //             throw new Error('Utilisateur non trouvé');
+    //         }
     
-            // Rechercher les produits associés a la facture dans la table Produits_facture
-            const produits = await Produit_facture.findAll({ where: { facture_id: factureId }, transaction: t });
+    //         // Rechercher les produits associés a la facture dans la table Produits_facture
+    //         const produits = await Produit_facture.findAll({ where: { facture_id: factureId }, transaction: t });
     
-            // Supprimer les produits associés a la facture dans la table Produit_facture
-            await Promise.all(produits.map(async (produit) => {
-                await Produit_facture.destroy({ where: { facture_produit_id: produit.facture_produit_id }, transaction: t });
-            }));
+    //         // Supprimer les produits associés a la facture dans la table Produit_facture
+    //         await Promise.all(produits.map(async (produit) => {
+    //             await Produit_facture.destroy({ where: { facture_produit_id: produit.facture_produit_id }, transaction: t });
+    //         }));
     
-            // Supprimer la facture dans la table Facture
-            await Devis.destroy({ where: { facture_id: factureId }, transaction: t });
+    //         // Supprimer la facture dans la table Facture
+    //         await Devis.destroy({ where: { facture_id: factureId }, transaction: t });
     
-            // Valider la transaction
-            await t.commit();
+    //         // Valider la transaction
+    //         await t.commit();
     
-            // Répondre avec un succès
-            res.status(200).json({ message: 'Facture supprimé avec succès' });
-            console.log("Facture supprimé avec succès");
-        } catch (error) {
-            console.error(error);
-            // Si une erreur se produit, annuler la transaction
-            await t.rollback();
+    //         // Répondre avec un succès
+    //         res.status(200).json({ message: 'Facture supprimé avec succès' });
+    //         console.log("Facture supprimé avec succès");
+    //     } catch (error) {
+    //         console.error(error);
+    //         // Si une erreur se produit, annuler la transaction
+    //         await t.rollback();
     
-            // Répondre avec une erreur
-            res.status(500).json({ error: 'Erreur lors de la suppression de la facture' });
-        }
-    },
+    //         // Répondre avec une erreur
+    //         res.status(500).json({ error: 'Erreur lors de la suppression de la facture' });
+    //     }
+    // },
 
-    updateDevis: async (req, res) => {
-        const t = await sequelize.transaction(); // Début de la transaction Sequelize
-        try {
-            // Récupérer l'ID du devis à partir des paramètres de la requête
-            const devisId = req.params.devisId;
-            console.log(devisId, " en ligne 148 du getDevisUtilisateurId");
+    // updateDevis: async (req, res) => {
+    //     const t = await sequelize.transaction(); // Début de la transaction Sequelize
+    //     try {
+    //         // Récupérer l'ID du devis à partir des paramètres de la requête
+    //         const devisId = req.params.devisId;
+    //         console.log(devisId, " en ligne 148 du getDevisUtilisateurId");
     
-            // Récupérer l'ID de l'utilisateur connecté à partir des informations stockées dans la demande
-            const utilisateurId = req.user.utilisateur_id;
-            console.log(utilisateurId, "en ligne 151 XXXXXXXXXXXXX");
+    //         // Récupérer l'ID de l'utilisateur connecté à partir des informations stockées dans la demande
+    //         const utilisateurId = req.user.utilisateur_id;
+    //         console.log(utilisateurId, "en ligne 151 XXXXXXXXXXXXX");
     
-            // Rechercher l'utilisateur dans la table Utilisateurs
-            const utilisateur = await User.findOne({ where: { utilisateur_id: utilisateurId } });
+    //         // Rechercher l'utilisateur dans la table Utilisateurs
+    //         const utilisateur = await User.findOne({ where: { utilisateur_id: utilisateurId } });
     
-            // Vérifier si l'utilisateur existe
-            if (!utilisateur) {
-                throw new Error('Utilisateur non trouvé');
-            }
+    //         // Vérifier si l'utilisateur existe
+    //         if (!utilisateur) {
+    //             throw new Error('Utilisateur non trouvé');
+    //         }
     
-            // Rechercher les produits associés au devis dans la table Produits_devis
-            const produits = await Produit_devis.findAll({ where: { devis_id: devisId }, transaction: t });
+    //         // Rechercher les produits associés au devis dans la table Produits_devis
+    //         const produits = await Produit_devis.findAll({ where: { devis_id: devisId }, transaction: t });
     
-            // Supprimer les produits associés au devis dans la table Produit_devis
-            await Promise.all(produits.map(async (produit) => {
-                await Produit_devis.destroy({ where: { produit_devis_id: produit.produit_devis_id }, transaction: t });
-            }));
+    //         // Supprimer les produits associés au devis dans la table Produit_devis
+    //         await Promise.all(produits.map(async (produit) => {
+    //             await Produit_devis.destroy({ where: { produit_devis_id: produit.produit_devis_id }, transaction: t });
+    //         }));
     
-            // Supprimer le devis dans la table Devis
-            await Devis.destroy({ where: { devis_id: devisId }, transaction: t });
+    //         // Supprimer le devis dans la table Devis
+    //         await Devis.destroy({ where: { devis_id: devisId }, transaction: t });
     
-            // Extraire les données du formulaire de la demande
-            const { numeroDevis, validateDevis, detailProjet, panier } = req.body;
-            console.log(numeroDevis, validateDevis, detailProjet, panier, "en ligne 17 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+    //         // Extraire les données du formulaire de la demande
+    //         const { numeroDevis, validateDevis, detailProjet, panier } = req.body;
+    //         console.log(numeroDevis, validateDevis, detailProjet, panier, "en ligne 17 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
     
-            // Enregistrer le devis dans la table Devis avec le nom du client
-            const nouveauDevis = await Devis.create({
-                utilisateur_id: utilisateurId,
-                numero_devis: numeroDevis,
-                validite_devis: validateDevis,
-                detail_projet: detailProjet,
-                nom_client: utilisateur.nom
-            }, { transaction: t });
+    //         // Enregistrer le devis dans la table Devis avec le nom du client
+    //         const nouveauDevis = await Devis.create({
+    //             utilisateur_id: utilisateurId,
+    //             numero_devis: numeroDevis,
+    //             validite_devis: validateDevis,
+    //             detail_projet: detailProjet,
+    //             nom_client: utilisateur.nom
+    //         }, { transaction: t });
     
-            // Récupérer l'ID du devis créé
-            const nouveauDevisId = nouveauDevis.devis_id;
+    //         // Récupérer l'ID du devis créé
+    //         const nouveauDevisId = nouveauDevis.devis_id;
     
-            // Enregistrer les produits associés au devis dans la table Produit_devis
-            await Promise.all(panier.map(async (produit) => {
-                // Enregistrer chaque produit du panier dans la table Produit_devis
-                await Produit_devis.create({
-                    devis_id: nouveauDevisId,
-                    produit_id: produit.produit_id,
-                    quantite: produit.quantite
-                }, { transaction: t });
-            }));
+    //         // Enregistrer les produits associés au devis dans la table Produit_devis
+    //         await Promise.all(panier.map(async (produit) => {
+    //             // Enregistrer chaque produit du panier dans la table Produit_devis
+    //             await Produit_devis.create({
+    //                 devis_id: nouveauDevisId,
+    //                 produit_id: produit.produit_id,
+    //                 quantite: produit.quantite
+    //             }, { transaction: t });
+    //         }));
     
-            // Valider la transaction
-            await t.commit();
+    //         // Valider la transaction
+    //         await t.commit();
     
-            // Répondre avec un succès
-            res.status(200).json({ message: 'Devis mis à jour avec succès' });
-        } catch (error) {
-            console.error(error);
-            // Si une erreur se produit, annuler la transaction
-            await t.rollback();
-            // Répondre avec une erreur
-            res.status(500).json({ error: 'Erreur lors de la mise à jour du devis' });
-        }
-    },
+    //         // Répondre avec un succès
+    //         res.status(200).json({ message: 'Devis mis à jour avec succès' });
+    //     } catch (error) {
+    //         console.error(error);
+    //         // Si une erreur se produit, annuler la transaction
+    //         await t.rollback();
+    //         // Répondre avec une erreur
+    //         res.status(500).json({ error: 'Erreur lors de la mise à jour du devis' });
+    //     }
+    // },
     
     
     

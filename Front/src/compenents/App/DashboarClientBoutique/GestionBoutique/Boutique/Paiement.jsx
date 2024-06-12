@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 
-const Paiement = ({ total, codePromotionnel, finaliserAchats }) => {
+const Paiement = ({ total, codePromotionnel, finaliserAchats, onPaymentResponse   }) => {
   const [infoPaiement, setInfoPaiement] = useState({
     nom: '',
     numeroCarte: '',
@@ -17,32 +17,108 @@ const Paiement = ({ total, codePromotionnel, finaliserAchats }) => {
       [name]: value
     }));
   };
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  // const handlePayer = async () => {
+  //   try {
+  //     // Envoi des informations de paiement au serveur
+  //     const response = await fetch('url_du_serveur_banque_postal', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(infoPaiement)
+  //     });
 
+  //     // Vérifier si la requête s'est bien déroulée
+  //     if (!response.ok) {
+  //       throw new Error('Erreur lors du paiement');
+  //     }
+
+  //     // Si le paiement est réussi, appeler la fonction pour finaliser les achats
+  //     finaliserAchats();
+
+  //     // Rediriger vers "/boutique" une fois le paiement effectué
+  //     window.location.href = '/boutique';
+  //   } catch (error) {
+  //     setErreur('Une erreur est survenue lors du paiement. Veuillez réessayer.');
+  //   }
+  // };
   const handlePayer = async () => {
     try {
-      // Envoi des informations de paiement au serveur
-      const response = await fetch('url_du_serveur_banque_postal', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(infoPaiement)
-      });
+        // Simuler une attente de 3 secondes
+        await new Promise(resolve => setTimeout(resolve, 3000));
 
-      // Vérifier si la requête s'est bien déroulée
-      if (!response.ok) {
-        throw new Error('Erreur lors du paiement');
-      }
+        
 
-      // Si le paiement est réussi, appeler la fonction pour finaliser les achats
-      finaliserAchats();
+        // Simuler une réponse du serveur bancaire
+        const response = {
+            ok: true, // Simule une réponse réussie
+            json: async () => ({ message: 'Votre paiement a été accepté' })
+            
+        };
+        // Renvoyer la réponse au composant parent
+        onPaymentResponse('Paiement accepté');
+        console.log("votre paiement a été accepté");
+        alert("votre paiement a été accepté");
 
-      // Rediriger vers "/boutique" une fois le paiement effectué
-      window.location.href = '/boutique';
+        // Vérifier si la requête s'est bien déroulée
+        if (!response.ok) {
+            throw new Error('Erreur lors du paiement');
+        }
+
+        // Si le paiement est réussi, appeler la fonction pour finaliser les achats
+        
+        finaliserAchats();
+
+        // Rediriger vers "/boutique" une fois le paiement effectué
+        window.location.href = '/boutique';
     } catch (error) {
-      setErreur('Une erreur est survenue lors du paiement. Veuillez réessayer.');
+        setErreur('Une erreur est survenue lors du paiement. Veuillez réessayer.');
+        onPaymentResponse('Paiement refusé');
     }
-  };
+};
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//   const createFacture = async () => {
+//     const factureData = {
+//         numeroFacture: "FAC12345",
+//         validateFacture: "2024-12-31",
+//         detailProjet: "Développement d'un site web",
+//         montantTotal: 1500.00,
+//         modePaiement: "Carte de crédit",
+//         informationPaiement: 123456,
+//         panier: [
+//             { produit_id: 1, quantite: 2 },
+//             { produit_id: 2, quantite: 1 }
+//         ]
+//     };
+
+//     try {
+//         const response = await fetch('http://localhost:3000/api/create/facture', {
+//             method: 'POST',
+//             headers: {
+//                 'Content-Type': 'application/json',
+//                 'Authorization': `Bearer ${localStorage.getItem('token')}` // Assurez-vous que le token est correct
+//             },
+//             body: JSON.stringify(factureData)
+//         });
+
+//         if (!response.ok) {
+//             throw new Error('Erreur lors de la création de la facture');
+//         }
+
+//         const result = await response.json();
+//         console.log(result);
+//     } catch (error) {
+//         console.error('Erreur:', error);
+//     }
+// };
+
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
   const masquerNumeroCarte = (numeroCarte) => {
     const longueur = numeroCarte.length;
@@ -65,6 +141,8 @@ const Paiement = ({ total, codePromotionnel, finaliserAchats }) => {
       return dateExpiration;
     }
   };
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
   return (
     <div className='rounded p-2' style={{ marginTop: "60px", backgroundColor: "white" }}>

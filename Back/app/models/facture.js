@@ -32,11 +32,12 @@ const Facture = sequelize.define("Facture", {
     },
     detail_projet: {
         type: DataTypes.STRING,
-        allowNull:false
+        allowNull:true
     },
     mode_paiement: {
         type: DataTypes.STRING,
-        allowNull:false
+        allowNull:false,
+        defaultValue: "Carte Bancaire"
     },
     statut_facture: {
         type: DataTypes.TINYINT,
@@ -45,7 +46,7 @@ const Facture = sequelize.define("Facture", {
     },
     information_paiement: {
         type: DataTypes.INTEGER,
-        allowNull: false
+        allowNull: true
     },
     utilisteur_id: {
         type: DataTypes.INTEGER,

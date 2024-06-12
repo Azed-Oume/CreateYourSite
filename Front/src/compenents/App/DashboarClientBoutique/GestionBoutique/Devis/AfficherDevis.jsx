@@ -362,61 +362,61 @@ const envoyerDevis = async (numeroDevis, panierDuDevis) => {
             <h4 className="text-center p-2">
               <strong>Mentions légales :</strong>
             </h4>
-            <address className="d-flex flex-wrap col-md-12">
-              <p>
+            <address className="d-flex flex-wrap col-md-12 mb-1">
+              <p className='mb-1'>
                 <strong>Société :</strong> {societe?.societe} -
               </p>
-              <p>
+              <p className='mb-1'>
                 <strong>Adresse :</strong> {societe && `${societe.rue}, ${societe.code_postal} ${societe.ville}`} -
               </p>
-              <p>
+              <p className='mb-1'>
                 <strong>Téléphone :</strong> {societe?.telephone} -
               </p>
-              <p>
+              <p className='mb-1'>
                 <strong>Mail :</strong> {societe?.email} -
               </p>
-              <p>
+              <p className='mb-1'>
                 <strong>Siret :</strong> {societe?.siret} -
               </p>
-              <p>
+              <p className='mb-1'>
                 <strong>TVA :</strong> {societe?.numero_tva} -
               </p>
-              <p>
+              <p className='mb-1'>
                 <strong>Conditions de paiement :</strong> {conditionsPaiement} -
               </p>
-              <p>
+              <p className='mb-1'>
                 <strong>Validité de la commande :</strong> {validateDevis} -
               </p>
             </address>
           </article>
           <article>
-            <p>
+            <p className='mb-1'>
               <strong>Important :</strong> En acceptant ce devis, vous reconnaissez avoir pris connaissance et accepter
               nos conditions générales de vente...
             </p>
-            <p>
+            <p className='mb-1'>
               <strong>Engagement de paiement :</strong> L'acceptation du devis vaut commande ferme et engage le client à
               régler la somme due...
             </p>
-            <p>
+            <p className='mb-1'>
               <strong>Retard de paiement :</strong> Conformément à l'article L441-10 du Code de commerce...
             </p>
-            <p>
+            <p className='mb-1'>
               <strong>Rétractation :</strong> Pour les consommateurs (au sens de l'article liminaire du Code de la
               consommation)...
             </p>
-            <p>
+            <p className='mb-1'>
               <strong>Protection des données :</strong> Conformément à la loi Informatique et Libertés...
             </p>
-            <p>
+            <p className='mb-1'>
               <strong>Force majeure :</strong> La société ne pourra être tenue pour responsable de l'inexécution de
               l'une de ses obligations...
             </p>
-            <p>
+            <p className='mb-1'>
               <strong>Litiges :</strong> En cas de litige, les parties s'efforceront de résoudre leur différend à
               l'amiable...
             </p>
-            <p>
+            <p className='mb-1'>
               <strong>Acceptation :</strong> L'acceptation du devis par voie électronique vaut acceptation expresse du
               client...
             </p>

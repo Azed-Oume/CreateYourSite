@@ -1,275 +1,325 @@
+// import React, { useState } from "react";
+// import { useLocation, useNavigate } from "react-router-dom";
+// import { Button, Modal } from "react-bootstrap";
+// import jsPDF from 'jspdf';
+// import 'jspdf-autotable';
+// import BackButton from "../../../../AuthSecure/BackButton.jsx";
+// import Paiement from "../Boutique/Paiement.jsx";
 
-import React, {useState, useEffect} from 'react';
-import { useLocation } from 'react-router-dom';
-import { Form, Row, Col, Button } from 'react-bootstrap';
-import BackButton from '../../../../AuthSecure/BackButton';
+// const Facture = ({ type }) => {
+//     const location = useLocation();
+//     const navigate = useNavigate();
+//     const { data, societe, client } = location.state;
+//     const [showModal, setShowModal] = useState(false);
 
-const Facture = () => {
-    const [panier, setPanier] = useState([]);
+//     const documentData = type === "devis" ? data.devis : data.commande;
+//     const numeroDocument = type === "devis" ? documentData.numero_devis : documentData.numero_commande;
+
+//     const calculateTVA = (tarifHT) => {
+//         return tarifHT * 0.2;
+//     };
+
+//     const calculateTotalTTC = (tarifHT, quantite) => {
+//         return (tarifHT * quantite) * 1.2;
+//     };
+
+//     const produitsAvecCalculs = documentData.Produits.map(produit => {
+//         const quantite = data.quantites.find(q => q.produit_id === produit.produit_id)?.quantite || 0;
+//         const tarifHT = parseFloat(produit.tarif).toFixed(2) || 0;
+//         const tva = calculateTVA(tarifHT);
+//         const totalTTC = calculateTotalTTC(tarifHT, quantite);
+
+//         return {
+//             ...produit,
+//             quantite,
+//             tva,
+//             totalTTC
+//         };
+//     });
+
+//     const totalGeneral = produitsAvecCalculs.reduce((total, produit) => {
+//         return total + produit.totalTTC;
+//     }, 0);
+
+//     const handleDownloadPDF = async () => {
+//         if (!societe || !client) return;
+
+//         const pdf = new jsPDF();
+//         pdf.setFontSize(12);
+
+//         pdf.rect(20, 15, 80, 60);
+//         pdf.text(`${societe.societe || ""}`, 25, 20);
+//         pdf.text(`${societe.rue || ""}`, 25, 30);
+//         pdf.text(`${societe.ville || ""}`, 25, 40);
+//         pdf.text(`${societe.code_postal || ""}`, 25, 50);
+//         pdf.text(`${societe.nom || ""}`, 25, 60);
+
+//         pdf.rect(110, 15, 80, 60);
+//         pdf.text(`${client.nom || ""}`, 115, 20);
+//         pdf.text(`${client.prenom || ""}`, 115, 30);
+//         pdf.text(`${client.rue || ""}`, 115, 40);
+//         pdf.text(`${client.ville || ""}`, 115, 50);
+//         pdf.text(`${client.code_postal || ""}`, 115, 60);
+
+//         pdf.rect(55, 83, 105, 10);
+//         pdf.text(`Facture numero : FAC/${numeroDocument || ""}`, 60, 90);
+
+//         let y = 100;
+//         pdf.autoTable({
+//             startY: y,
+//             head: [["Nom", "Tarif HT", "Quantité", "TVA 20%", "Total TTC"]],
+//             body: produitsAvecCalculs.map(produit => [
+//                 produit.nom,
+//                 produit.tarif + " €",
+//                 produit.quantite,
+//                 (produit.tarif * .2).toFixed(2),
+//                 ((produit.tarif * produit.quantite) * 1.2).toFixed(2) + " €"
+//             ])
+//         });
+
+//         pdf.text(`Total a régler : ${totalGeneral.toFixed(2)} €`, 150, pdf.autoTable.previous.finalY + 10);
+
+//         pdf.save(`Facture numero : FAC/${numeroDocument}.pdf`);
+//     };
+
+//     const handlePayClick = () => {
+//         setShowModal(true);
+//     };
+
+//     const handleCloseModal = () => {
+//         setShowModal(false);
+//     };
+
+//     return (
+//         <section className="container rounded mt-5 graylogo p-2">
+//             <h1 className="text-center">Facture-{type.charAt(0).toUpperCase() + type.slice(1)}</h1>
+//             <section className="bg-white p-2 rounded">
+//                 <h2 className="text-center">Facture numero : FAC/{numeroDocument}</h2>
+//                 <div className="d-flex justify-content-between">
+//                     <div>
+//                         <h3>Société</h3>
+//                         <p>{societe.societe}</p>
+//                         <p>{societe.rue}</p>
+//                         <p>{societe.ville}, {societe.code_postal}</p>
+//                         <p>{societe.nom}</p>
+//                     </div>
+//                     <div>
+//                         <h3>Client</h3>
+//                         <p>{client.nom} {client.prenom}</p>
+//                         <p>{client.rue}</p>
+//                         <p>{client.ville}, {client.code_postal}</p>
+//                     </div>
+//                 </div>
+//                 <h4>Produits</h4>
+//                 <table className="table">
+//                     <thead>
+//                         <tr>
+//                             <th>Nom</th>
+//                             <th>Tarif HT</th>
+//                             <th>Quantité</th>
+//                             <th>TVA 20%</th>
+//                             <th>Total TTC</th>
+//                         </tr>
+//                     </thead>
+//                     <tbody>
+//                         {produitsAvecCalculs.map(produit => (
+//                             <tr key={produit.produit_id}>
+//                                 <td>{produit.nom}</td>
+//                                 <td>{produit.tarif} €</td>
+//                                 <td>{produit.quantite}</td>
+//                                 <td>{produit.tva.toFixed(2)} €</td>
+//                                 <td>{produit.totalTTC.toFixed(2)} €</td>
+//                             </tr>
+//                         ))}
+//                     </tbody>
+//                 </table>
+//                 <h4>Total: {totalGeneral.toFixed(2)} €</h4>
+//                 <div className="d-flex justify-content-between p-2">
+//                     <BackButton />
+//                     <Button onClick={handlePayClick}>Payer</Button>
+//                     <Button onClick={handleDownloadPDF}>Télécharger PDF</Button>
+//                 </div>
+//             </section>
+
+//             <Modal show={showModal} onHide={handleCloseModal}>
+//                 <Modal.Header closeButton>
+//                     <Modal.Title>Paiement</Modal.Title>
+//                 </Modal.Header>
+//                 <Modal.Body>
+//                     <Paiement 
+//                         total={totalGeneral}
+//                         codePromotionnel={false}
+//                         finaliserAchats={() => {
+//                             // Code pour finaliser les achats
+//                             handleCloseModal();
+//                         }}
+//                     />
+//                 </Modal.Body>
+//             </Modal>
+//         </section>
+//     );
+// };
+
+// export default Facture;
+
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Button, Modal } from "react-bootstrap";
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
+import BackButton from "../../../../AuthSecure/BackButton.jsx";
+import Paiement from "../Boutique/Paiement.jsx";
+
+const Facture = ({ type }) => {
     const location = useLocation();
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [componentIsVisible, setComponentIsVisible] = useState(true);
-    const [isVisible, setIsVisible] = useState(false);
-    const [societe, setSociete] = useState("");
-    const [client, setClient] = useState("");
-    const [factureData, setFactureData] = useState([]);
-    // const { data, societe, client } = location.state || {}; // Accéder aux données passées via l'état de la navigation
+    const navigate = useNavigate();
+    const { data, societe, client } = location.state;
+    const [showModal, setShowModal] = useState(false);
 
-    const handleClick = () => {
-        setComponentIsVisible(!componentIsVisible);
-        setIsVisible(!isVisible);
-    };
-    
-    // if (!data || !societe || !client) {
-    //     return <h2 className='p-3 col-md-9 mt-5 mx-auto text-center'>Vous n'avez aucunne facture.</h2>;
-    // }
-    const Facture = "F/";
+    const documentData = type === "devis" ? data.devis : data.commande;
+    const numeroDocument = type === "devis" ? documentData.numero_devis : documentData.numero_commande;
 
-    let totalCommande = 0;
-    const quantiteProduits = [];
-    const totalProduits = [];
-    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX    
-useEffect(() => {
-    const fetchSociete = async () => {
-        try {
-            const response = await fetch('http://localhost:3000/api/getSociete/2');
-            if (!response.ok) {
-                throw new Error('Erreur lors de la récupération des informations de la société');
-            }
-            const data = await response.json();
-            console.log(data, " en ligne 39 XXXXXXXXXXXXXXXXXXXX");
-            setSociete(data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    const calculateTVA = (tarifHT) => tarifHT * 0.2;
 
-    const fetchClient = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                // Si le token est absent, ne pas faire de fetch
-                console.log('Token absent, aucune requête fetch effectuée.');
-                // alert("Connectez-vous ou créez un compte pour ajouter un devis !");
-                return;
-              }
-            const response = await fetch('http://localhost:3000/api/getUser', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            if (!response.ok) {
-                throw new Error('Erreur lors de la récupération des informations du client');
-            }
-            const data = await response.json();
-            console.log(data, " en ligne 67 XXXXXXXXXXXXXXXXXXXX");
-            setClient(data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    const calculateTotalTTC = (tarifHT, quantite) => (tarifHT * quantite) * 1.2;
 
-    fetchSociete();
-    fetchClient();
-}, []);
+    const produitsAvecCalculs = documentData.Produits.map(produit => {
+        const quantite = data.quantites.find(q => q.produit_id === produit.produit_id)?.quantite || 0;
+        const tarifHT = parseFloat(produit.tarif).toFixed(2) || 0;
+        const tva = calculateTVA(tarifHT);
+        const totalTTC = calculateTotalTTC(tarifHT, quantite);
 
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-const fetchFacture = async () => {
-    try {
-        const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:3000/api/get/facture/utilisateur', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
-            }
+        return {
+            ...produit,
+            quantite,
+            tva,
+            totalTTC
+        };
+    });
+
+    const totalGeneral = produitsAvecCalculs.reduce((total, produit) => total + produit.totalTTC, 0);
+
+    const handleDownloadPDF = async () => {
+        if (!societe || !client) return;
+
+        const pdf = new jsPDF();
+        pdf.setFontSize(12);
+
+        pdf.rect(20, 15, 80, 60);
+        pdf.text(`${societe.societe || ""}`, 25, 20);
+        pdf.text(`${societe.rue || ""}`, 25, 30);
+        pdf.text(`${societe.ville || ""}`, 25, 40);
+        pdf.text(`${societe.code_postal || ""}`, 25, 50);
+        pdf.text(`${societe.nom || ""}`, 25, 60);
+
+        pdf.rect(110, 15, 80, 60);
+        pdf.text(`${client.nom || ""}`, 115, 20);
+        pdf.text(`${client.prenom || ""}`, 115, 30);
+        pdf.text(`${client.rue || ""}`, 115, 40);
+        pdf.text(`${client.ville || ""}`, 115, 50);
+        pdf.text(`${client.code_postal || ""}`, 115, 60);
+
+        pdf.rect(55, 83, 105, 10);
+        pdf.text(`Facture numéro : FAC/${numeroDocument || ""}`, 60, 90);
+
+        let y = 100;
+        pdf.autoTable({
+            startY: y,
+            head: [["Nom", "Tarif HT", "Quantité", "TVA 20%", "Total TTC"]],
+            body: produitsAvecCalculs.map(produit => [
+                produit.nom,
+                produit.tarif + " €",
+                produit.quantite,
+                (produit.tarif * .2).toFixed(2),
+                ((produit.tarif * produit.quantite) * 1.2).toFixed(2) + " €"
+            ])
         });
 
-        if (!response.ok) {
-            throw new Error('Une erreur est survenue lors de la récupération des devis');
-        }
+        pdf.text(`Total à régler : ${totalGeneral.toFixed(2)} €`, 150, pdf.autoTable.previous.finalY + 10);
 
-        const data = await response.json();
-        setDevisFacture(data.facutre);
-        setLoading(false);
-    } catch (error) {
-        setError(error.message);
-        setLoading(false);
-    }
-};
+        pdf.save(`Facture numéro : FAC/${numeroDocument}.pdf`);
+    };
 
-useEffect(() => {
-    fetchFacture();
-}, []);
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    const handlePayClick = () => {
+        setShowModal(true);
+    };
 
-// if (loading) {
-//     return <div className='col-md-6 mx-auto text-center ' style={{ marginTop: "140px" }}>Chargement en cours...</div>;
-// }
-
-// if (error) {
-//     return <div className='col-md-6 mx-auto text-center ' style={{ marginTop: "140px" }}>Erreur lors du chargement des devis : {error}</div>;
-// }
-
-// if (!factureData || factureData.length === 0) {
-//     return(
-//     <section className='graylogo p-3 rounded col-md-9 mx-auto' style={{marginTop:"50px"}}>
-//      <h1 className='col-md-6 mx-auto rounded text-center '>Aucune facture trouvé.</h1>
-//      <BackButton />
-//      </section>
-//     )
-// }
-
+    const handleCloseModal = () => {
+        setShowModal(false);
+    };
 
     return (
-        <>
-            <section className='graylogo col-lg-10 p-2 mx-auto mt-5'>
-                <nav className='col-lg-10 m-3 mx-auto bg-white text-center'>
-                    <BackButton />
-                    <Button
-                        variant='primary'
-                        className='m-3 fw-bold'
-                        onClick={handleClick}
-                        aria-expanded={componentIsVisible ? 'true' : 'false'}
-                        aria-controls="factureTable"
-                    >
-                        {componentIsVisible ? "Réduire la liste" : "Voir Ma Liste de mes factures"}
-                    </Button>
-                </nav>
-                <div className='mt-5'>
-                <Form className='graylogo col-md-10 mx-auto  p-4 gap-2'>
-                {/* <h3 className='p-3 text-center rounded'> {dataFacture.facture.numero_commande} </h3> */}
-                        <Row>
-                            {/* Informations sur la société */}
-                            <Col md={12} lg={6} className="border border-secondary p-4 rounded ">
-                                <article aria-labelledby="societe-header">
-                                    <header id="societe-header">
-                                        <h4 className="visually-hidden">Informations sur la société</h4>
-                                    </header>
-                                        <figure className='d-flex justify-content-between p-2'>
-                                            <img 
-                                                src ={societe && societe.avatar} 
-                                                style={{width: "100px", height: "100px", borderRadius: "50%"}} 
-                                                alt="Avatar de la société!" />
-                                        </figure>
-                                        <address className="mb-3 text-white fw-bold fs-6">
-                                            <p>{societe && societe.societe}</p>
-                                            <p>{societe && societe.rue}</p>
-                                            <p>{societe && societe.ville}</p>
-                                            <p>{societe && societe.code_postal}</p>
-                                            <p>Contact  : MR  {societe && societe.pseudo}</p>
-                                        </address>
-                                </article>
-                            </Col>
-                            {/* Informations sur le client */}
-                            <Col md={12} lg={6} className="border border-secondary p-4 rounded ">
-                                <article className='client-header'>
-                                        <header id="client-header">
-                                            <h4 className="visually-hidden">Informations sur le client</h4>
-                                        </header>
-                                            <figure className='d-flex justify-content-between p-2'>
-                                                <img 
-                                                    src ={client && client.avatar} 
-                                                    style={{width: "100px", height: "100px", borderRadius: "50%"}} 
-                                                    alt="Avatar du client"
-                                                    />
-                                                <figcaption className="p-3 text-center text-white rounded fw-bold">
-                                                    {client?.pseudo}
-                                                </figcaption>
-                                            </figure>
-                                            
-                                            <address className="mb-3 text-white fw-bold fs-6">
-                                                <p>{client && client.nom}</p>
-                                                <p>{client && client.prenom}</p>
-                                                <p>{client && client.rue}</p>
-                                                <p>{client && client.ville}</p>
-                                                <p>{client && client.code_postal}</p>
-                                            </address> 
-                                </article>
-                            </Col>
-                        </Row>
-                                     
-                                    
-                    </Form>
+        <div className="container rounded mt-5 graylogo p-2">
+            <header>
+                <h1 className="text-center">Facture-{type.charAt(0).toUpperCase() + type.slice(1)}</h1>
+            </header>
+            <main className="bg-white p-2 rounded">
+                <h2 className="text-center">Facture numéro : FAC/{numeroDocument}</h2>
+                <div className="d-flex justify-content-between" role="contentinfo">
+                    <section aria-labelledby="societe-details">
+                        <h3 id="societe-details">Société</h3>
+                        <address>
+                            <p>{societe.societe}</p>
+                            <p>{societe.rue}</p>
+                            <p>{societe.ville}, {societe.code_postal}</p>
+                            <p>{societe.nom}</p>
+                        </address>
+                    </section>
+                    <section aria-labelledby="client-details">
+                        <h3 id="client-details">Client</h3>
+                        <address>
+                            <p>{client.nom} {client.prenom}</p>
+                            <p>{client.rue}</p>
+                            <p>{client.ville}, {client.code_postal}</p>
+                        </address>
+                    </section>
                 </div>
-                                {componentIsVisible && (
-                                    <form className='mx-auto col-lg-10 col-md-8 overflow-auto'>
-                                        <table
-                                            className='table'
-                                            id="factureTable"
-                                            aria-hidden={!componentIsVisible ? 'true' : 'false'}
-                                        >
-                                            <thead>
-                                                <tr>
-                                                    <th scope='col' className='bg-secondary text-white'>Ouvrir</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Numéro facture</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Date facture</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Validité devis</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Détails projet</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Mode paiement</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Info paiement</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Statut facture</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Montant total</th>
-                                                    <th scope='col' className='bg-secondary text-white'>Télécharger</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {factureData.map((facture, index) => (
-                                                    <tr
-                                                        key={facture.facture_id}
-                                                        className={index % 2 === 0 ? "table-primary" : "table-secondary"}
-                                                    >
-                                                        <td>
-                                                            <Link to={`/ouvrifacture/${facture.facture_id}`}>
-                                                                <Button
-                                                                    className='fw-bold' 
-                                                                    aria-label='Ouvrir la facture' >
-                                                                    Ouvrir
-                                                                </Button>
-                                                            </Link>
-                                                        </td>
-                                                        <td className='text-black'>{facture.numero_facture}</td>
-                                                        <td>{formatDate(facture.date_facture)}</td>
-                                                        <td>{facture.date-echeance}</td>
-                                                        <td>{facture.detail_projet}</td>
-                                                        <td>{facture.mode_paiement}</td>
-                                                        <td>{facture.information_paiement}</td>
-                                                        <td>{facture.statut_facture === 1 ? 'En cours' : 'Terminé'}</td>
-                                                        <td>{facture.montant_total} </td>
-                                                        <td>
-                                                           
-                                                        </td>
-                                                    </tr>
-
-                                                ))}
-                                            </tbody>
-                                        </table>
-                                    </form>
-                                )}
-                                { !isVisible && (
-                                <nav className='col-lg-10 m-3 mx-auto bg-white text-center'>
-                                    <BackButton />
-                                    <Button
-                                        variant='primary'
-                                        className='m-3 fw-bold'
-                                        onClick={handleClick}
-                                        aria-expanded={componentIsVisible ? 'true' : 'false'}
-                                        aria-controls="factureTable"
-                                    >
-                                        {componentIsVisible ? "Réduire la liste" : "Voir Ma Liste de facture"}
-                                    </Button>
-                                </nav>
-                                )}
-                            </section>
-
-
-
-                        {/* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */}
-        </>
+                <h4>Produits</h4>
+                <table className="table" role="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nom</th>
+                            <th scope="col">Tarif HT</th>
+                            <th scope="col">Quantité</th>
+                            <th scope="col">TVA 20%</th>
+                            <th scope="col">Total TTC</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {produitsAvecCalculs.map(produit => (
+                            <tr key={produit.produit_id}>
+                                <td>{produit.nom}</td>
+                                <td>{produit.tarif} €</td>
+                                <td>{produit.quantite}</td>
+                                <td>{produit.tva.toFixed(2)} €</td>
+                                <td>{produit.totalTTC.toFixed(2)} €</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                <h4>Total: {totalGeneral.toFixed(2)} €</h4>
+                <div className="d-flex justify-content-between p-2">
+                    <BackButton />
+                    <Button onClick={handlePayClick} aria-label="Payer la facture">Payer</Button>
+                    <Button onClick={handleDownloadPDF} aria-label="Télécharger la facture en PDF">Télécharger PDF</Button>
+                </div>
+            </main>
+            <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Paiement</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Paiement 
+                        total={totalGeneral}
+                        codePromotionnel={false}
+                        finaliserAchats={() => {
+                            // Code pour finaliser les achats
+                            handleCloseModal();
+                        }}
+                    />
+                </Modal.Body>
+            </Modal>
+        </div>
     );
 };
 

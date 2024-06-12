@@ -48,11 +48,10 @@ import MotDePassePerdu from './src/compenents/App/ContactForm/Inscription/MotDeP
 import NouveauMotDePasse from './src/compenents/App/ContactForm/Inscription/NouveauMotDePasse.jsx';
 import ModifierCommande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/commande/ModifierCommande.jsx';
 import OuvrirCommande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/commande/OuvrirCommande.jsx';
-import Facture from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/facture.jsx';
 import AmonSujet from './src/compenents/Portfolio/AmonSujet.jsx';
 import ReserveForUser from './src/compenents/AuthSecure/ReservForUser.jsx';
-import FactureCommande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/FactureCommande.jsx';
-import FactureDevis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/FactureDevis.jsx';
+import Facture from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/facture.jsx';
+import VoirMesFactures from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/VoirMesFactures.jsx';
 
 function detectLanguage() {
   const userLang = navigator.language || navigator.userLanguage;
@@ -92,7 +91,9 @@ root.render(
         <Route path="ReadArticles" element={<ReadArticles />} />
         <Route path="ouvrirDevis/:devisId" element={<OuvrirLeDevis />} />
         <Route path="ouvrirCommande/:commandeId" element={<OuvrirCommande />} />
-        <Route path="facture" element={<Facture />} />
+        <Route path="facture" element={<VoirMesFactures />} />
+        <Route path="factureCommande" element={<Facture type="commande" />} />
+        <Route path="factureDevis" element={<Facture type="devis" />} />
         <Route path="modifierDevis" element={<ModifierDevis />} />
         <Route path="modifierCommande" element={<ModifierCommande />} />
         <Route path="commande" element={<Commande />} />
@@ -103,8 +104,8 @@ root.render(
         <Route path="api/reset-password/:token" element={<NouveauMotDePasse />} />
         <Route path="aMonSujet" element={<AmonSujet />} />
         <Route path="reserver-pour-utilisateur" element={<ReserveForUser/>} />
-        <Route path="factureCommande" element={<FactureCommande/>} />
-        <Route path="factureDevis" element={<FactureDevis/>} />
+        {/* <Route path="factureCommande" element={<FactureCommande/>} />
+        <Route path="factureDevis" element={<FactureDevis/>} /> */}
     </Routes>
     </main>
     <ScrollToTopButton />

@@ -17,6 +17,7 @@ import devisController from './controllers/devisController.js';
 import portfolioController from './controllers/portfolioController.js';
 import commandeController from './controllers/commandeController.js';
 import decodeToken from './midleware/decodeToken.js';
+import factureController from './controllers/factureController.js';
 
 
 const router = express.Router();
@@ -81,6 +82,13 @@ router.get('/api/get/devis/utilisateur', jwtGuard, roleCheck([1,2,3,4,5]), devis
 router.get('/api/get/devis/utilisateur/:devisId', jwtGuard, roleCheck([1,2,3,4,5]), devisController.getDevisUtilisateurId); // permet de récupèrer un devis (par son Id), de l'utilisateur conécter !
 router.delete('/api/delete/devis/:devisId', jwtGuard, roleCheck([1, 2, 3, 4, 5]), devisController.deleteDevis); // pérmet de supprimer un devis avec toutes ces relation avec son devis_id !
 router.post('/api/update/devis/:devisId', jwtGuard, roleCheck([1, 2, 3, 4, 5]), devisController.updateDevis); // permet de modiffier un devis !
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX//
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX//
+router.post('/api/create/facture', jwtGuard, roleCheck([1,2,3,4,5]), factureController.createFacture); // permet d'enregistrer une facture !
+router.get('/api/get/facture/utilisateur', jwtGuard, roleCheck([1,2,3,4,5]), factureController.getFactureUtilisateur); // permet de récupèrer toutes les factures de l'utilisateur conécter !
+router.get('/api/get/facture/utilisateur/:factureId', jwtGuard, roleCheck([1,2,3,4,5]), factureController.getFactureUtilisateurId); // permet de récupèrer une facture (par son Id), de l'utilisateur conécter !
+// router.delete('/api/delete/facture/:factureId', jwtGuard, roleCheck([1, 2, 3, 4, 5]), factureController.deleteFacture); // pérmet de supprimer une facture avec toutes ces relation avec son devis_id !
+// router.post('/api/update/facture/:factureId', jwtGuard, roleCheck([1, 2, 3, 4, 5]), factureController.updateFacture); // permet de modiffier une facture !
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX//
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX//
 

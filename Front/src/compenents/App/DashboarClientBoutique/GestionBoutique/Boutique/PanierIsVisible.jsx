@@ -13,6 +13,7 @@ const [codePromotionnel, setCodePromotionnel] = useState('');
 const [showModal, setShowModal] = useState(false); // Modal de paiement
 const [showPaiementModal, setShowPaiementModal] = useState(false); // Modal de paiement
 const [totalAvecRemise, setTotalAvecRemise] = useState(null); // Définissez l'état pour totalAvecRemise
+const [erreur, setErreur] = useState('');
 
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -20,7 +21,7 @@ let total = 0;
 // Calcul du total du panier
 const calculerTotalPanier = () => {
   console.log('panier:', panier); // Ajoutez ceci pour vérifier le contenu du panier
-  total = panier.reduce((total, produit) => total + produit.tarif * produit.quantite, 0);
+  total = panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0);
   console.log('total avant toFixed:', total); // Ajoutez ceci pour vérifier la valeur de total avant toFixed
   return total;
 };
@@ -76,8 +77,52 @@ useEffect(() => {
      setPayementIsVisible(true);
   } else{setPayementIsVisible(false)}
  })
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+const handlePaymentResponse = async (responseMessage) => {
+  alert(responseMessage);
+  setShowPaiementModal(false);
+
+  if (responseMessage === 'Paiement accepté') {
+      try {
+        const token = localStorage.getItem('token');
+          // Préparez les données de la facture à envoyer
+          const factureData = {
+            numeroFacture: numero_facture,
+            dateFacture: date_facture,
+            dateEcheance: date_echeance,
+            montantTotal: montant_total,
+            detailProjet: detail_projet,
+            modePaiement: mode_paiement,
+            informationPaiement: information_paiement,
+            statutFacture: statut_facture,
+            panier: panier,
+        };
+
+          const response = await fetch('http://localhost:3000/api/create/facture', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`
+              },
+              body: JSON.stringify(factureData)
+          });
+
+          if (!response.ok) {
+              throw new Error('Erreur lors de la création de la facture');
+          }
+
+          const result = await response.json();
+          alert('Facture créée avec succès');
+      } catch (error) {
+          console.error('Erreur:', error);
+          setErreur('Erreur lors de la création de la facture. Veuillez réessayer.');
+      }
+  }
+};
+
+
+
     return(
         <>
         
@@ -97,27 +142,38 @@ useEffect(() => {
                                       {/* Affichage du total du panier */}
                                       <table className="table">
                                           <thead>
-                                          <tr>
-                                              <th>Nom</th>
-                                              <th>Tarif</th>
-                                              <th>Quantité</th>
-                                              <th>Total</th>
-                                          </tr>
+                                              <tr>
+                                                  <th>Nom</th>
+                                                  <th>Tarif HT</th>
+                                                  <th>Quantité</th>
+                                                  <th>TVA 20%</th>
+                                                  <th>Total TTC</th>
+                                              </tr>
                                           </thead>
                                           <tbody>
-                                          {panier && panier.map((produit, index) => (
-                                              <tr key={index} data-name={produit.nom} data-tarif={produit.tarif} data-quantite={produit.quantite} data-total={(produit.tarif * produit.quantite).toFixed(2)}>
-                                              <td>{produit.nom}</td>
-                                              <td>{produit.tarif} €</td>
-                                              <td>{produit.quantite}</td>
-                                              <td>{(produit.tarif * produit.quantite).toFixed(2)} €</td>
+                                              {panier && panier.map((produit, index) => (
+                                                  <tr
+                                                      key={index}
+                                                      data-name={produit.nom}
+                                                      data-tarif={produit.tarif}
+                                                      data-quantite={produit.quantite}
+                                                      data-tva={(produit.tarif * .2).toFixed(2)}
+                                                      data-total={(produit.tarif * produit.quantite * 1.2).toFixed(2)}
+                                                  >
+                                                      <td>{produit.nom}</td>
+                                                      <td>{produit.tarif} €</td>
+                                                      <td>{produit.quantite}</td>
+                                                      <td>{(produit.tarif * .2).toFixed(2)}</td>
+                                                      <td>{(produit.tarif * produit.quantite * 1.2).toFixed(2)} €</td>
+                                                </tr>
+                                              ))}
+                                              {/* Total de la commande */}
+                                              <tr>
+                                                  <td colSpan="4" className="fw-bold text-end">Total de la commande :</td>
+                                                  <td className="fw-bold">
+                                                      <span name="total" value={panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0).toFixed(2)}>{panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0).toFixed(2)} €</span>
+                                                  </td>
                                               </tr>
-                                          ))}
-                                          {/* Total du devis */}
-                                          <tr>
-                                              <td colSpan="3" className="fw-bold text-end">Total du panier :</td>
-                                              <td className="fw-bold">{(calculerTotalPanier()).toFixed(2)} € </td>
-                                          </tr>
                                           </tbody>
                                       </table>
                                           <h5 className="p-2 rounded">Total du panier :  {(calculerTotalPanier()).toFixed(2)} €</h5>
@@ -185,6 +241,7 @@ useEffect(() => {
                                       total={codePromotionnel ? totalAvecRemise : calculerTotalPanier()} // Utilisez le total avec remise si un code promotionnel est appliqué, sinon utilisez le total sans remise
                                       codePromotionnel={codePromotionnel}
                                       finaliserAchats={finaliserAchats}
+                                      onPaymentResponse={handlePaymentResponse} // Passez le callback au composant enfant
                                   />
                                 </Modal>
                           </section>    
