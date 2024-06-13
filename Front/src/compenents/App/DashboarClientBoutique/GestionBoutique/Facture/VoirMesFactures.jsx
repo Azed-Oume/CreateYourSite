@@ -1,6 +1,6 @@
 
-import React, {useState, useEffect} from 'react';
-import { useLocation } from 'react-router-dom';
+import React, {useState, useEffect } from 'react';
+import { useLocation, Link } from 'react-router-dom';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 import BackButton from '../../../../AuthSecure/BackButton';
 import ReserveForUser from '../../../../AuthSecure/ReservForUser';
@@ -105,8 +105,9 @@ const fetchFacture = async () => {
         }
 
         const data = await response.json();
-        setDevisFacture(data.facutre);
+        setFactureData(data.facture);
         setLoading(false);
+        console.log(data, " en ligne 110 XXXXXXXXXXXXXXX");
     } catch (error) {
         setError(error.message);
         setLoading(false);
@@ -116,6 +117,19 @@ const fetchFacture = async () => {
 useEffect(() => {
     fetchFacture();
 }, []);
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+const formatDate = (dateString) => {
+    const options = { 
+        year: 'numeric', 
+        month: '2-digit', 
+        day: '2-digit', 
+        hour: '2-digit', 
+        minute: '2-digit' 
+    };
+    const date = new Date(dateString);
+    return date.toLocaleDateString('fr-FR', options).replace(',', ' -');
+};
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -172,12 +186,12 @@ if (!factureData || factureData.length === 0) {
                                                     <th scope='col' className='bg-secondary text-white'>Ouvrir</th>
                                                     <th scope="col" className='bg-secondary text-white'>Numéro facture</th>
                                                     <th scope="col" className='bg-secondary text-white'>Date facture</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Validité devis</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Détails projet</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Mode paiement</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Info paiement</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Statut facture</th>
-                                                    <th scope="col" className='bg-secondary text-white'>Montant total</th>
+                                                    <th scope="col" className='bg-secondary text-white'>Écheance</th>
+                                                    <th scope="col" className='bg-secondary text-white'>Projet</th>
+                                                    <th scope="col" className='bg-secondary text-white'>Paiement</th>
+                                                    <th scope="col" className='bg-secondary text-white'>Info</th>
+                                                    <th scope="col" className='bg-secondary text-white'>Statut</th>
+                                                    <th scope="col" className='bg-secondary text-white'>Total</th>
                                                     <th scope='col' className='bg-secondary text-white'>Télécharger</th>
                                                 </tr>
                                             </thead>
@@ -188,7 +202,7 @@ if (!factureData || factureData.length === 0) {
                                                         className={index % 2 === 0 ? "table-primary" : "table-secondary"}
                                                     >
                                                         <td>
-                                                            <Link to={`/ouvrifacture/${facture.facture_id}`}>
+                                                            <Link to={`/ouvrirFacture/${facture.facture_id}`}>
                                                                 <Button
                                                                     className='fw-bold' 
                                                                     aria-label='Ouvrir la facture' >
@@ -198,11 +212,11 @@ if (!factureData || factureData.length === 0) {
                                                         </td>
                                                         <td className='text-black'>{facture.numero_facture}</td>
                                                         <td>{formatDate(facture.date_facture)}</td>
-                                                        <td>{facture.date-echeance}</td>
+                                                        <td>{formatDate(facture.date_echeance)}</td>
                                                         <td>{facture.detail_projet}</td>
                                                         <td>{facture.mode_paiement}</td>
                                                         <td>{facture.information_paiement}</td>
-                                                        <td>{facture.statut_facture === 1 ? 'En cours' : 'Terminé'}</td>
+                                                        <td>{facture.statut_facture === 1 ? 'Terminé' : 'En cours'}</td>
                                                         <td>{facture.montant_total} </td>
                                                         <td>
                                                            

@@ -23,8 +23,7 @@ const Facture = sequelize.define("Facture", {
     },
     date_echeance: {
         type: DataTypes.DATE,
-        allowNull: false,
-        defaultValue: DataTypes.NOW
+        allowNull: true,
     },
     montant_total: {
         type: DataTypes.DECIMAL(10, 2),
@@ -47,8 +46,9 @@ const Facture = sequelize.define("Facture", {
     information_paiement: {
         type: DataTypes.INTEGER,
         allowNull: true
+        
     },
-    utilisteur_id: {
+    utilisateur_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {

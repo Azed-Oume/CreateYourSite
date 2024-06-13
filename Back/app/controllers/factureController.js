@@ -9,16 +9,15 @@ import Produit_facture from "../models/produit_facture.js";
 
 const factureController = {
 
+
     createFacture: async (req, res) => {
         const t = await sequelize.transaction(); // Début de la transaction Sequelize
         try {
             // Extraire les données du formulaire de la demande
-            const { numeroFacture, validateFacture, detailProjet, panier, montantTotal, modePaiement, informationPaiement } = req.body;
-            console.log(numeroFacture, validateFacture, detailProjet, panier, "en ligne 17 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+            const { numeroFacture, detailProjet, panier, montantTotal, modePaiement, informationPaiement } = req.body;
             
             // Récupérer l'ID de l'utilisateur connecté à partir des informations stockées dans la demande
             const utilisateurId = req.user.utilisateur_id;
-            console.log(utilisateurId, "en ligne 21 XXXXXXXXXXXXX");
             
             // Rechercher l'utilisateur dans la table Utilisateurs
             const utilisateur = await User.findOne({ where: { utilisateur_id: utilisateurId } });
@@ -32,19 +31,19 @@ const factureController = {
             const nouvelleFacture = await Facture.create({
                 utilisateur_id: utilisateurId,
                 numero_facture: numeroFacture,
-                nom_client: User.nom,
+                nom_client: utilisateur.nom,
                 date_facture: new Date(),
-                date_echeance: validateFacture,
+                date_echeance: new Date(),
                 montant_total: montantTotal,
                 detail_projet: detailProjet,
                 mode_paiement: modePaiement,
                 statut_facture: 1, // ou une autre valeur par défaut
                 information_paiement: informationPaiement
             }, { transaction: t });
-
+    
             // Récupérer l'ID de la facture créée
             const factureId = nouvelleFacture.facture_id;
-
+    
             // Enregistrer les produits associés à la facture dans la table Produit_facture
             await Promise.all(panier.map(async (produit) => {
                 // Enregistrer chaque produit du panier dans la table Produit_facture
@@ -54,81 +53,22 @@ const factureController = {
                     quantite: produit.quantite
                 }, { transaction: t });
             }));
-
+    
             // Valider la transaction
             await t.commit();
-
+    
             // Répondre avec un succès
             res.status(201).json({ message: 'Facture créée avec succès' });
-            console.log("Facture créée avec succès");
         } catch (error) {
             console.error(error);
             // Si une erreur se produit, annuler la transaction
             await t.rollback();
-
+    
             // Répondre avec une erreur
             res.status(500).json({ error: 'Erreur lors de la création de la facture' });
         }
     },
     
-
-    // createFacture : async (req, res) => {
-    //     const t = await sequelize.transaction(); // Début de la transaction Sequelize
-    //     try {
-    //         // Extraire les données du formulaire de la demande
-    //         const { numeroFacture, validateFacture, detailProjet, panier } = req.body;
-    //         console.log(numeroFacture, validateFacture, detailProjet, panier, "en ligne 17 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-            
-    //         // Récupérer l'ID de l'utilisateur connecté à partir des informations stockées dans la demande
-    //         const utilisateurId = req.user.utilisateur_id;
-    //         console.log(utilisateurId, "en ligne 21 XXXXXXXXXXXXX");
-            
-    //         // Rechercher l'utilisateur dans la table Utilisateurs
-    //         const utilisateur = await User.findOne({ where: { utilisateur_id: utilisateurId } });
-    
-    //         // Vérifier si l'utilisateur existe
-    //         if (!utilisateur) {
-    //             throw new Error('Utilisateur non trouvé');
-    //         }
-    
-    //             // Enregistrer le devis dans la table Devis avec le nom du client
-    //             const nouvelleFacture = await Facture.create({
-    //                 // Données du devis
-    //                 utilisateur_id: utilisateurId,
-    //                 numero_facture: numeroFacture,
-    //                 validite_facture: validateFacture,
-    //                 detail_projet: detailProjet,
-    //                 nom_client: utilisateur.nom
-    //             }, { transaction: t });
-
-    //             // Récupérer l'ID du devis créé
-    //             const factureId = nouvelleFacture.facture_id;
-
-    //             // Enregistrer les produits associés au devis dans la table Produit_devis
-    //             await Promise.all(panier.map(async (produit) => {
-    //                 // Enregistrer chaque produit du panier dans la table Produit_devis
-    //                 await Produit_facture.create({
-    //                     facture_id: factureId, // Utiliser l'ID du devis créé
-    //                     produit_id: produit.produit_id,
-    //                     quantite: produit.quantite
-    //                 }, { transaction: t });
-    //             }));
-
-    //             // Valider la transaction
-    //             await t.commit();
-
-    //             // Répondre avec un succès
-    //             res.status(201).json({ message: 'Facture créé avec succès' });
-    //             console.log("Facture créé avec succès");
-    //     } catch (error) {
-    //         console.error(error);
-    //         // Si une erreur se produit, annuler la transaction
-    //         await t.rollback();
-
-    //         // Répondre avec une erreur
-    //         res.status(500).json({ error: 'Erreur lors de la création de la facture' });
-    //     }
-    // },
 
     getFactureUtilisateur: async (req, res) => {
         const t = await sequelize.transaction(); // Début de la transaction Sequelize

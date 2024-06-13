@@ -6,6 +6,7 @@ import my_fish from '../../../../images/my_fish.png';
 import {FaChevronLeft, FaChevronRight} from 'react-icons/fa';
 // import Paiement from './Paiement.jsx';
 import PanierIsVisible from './PanierIsVisible.jsx';
+import FactureBoutique from '../Facture/FactureBoutique.jsx';
 
 
 const Boutique = ({produit, index}) => {
@@ -217,6 +218,7 @@ const filteredProduits = produits.filter(produit => produit.statut === 1);
         </div>
       </section>
       <PanierIsVisible  panier={panier} />
+      <FactureBoutique panier={panier} />
 
 
     </>

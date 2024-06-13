@@ -97,7 +97,8 @@ const handlePaymentResponse = async (responseMessage) => {
             informationPaiement: information_paiement,
             statutFacture: statut_facture,
             panier: panier,
-        };
+        };console.log(token, " en ligne 100 XXXXXXXXXXXXXXXXXXX");
+        console.log(factureData, " en ligne 101 XXXXXXXXXXXXXXXXXXX");
 
           const response = await fetch('http://localhost:3000/api/create/facture', {
               method: 'POST',

@@ -52,6 +52,7 @@ import AmonSujet from './src/compenents/Portfolio/AmonSujet.jsx';
 import ReserveForUser from './src/compenents/AuthSecure/ReservForUser.jsx';
 import Facture from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/facture.jsx';
 import VoirMesFactures from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/VoirMesFactures.jsx';
+import OuvrirFacture from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/OuvrirFacture.jsx';
 
 function detectLanguage() {
   const userLang = navigator.language || navigator.userLanguage;
@@ -94,6 +95,7 @@ root.render(
         <Route path="facture" element={<VoirMesFactures />} />
         <Route path="factureCommande" element={<Facture type="commande" />} />
         <Route path="factureDevis" element={<Facture type="devis" />} />
+        <Route path="ouvrirFacture/:factureId" element={<OuvrirFacture />} />
         <Route path="modifierDevis" element={<ModifierDevis />} />
         <Route path="modifierCommande" element={<ModifierCommande />} />
         <Route path="commande" element={<Commande />} />

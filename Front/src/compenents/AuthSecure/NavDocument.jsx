@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import BackButton from "./BackButton";
@@ -6,6 +6,17 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 const NavDocument = ({ data, societe, client, type }) => {
+    const [isVisible, setIsVisible] = useState(type !== 'facture');
+    useEffect(() => {
+    const controleType = () => {
+        if ( type === 'facture') {
+            setIsVisible(false);
+        }else {
+            setIsVisible(true);
+        }
+    }; controleType();
+    }, [type]);
+
     const navigate = useNavigate();
 
     const handleValidate = () => {
@@ -38,7 +49,9 @@ const NavDocument = ({ data, societe, client, type }) => {
         pdf.text(`${client.ville || ""}`, 115, 50);
         pdf.text(`${client.code_postal || ""}`, 115, 60);
 
-        const numText = type === "commande" ? `Numéro Commande : ${data.commande.numero_commande || ""}` : `Numéro devis : ${data.devis.numero_devis || ""}`;
+        // const numText = type === "commande" ? `Numéro Commande : ${data.commande.numero_commande || ""}` : `Numéro devis : ${data.devis.numero_devis || ""}` : `Numéro Facture : ${data.facture.numero_facture || ""}`;
+        const numText = type === "commande" ? `Numéro Commande : ${data.commande.numero_commande || ""}` : type === "devis" ? `Numéro devis : ${data.devis.numero_devis || ""}` : `Numéro Facture : ${data.facture.numero_facture || ""}`;
+
         pdf.rect(55, 83, 105, 10);
         pdf.text(numText, 60, 90);
 
@@ -61,25 +74,30 @@ const NavDocument = ({ data, societe, client, type }) => {
         }, 0).toFixed(2);
         pdf.text(`Total : ${total * 1.2} €`, 150, pdf.autoTable.previous.finalY + 10);
 
-        const fileName = type === "commande" ? `Commande${data.commande.numero_commande}.pdf` : `devis${data.devis.numero_devis}.pdf`;
+        const fileName = type === "commande" ? `Numéro Commande : ${data.commande.numero_commande || ""}.pdf` : type === "devis" ? `Numéro devis : ${data.devis.numero_devis || ""}.pdf` : `Numéro Facture  : ${data.facture.numero_facture || ""}.pdf`;
         pdf.save(fileName);
     };
 
     return(
         <nav className='d-flex justify-content-center gap-3 m-5 flex-wrap'>
+            {isVisible && (
             <Button 
                 className='fw-bold'
                 aria-label={`Valider le ${type} et Passer en facture`}
                 onClick={handleValidate} >
                     Valider le {type} et Passer en facture
             </Button>
+            )}
+
             <BackButton />
+            {isVisible && (
             <Button 
                 className='fw-bold'
                 aria-label={`Modifier le ${type}`}
                 onClick={handleModify} >
                     Modifier le {type}
             </Button>
+            )}
             <Button 
                 className='fw-bold'
                 aria-label='Télécharger à nouveau le pdf'

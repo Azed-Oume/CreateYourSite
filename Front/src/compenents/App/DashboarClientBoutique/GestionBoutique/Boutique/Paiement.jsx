@@ -72,7 +72,7 @@ const Paiement = ({ total, codePromotionnel, finaliserAchats, onPaymentResponse 
         finaliserAchats();
 
         // Rediriger vers "/boutique" une fois le paiement effectué
-        window.location.href = '/boutique';
+        // window.location.href = '/boutique';
     } catch (error) {
         setErreur('Une erreur est survenue lors du paiement. Veuillez réessayer.');
         onPaymentResponse('Paiement refusé');

@@ -4,7 +4,7 @@ import Produits from "./produit.js";
 import Facture from "./facture.js"; 
 
 const Produit_facture = sequelize.define('Produit_facture', {
-    produit_facture_id: {
+    facture_produit_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true

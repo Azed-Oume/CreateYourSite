@@ -106,7 +106,7 @@ const Header = () => {
                         <Nav className="d-flex flex-wrap mx-auto fw-bold p-2" onClick={closeMenu}>
                             {/* <div className=''> */}
                             {/* {headerVisible && ( */}
-                                    <div className='d-flex flex-wrap gap-3 fs- col-md-12 mx-auto m-2 border-bottom' style={{fontSize: "13px"}}>
+                                    <div className='d-flex flex-wrap gap-3 fs- col-md-12 mx-auto m-2 border-bottom' style={{fontSize: "10px"}}>
                                         <Nav.Link className='text-white fw-bold ' as={Link} to="/">Accueil</Nav.Link>
                                         <Nav.Link className='text-white fw-bold ' as={Link} to="/Prestations" aria-label='Voir mes préstations' >Prestations</Nav.Link>
                                         <Nav.Link className='text-white fw-bold  ' as={Link} to="/Profil" aria-label="Accéder a mon profil" >Profil</Nav.Link>
@@ -121,7 +121,7 @@ const Header = () => {
                             {/* )} */}
                             
                             {/* {headerClientVisible && ( */}
-                                <div className='d-flex flex-wrap gap-3 col-md-12 mx-auto m-2 border-bottom' style={{fontSize: "13px"}}>
+                                <div className='d-flex flex-wrap gap-3 col-md-12 mx-auto m-2 border-bottom' style={{fontSize: "10px"}}>
                                     <Nav.Link className="text-white fw-bold " as={Link} to="/ajouterImagesPortfolio" aria-label="Ajouter photo au Portfolio">Ajouter Photo</Nav.Link>
                                     <Nav.Link className="text-white fw-bold " as={Link} to="/portfolio" aria-label="Afficher les photos du Portfolio">Portfolio</Nav.Link>
                                     <Nav.Link className="text-white fw-bold  " as={Link} to="/AjouterProduit" aria-label="Ajouter un Produit.">Ajout Produit</Nav.Link>
@@ -135,7 +135,7 @@ const Header = () => {
                     </Navbar.Collapse>
                     
                     <Navbar.Collapse id="navbarNav">
-                        <Nav className="mx-auto fw-bold text-center" onClick={closeMenu}>
+                        <Nav className="mx-auto fw-bold text-center" onClick={closeMenu} style={{fontSize: "10px"}}>
                             {isVisible ? (
                                 <>
                                     <Nav.Link className='text-white fw-bold' as={Link} to="/Inscription" aria-label="Pour s'inscrire">Inscription</Nav.Link>
