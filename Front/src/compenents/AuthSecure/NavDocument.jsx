@@ -85,7 +85,7 @@ const NavDocument = ({ data, societe, client, type }) => {
                 className='fw-bold'
                 aria-label={`Valider le ${type} et Passer en facture`}
                 onClick={handleValidate} >
-                    Valider le {type} et Passer en facture
+                    Valider {type} et Passer en facture
             </Button>
             )}
 
@@ -102,7 +102,7 @@ const NavDocument = ({ data, societe, client, type }) => {
                 className='fw-bold'
                 aria-label='Télécharger à nouveau le pdf'
                 onClick={handleDownloadPDF}>
-                    Télécharger à nouveau "PDF"
+                    Télécharger un duplicata "PDF"
             </Button>
         </nav>
     );

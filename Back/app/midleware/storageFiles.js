@@ -8,7 +8,7 @@ import multer from 'multer';
 // C:\COUR\TOUT-MES-REPO\Oume-Azed\Back\app\public\fileAvatar
 const storageImage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "C:/COUR/TOUT-MES-REPO/CreateSite/Back/app/public/fileAvatar"); // Le dossier où les fichiers seront stockés
+        cb(null, "C:/COUR/TOUT-MES-REPO/CreateYourSite/Back/app/public/fileAvatar"); // Le dossier où les fichiers seront stockés
     },
     filename: function (req, file, cb) {
         // Utilisation d'un préfixe pour différencier les fichiers des Utilisateurs.
@@ -25,7 +25,7 @@ export const uploadImage = multer({ storage: storageImage });
 
 const storageImageArticle = multer.diskStorage({
     destination: function (req, file, cb) {
-      cb(null, "C:/COUR/TOUT-MES-REPO/CreateSite/Back/app/public/imageArticle"); // Le dossier où les fichiers seront stockés
+      cb(null, "C:/COUR/TOUT-MES-REPO/CreateYourSite/Back/app/public/imageArticle"); // Le dossier où les fichiers seront stockés
     },          
     // 
     filename: function (req, file, cb) {
@@ -43,7 +43,7 @@ const storageImageArticle = multer.diskStorage({
 
  const storagePhotoProduit =multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "C:/COUR/TOUT-MES-REPO/CreateSite/Back/app/public/photoProduit");
+        cb(null, "C:/COUR/TOUT-MES-REPO/CreateYourSite/Back/app/public/photoProduit");
     },
     filename: function(req, file, cb) {
         const uniquePrefix = "photo-produit";
@@ -56,7 +56,7 @@ const storageImageArticle = multer.diskStorage({
 // C:\COUR\TOUT-MES-REPO\Oume-Azed\Back\app\public\fileAvatar
 const storagePortfolio = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "C:/COUR/TOUT-MES-REPO/CreateSite/Back/app/public/imagePortfolio"); // Le dossier où les fichiers seront stockés
+        cb(null, "C:/COUR/TOUT-MES-REPO/CreateYourSite/Back/app/public/imagePortfolio"); // Le dossier où les fichiers seront stockés
     },
     filename: function (req, file, cb) {
         // Utilisation d'un préfixe pour différencier les fichiers des Utilisateurs.
@@ -72,7 +72,7 @@ export const uploadPortfolio = multer({ storage: storagePortfolio });
 
  const storagePhotosPortfolio =multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "C:/COUR/TOUT-MES-REPO/CreateSite/Back/app/public/imagePortfolio");
+        cb(null, "C:/COUR/TOUT-MES-REPO/CreateYourSite/Back/app/public/imagePortfolio");
     },
     filename: function(req, file, cb) {
         const uniquePrefix = "photo-portfolio";

@@ -47,30 +47,22 @@ const Paiement = ({ total, codePromotionnel, finaliserAchats, onPaymentResponse 
   const handlePayer = async () => {
     try {
         // Simuler une attente de 3 secondes
-        await new Promise(resolve => setTimeout(resolve, 3000));
-
-        
-
+        await new Promise(resolve => setTimeout(resolve, 3000));     
         // Simuler une réponse du serveur bancaire
         const response = {
             ok: true, // Simule une réponse réussie
             json: async () => ({ message: 'Votre paiement a été accepté' })
-            
-        };
+          };
         // Renvoyer la réponse au composant parent
         onPaymentResponse('Paiement accepté');
         console.log("votre paiement a été accepté");
         alert("votre paiement a été accepté");
-
         // Vérifier si la requête s'est bien déroulée
         if (!response.ok) {
             throw new Error('Erreur lors du paiement');
         }
-
-        // Si le paiement est réussi, appeler la fonction pour finaliser les achats
-        
+        // Si le paiement est réussi, appeler la fonction pour finaliser les achats       
         finaliserAchats();
-
         // Rediriger vers "/boutique" une fois le paiement effectué
         // window.location.href = '/boutique';
     } catch (error) {
@@ -115,8 +107,6 @@ const Paiement = ({ total, codePromotionnel, finaliserAchats, onPaymentResponse 
 //         console.error('Erreur:', error);
 //     }
 // };
-
-
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
