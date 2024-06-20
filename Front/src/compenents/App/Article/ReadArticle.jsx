@@ -150,11 +150,12 @@ const ReadArticles = () => {
         </section>
         ) : (
         
-        <section className='row col-md-11 mx-auto' style={{ marginTop: "140px" }}>
+        <section className='row mt-5 col-md-11 mx-auto' >
             <div className='d-flex justify-content-around gap-2 mx-auto m-3 text-center'>
                 <Link to={"/Article"} >
                     <Button variant='success' className="btn graylogo text-white fw-bold">Publier Un Article</Button>
                 </Link>
+                <BackButton />
                 <Link to={"/Blog"} >
                     <Button variant='success' className="btn graylogo text-white fw-bold">Voir Les Articles du Blog</Button>
                 </Link>

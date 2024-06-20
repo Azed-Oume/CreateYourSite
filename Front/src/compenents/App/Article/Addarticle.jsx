@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form, Button, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import BackButton from '../../AuthSecure/BackButton';
 import AjouterImageArticle from './AjouterImageArticle';
 
@@ -8,6 +8,7 @@ const Article = () => {
     const [titre, setTitre] = useState('');
     const [contenu, setContenu] = useState('');
     const [categorie, setCategorie] = useState(''); // Ajout de l'état pour la 
+    const navigate = useNavigate();
     // const [coverImage, setCoverImage] = useState(null);
 
     const handleSubmit = async (event) => {
@@ -44,7 +45,8 @@ const Article = () => {
             const articleId = responseJson.article.article_id;
             localStorage.setItem('articleId', articleId);
             alert(articleId, " en ligne 45 XXXXXXXXXXXXXXXXXXX");
-            window.location.href = `AjouterImageArticle/${articleId}`;
+            // window.location.href = `AjouterImageArticle/${articleId}`;
+            navigate(`/AjouterImageArticle/${articleId}`); // Utilisation de navigate pour la redirection
 
             
         } catch (error) {

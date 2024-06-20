@@ -290,7 +290,7 @@ const Blog = () => {
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
-    <section className="row col-md-11 mx-auto mt-4">
+    <section className="row col-md-11 mx-auto mt-5">
       <nav className="d-flex justify-content-around gap-2 mx-auto m-4 text-center" aria-label="Main Navigation">
         <Link to={"/Article"}>
           <Button variant="success" className="btn graylogo text-white fw-bold" aria-label="Publier un article">Publier Un Article</Button>

@@ -88,7 +88,7 @@ root.render(
         <Route path="Cgu" element={<ConditionGeneralUtilisation />} />
         <Route path="Prestations" element={<Prestations />} />
         <Route path="Article" element={<Article />} />
-        <Route path="AjouterImageArticle/:articleId" element={<AjouterImageArticle />} />
+        <Route path="/AjouterImageArticle/:articleId" element={<AjouterImageArticle />} />
         <Route path="AjouterImageArticle" element={<AjouterImageArticle />} />
         <Route path="ReadArticles" element={<ReadArticles />} />
         <Route path="ouvrirDevis/:devisId" element={<OuvrirLeDevis />} />
