@@ -3,15 +3,17 @@ import React, { useState, useEffect } from 'react';
 import {useParams} from "react-router-dom"
 import logo from "../../images/logofondblanc.png";
 
-const AddImageArticle = () => {
+const AjouterImageArticle = () => {
     const { articleId } = useParams();
-
+    console.log(articleId, " en ligne 8 XXXXXXXXXXX");
     const [selectedFile, setSelectedFile] = useState(null);
     const [fileName, setFileName] = useState("");
     const [uploadProgress, setUploadProgress] = useState(0);
     const [isFileSubmitted, setIsFileSubmitted] = useState(false);
+    const [userStatut, setUserStatut] = useState(3);
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     const handleFileSubmit = async (e) => {
         e.preventDefault();
 
@@ -22,6 +24,7 @@ const AddImageArticle = () => {
         console.log(fileName);
         console.log(formData);
 
+        console.log(articleId, " en ligne 27 XXXXXXXXXXX");
         if (selectedFile) {
             try {
                 for (let i = 0; i <= 100; i += 10) {
@@ -29,15 +32,13 @@ const AddImageArticle = () => {
                 }
 
                 const token = localStorage.getItem('token');
-                const fetchOptions = {
+                const response = await fetch(`http://localhost:3000/api/uploade/image/article/${articleId}`, {
                     method: 'PATCH',
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
                     body: formData,
-                };
-
-                const response = await fetch(`http://localhost:3000/api/uploade/image/article/${articleId}`, fetchOptions);
+                });
                 
 
                 if (response.ok) {
@@ -71,11 +72,11 @@ const AddImageArticle = () => {
         {/* {userStatut === 1 && <h1 className='fw-bold d-flex justify-content-center align-items-center' style={{ color: "#f28500" }}>En attente de validation</h1>}
             {userStatut === 2 && <h1 className='fw-bold d-flex justify-content-center align-items-center' style={{ color: "#f28500" }}>Inscription refusé</h1>}
             {userStatut == 3 && ( */}
-        <div className="bg-white mx-auto  row container col-12" >
+        <div className="bg-white mx-auto mt-5 row container col-12" >
             <p align="center">
                 <img
                     src={logo}
-                    alt="Handi-Vision.fr, un portail pour favoriser l'insertion"
+                    alt="logo de la société"
                     width="80"
                 />
             </p>
@@ -126,9 +127,9 @@ const AddImageArticle = () => {
                 )}
             </div>
         </div>
-        {/* )} */}
+        {/* )}  */}
         </>
     );
 };
 
-export default AddImageArticle;
+export default AjouterImageArticle;

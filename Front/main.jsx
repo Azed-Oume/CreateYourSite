@@ -19,6 +19,7 @@ import Acceuil from './src/compenents/App/Router/Acceuil/Acceuil.jsx';
 import Blog from './src/compenents/App/Router/Blog/Blog.jsx';
 import Article from './src/compenents/App/Article/Addarticle.jsx';
 import ReadArticles from './src/compenents/App/Article/ReadArticle.jsx';
+import AjouterImageArticle from './src/compenents/App/Article/AjouterImageArticle.jsx';
 import Prestations from './src/compenents/App/Router/Prestation/Prestations.jsx';
 import Boutique from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Boutique/Boutique.jsx';
 import Profil from "./src/compenents/App/Profil/Profil.jsx";
@@ -32,7 +33,6 @@ import AjouterPhoto from './src/compenents/App/DashboardAdmin/MesProduits/Gestio
 import ScrollToTopButton from "./src/compenents/App/ScrollToTopButton/ScrollToTopButton.jsx";
 import WhatsAppButton from "./src/compenents/AuthSecure/WatsAppButton.jsx";
 import Footer from "./src/compenents/App/Footer/Footer.jsx";
-import AddImageArticle from './src/compenents/App/Article/AddImageArticle.jsx';
 import MesProduitsEnAttente from './src/compenents/App/DashboardAdmin/MesProduits/MesProduitsEnAttente.jsx';
 import Devis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Devis/Devis.jsx';
 import AfficherDevis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Devis/AfficherDevis.jsx';
@@ -41,7 +41,7 @@ import OuvrirLeDevis from './src/compenents/App/DashboarClientBoutique/GestionBo
 import ModifierDevis from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Devis/ModifierDevis.jsx';
 import Commande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/commande/Commande.jsx';
 import Portfolio from './src/compenents/Portfolio/Portfolio.jsx';
-import FetchPortfolio from './src/compenents/Portfolio/FetchPortfolio.jsx';
+// import FetchPortfolio from './src/compenents/Portfolio/FetchPortfolio.jsx';
 import AjouterImagePortfolio from './src/compenents/Portfolio/AjouterImagePortfolio.jsx';
 import VoirMesCommande from './src/compenents/App/DashboarClientBoutique/GestionBoutique/commande/VoirMesCommande.jsx';
 import MotDePassePerdu from './src/compenents/App/ContactForm/Inscription/MotDePassePerdu.jsx';
@@ -88,7 +88,8 @@ root.render(
         <Route path="Cgu" element={<ConditionGeneralUtilisation />} />
         <Route path="Prestations" element={<Prestations />} />
         <Route path="Article" element={<Article />} />
-        <Route path="AddImageArticle/:articleId" element={<AddImageArticle />} />
+        <Route path="AjouterImageArticle/:articleId" element={<AjouterImageArticle />} />
+        <Route path="AjouterImageArticle" element={<AjouterImageArticle />} />
         <Route path="ReadArticles" element={<ReadArticles />} />
         <Route path="ouvrirDevis/:devisId" element={<OuvrirLeDevis />} />
         <Route path="ouvrirCommande/:commandeId" element={<OuvrirCommande />} />

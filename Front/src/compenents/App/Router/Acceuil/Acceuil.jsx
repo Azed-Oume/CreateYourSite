@@ -115,7 +115,7 @@ const Acceuil = () => {
               Indépendance : je travaille en tant qu’indépendant, ce qui me permet de gérer mon temps et mes clients avec flexibilité et écoute.
             </p>
             <p className="slide-article col-md-5 text-center mx-auto m-1 p-3 no-hover-bg hover-effect">
-              Qualité : je vous garantis un travail respectant les normes et les bonnes pratiques du développement web, pour des produits fonctionnels, fiables et faciles à maintenir.
+              Qualité : Un travail respectant les normes et les bonnes pratiques du développement web, pour des produits fonctionnels, fiables et faciles à maintenir.
             </p>
           </aside>
         </article>

@@ -8,20 +8,20 @@ const Carrousel = () => {
     const images = [
         {
             src: wireframe1,
-            text1: "ÉTAPE 1 : Nous travaillons sur une prémaquette selon vos exigences.",
-            text2: "ÉTAPE 2 : Afin de vous offrir une visualisation complète de votre futur site web.",
+            text1: "Nous travaillons sur une prémaquette selon vos exigences.",
+            text2: "Afin de vous offrir une visualisation complète de votre futur site web.",
             alt: "Image de prémaquette en cours d'élaboration, avec une abeille comme ingénieur, un œil symbolisant les recherches, un garçon qui réfléchit et du matériel de dessin."
         },
         {
             src: wireframe2,
-            text1: "ÉTAPE 3 : Nous intégrons vos modifications et vos souhaits au projet.",
-            text2: "ÉTAPE 4 : Nous restons à votre écoute pour toute autre demande ou ajustement.",
+            text1: "Nous intégrons vos modifications et vos souhaits au projet.",
+            text2: "Nous restons à votre écoute pour toute autre demande ou ajustement.",
             alt: "Image de prémaquette de site web en cours d'élaboration sur plusieurs vues : smartphone, tablette, ordinateur."
         },
         {
             src: wireframe3,
-            text1: "ÉTAPE 5 : Nous vous soumettons la prémaquette une fois celle-ci terminée.",
-            text2: "ÉTAPE 6 : Vous validez la prémaquette et nous pouvons passer en post-production.",
+            text1: "Nous vous soumettons la prémaquette une fois celle-ci terminée.",
+            text2: "Vous validez la prémaquette et nous pouvons passer en post-production.",
             alt: "Image de prémaquette de site web en phase terminale sur plusieurs vues : smartphone, tablette, ordinateur."
         },
     ];

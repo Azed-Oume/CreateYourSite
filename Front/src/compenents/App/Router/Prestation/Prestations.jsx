@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import gsap from "gsap";
 
 import its_me from "../../../images/its_me.jpg";
+import logo from "../../../images/logosf1.png";
 import design2 from "../../../images/design2.jpg";
 import responsive from "../../../images/responsive.png";
 import seo from "../../../images/seo.jpg";
@@ -96,19 +97,19 @@ const Prestations = () => {
             </h1>
 
             <article className="slide-article p-2 mb-4 rounded" style={{ background: 'linear-gradient(to right, #f2f2f2, #e5e5e5, #d9d9d9, #cccccc, #bfbfbf, #b3b3b3, #a6a6a6, #999999, #8c8c8c, #808080)', border: 'gray solid 10px' }}>
-                <p className="p-2 fs-4">
-                    <img ref={el => imageRefs.current[0] = el} src={its_me} alt="Logo de l'auteur" className="rounded img-fluid" style={{ float: 'right', clear: 'both', width: '50%' }} />
-                    Bienvenue sur mon site dédié aux E.solutions. Ma passion pour la conception de sites Web et Web Mobile, tout en favorisant l'accessibilité, est ma priorité absolue.
-                    Mon objectif est de vous offrir des solutions numériques sur mesure, adaptées à votre entreprise, quelle que soit sa taille, et conçues pour exceller dans un monde numérique en constante évolution. L'innovation et la créativité sont au cœur de notre démarche, et chaque projet est une opportunité de repousser les limites de ce qui est possible.
-                    Dans un monde en constante évolution, être présent sur le Web ne suffit pas. Il est essentiel d'être visible et de se démarquer pour attirer l'attention de votre public cible.
-                    C'est pourquoi nous nous engageons à ne jamais déployer un site qui ne soit pas à votre image, et qui ne répond pas à nos principes fondamentaux.
+                <p className="p-2 mb-0 fs-4">
+                    <img ref={el => imageRefs.current[0] = el} src={logo} alt="Logo de l'auteur" className="rounded img-fluid" style={{ float: 'right', clear: 'both', minwidth: '50%' }} />
+                    Bienvenue sur notre site dédié aux E.solutions. nôtre passion pour la conception de sites Web et Web Mobile, tout en favorisant l'accessibilité, est nôtre priorité absolue.
+                    Nôtre objectif est de vous offrir des solutions numériques sur mesure, adaptées à votre entreprise, quelle que soit sa taille, et conçues pour exceller dans un monde numérique. L'innovation et la créativité sont au cœur de nôtre démarche,  chaque projet est une opportunité de repousser les limites de ce qui est possible.
+                 Dans un monde en constante évolution, être présent sur le Web ne suffit pas, Il est essentiel d'être visible et de se démarquer pour attirer l'attention de votre public cible.
+                 C'est pourquoi nous nous engageons à ne jamais déployer un site qui ne soit pas à votre image, et qui ne répond pas à nos principes fondamentaux.
                 </p>
             </article>
 
             <section>
                 <h2 className="fw-bold mx-auto text-center text-decoration-underline rounded p-4">Notre approche repose sur quatre principes fondamentaux :</h2>
                 <article className="container-fluid d-flex justify-content-between flex-wrap gap-2">
-                    <aside className="slide-article col-md-6 row border rounded p-2 text-white mb-4" style={{ background: 'radial-gradient(circle, rgb(50, 50, 210), rgb(158, 0, 128))' }}>
+                    <aside className="slide-article col-md-6 row border rounded p-2 mb-4" style={{ background: 'linear-gradient(to top right, rgb(144,238,144), rgb(0, 128, 0))' }}>
                         <div className="col-md-12 fs-3 fs-md-4 fs-sm-5">
                             <h3 className="fw-bold text-decoration-underline p-2 border rounded text-center">Un design fluide et percutant </h3>
                             <p>
@@ -118,7 +119,7 @@ const Prestations = () => {
                         </div>
                     </aside>
 
-                    <aside className="slide-article col-md-6 row border rounded p-2 mb-4" style={{ background: 'linear-gradient(to top right, rgb(0, 128, 0), rgb(0, 255, 255))' }}>
+                    <aside className="slide-article col-md-6 row border rounded p-2 mb-4" style={{ background: 'linear-gradient(to top left, rgb(144,238,144), rgb(0, 128, 0))' }}>
                         <div className="col-md-12 fs-4">
                             <h3 className="fw-bold text-decoration-underline p-2 border rounded text-center">Référencement naturel puissant</h3>
                             <p>
@@ -155,7 +156,7 @@ const Prestations = () => {
             <section className="container-fluid m-5 mx-auto">
                 <article className="slide-article col-md-12 row border border-black rounded p-2 mx-auto mb-4">
                     <h2 className="fw-bold mx-auto text-center text-decoration-underline rounded p-4 mt-4">Des solutions éco-responsables pour votre projet :</h2>
-                    <aside className="col-md-12 row border rounded p-2 mx-auto mb-4" style={{ background: 'linear-gradient(to left, rgb(128, 128, 0), rgb(139, 69, 19))' }}>
+                    <aside className="col-md-12 row rounded p-2 mx-auto mb-4" style={{ background: 'linear-gradient(to right, #808080, #8c8c8c, #999999, #a6a6a6, #b3b3b3, #bfbfbf, #cccccc, #d9d9d9, #e5e5e5, #f2f2f2)', border: 'gray solid 10px' }}>
                         <div className="col-md-12 fs-4">
                             <h3 className="fw-bold text-decoration-underline p-2 border rounded text-center">Développement durable :</h3>
                             <p>
@@ -168,22 +169,22 @@ const Prestations = () => {
                 </article>
 
                 <article className="slide-article col-md-12 row border border-black rounded p-2 mx-auto mb-4">
-                    <h2 className="fw-bold mx-auto text-center text-decoration-underline rounded p-4 m-1">Accédez à un site web professionnel sans dépenser une fortune :</h2>
-                    <div className="col-md-12 row rounded p-2 mb-4 mx-auto" style={{ background: 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)' }}>
-                        <aside className="col-md-12 fs-4">
+                    <h2 className="fw-bold mx-auto text-center text-decoration-underline rounded p-4 mt-4">Accédez à un site web professionnel sans dépenser une fortune :</h2>
+                    <aside className="col-md-12 row rounded p-2 mb-4 mx-auto" style={{ background: 'linear-gradient(to right, #f2f2f2, #e5e5e5, #d9d9d9, #cccccc, #bfbfbf, #b3b3b3, #a6a6a6, #999999, #8c8c8c, #808080)', border: 'gray solid 10px' }}>
+                        <div className="col-md-12 fs-4">
                             <h3 className="fw-bold text-decoration-underline p-2 border rounded text-center">Services Web de Qualité et Accessibles à Tous:</h3>
                             <p>
-                                <img ref={el => imageRefs.current[6] = el} src={coffre_pirate} alt="Image d'un petit coffre avec sa clé et des euros autour qui symbolise le pas cher pour l'achats d'un site" className="rounded img-fluid p-2" style={{ float: 'right', clear: 'both', width: '50%' }} />
+                                <img ref={el => imageRefs.current[6] = el} src={coffre_pirate} alt="Image d'un petit coffre avec sa clé et des euros autour qui symbolise le pas cher pour l'achats d'un site" className="rounded-4 img-fluid p-2" style={{ float: 'right', clear: 'both', width: '50%' }} />
                                 Nous proposons des services web de qualité à des prix imbattables. Notre mission est de rendre le développement web accessible à tous, sans vous ruiner. Avec notre équipe de professionnels expérimentés, bénéficiez d'une expertise de haut niveau à des tarifs abordables. Nous sommes là pour vous, proches de chez vous, pour répondre à tous vos besoins en matière de développement web.
                             </p>
-                        </aside>
-                    </div>
+                        </div>
+                    </aside>
                 </article>
             </section>
 
             <section className="slide-article col-md-12 row border border-black rounded p-2 mx-auto mb-4">
                 <h2 className="fw-bold mx-auto text-center text-decoration-underline rounded p-4 m-1">Pourquoi nous choisir :</h2>
-                <p className="col-md-12 row border rounded p-2 mx-auto" style={{ background: 'linear-gradient(to left, rgb(128, 128, 0), rgb(139, 69, 19))' }}>
+                <p className="col-md-12 row  rounded p-2 mx-auto" style={{ background: 'linear-gradient(to right, #808080, #8c8c8c, #999999, #a6a6a6, #b3b3b3, #bfbfbf, #cccccc, #d9d9d9, #e5e5e5, #f2f2f2)', border: 'gray solid 10px' }}>
                     Que vous soyez une startup cherchant à établir votre identité de marque ou une entreprise chevronnée cherchant à améliorer l'expérience utilisateur, nous avons ce qu'il vous faut. Des designs élégants et modernes aux fonctionnalités robustes et à la navigation transparente, nous sommes fiers de proposer des sites Web qui non seulement sont superbes, mais qui fonctionnent également parfaitement sur tous les appareils. Associez-vous dès aujourd'hui à nos solutions et laissez-nous vous aider à libérer tout le potentiel de votre présence en ligne. Contactez-nous pour discuter de votre projet et faire le premier pas vers la réussite numérique !
                 </p>
                 <p className='col-md-10 slide-article m-1 p-3 text-center mx-auto no-hover-bg hover-effect'>
@@ -194,8 +195,8 @@ const Prestations = () => {
 
             <section className="slide-article col-md-12 row border border-black rounded p-2 mx-auto mb-4">
                 <h2 className="fw-bold mx-auto text-center text-decoration-underline rounded p-4 m-1">Notre équipe :</h2>
-                <p className="col-md-12 row border rounded p-2 mx-auto" style={{ background: 'linear-gradient(to left, rgb(128, 128, 0), rgb(139, 69, 19))' }}>
-                    Chez nous, chaque projet est une aventure collaborative, nous nous appuyons sur le savoir-faire et l'expertise de notre vaste réseau de développeurs solidaires. Chaque membre de réseau apporte sa propre contribution unique, ce qui nous permet de proposer des solutions innovantes et adaptées à vos besoins spécifiques. En travaillant ensemble, nous visons à créer des sites Web qui se démarquent dans un paysage numérique en constante évolution. Que vous ayez besoin d'un Portfolio, d'un blog, d'un site Web vitrine ou d'une plateforme e-commerce, nous sommes là pour vous accompagner à chaque étape de votre parcours numérique.
+                <p className="col-md-12 row  rounded p-2 mx-auto" style={{ background: 'linear-gradient(to right, #f2f2f2, #e5e5e5, #d9d9d9, #cccccc, #bfbfbf, #b3b3b3, #a6a6a6, #999999, #8c8c8c, #808080)', border: 'gray solid 10px' }}>
+                    Chez nous, chaque projet est une aventure collaborative, nous nous appuyons sur le savoir-faire et l'expertise de notre vaste réseau de développeurs solidaires. Chaque membre de réseau apporte sa propre contribution unique, ce qui nous permet de proposer des solutions innovantes et adaptées à vos besoins spécifiques. En travaillant ensemble, nous visons à créer des sites Web qui se démarquent dans un paysage numérique en constante évolution. Que vous ayez besoin d'un Portfolio, d'un blog, d'un site Web vitrine ou d'un site e-commerce, nous sommes là pour vous accompagner à chaque étape de votre parcours numérique.
                 </p>
             </section>
     </section>

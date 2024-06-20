@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { gsap } from "gsap";
 import Navbar from 'react-bootstrap/Navbar';
 import its_me from "../../images/its_me.jpg";
+import logo from "../../images/logo.png";
 import { useState, useEffect } from 'react';
 import { Nav, Button } from 'react-bootstrap';
 import logout from "../../images/logout.png";
@@ -96,7 +97,7 @@ const Header = () => {
                     expanded={expanded} 
                     className='border p-2' >
                     <Navbar.Brand as={Link} to="/" className='pl-4'>
-                        <img src={its_me} alt="Mon Logo" className="logo-img rounded-circle rotation-negative box " style={{ width: "6rem" }} />
+                        <img src={logo} alt="Mon Logo" className="logo-img rounded-circle rotation-negative box " style={{ width: "6rem" }} />
                     </Navbar.Brand>
                     <Navbar.Toggle
                         onClick={() => setExpanded(!expanded)}

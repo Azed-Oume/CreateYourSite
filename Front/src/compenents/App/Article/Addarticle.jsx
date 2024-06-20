@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import BackButton from '../../AuthSecure/BackButton';
+import AjouterImageArticle from './AjouterImageArticle';
 
 const Article = () => {
     const [titre, setTitre] = useState('');
@@ -42,7 +43,8 @@ const Article = () => {
             const responseJson = await response.json();
             const articleId = responseJson.article.article_id;
             localStorage.setItem('articleId', articleId);
-            window.location.href = `/AddImageArticle/${articleId}`;
+            alert(articleId, " en ligne 45 XXXXXXXXXXXXXXXXXXX");
+            window.location.href = `AjouterImageArticle/${articleId}`;
 
             
         } catch (error) {

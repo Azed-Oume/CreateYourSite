@@ -22,8 +22,12 @@ const GeneratedLogos = () => {
     const containerRef = useRef(null);
     const observerRef = useRef(null);
     const [isLogosVisible, setIsLogosVisible] = useState(false);
+    
 
     useEffect(() => {
+        const options = {
+            threshold: 0.8 // Déclencher lorsque 80% du conteneur est visible
+        };
         observerRef.current = new IntersectionObserver(
             (entries) => {
                 if (entries[0].isIntersecting) {
@@ -38,7 +42,7 @@ const GeneratedLogos = () => {
                     }
                 }
             },
-            { threshold: 0.1}
+            options
         );
 
         if (containerRef.current) {

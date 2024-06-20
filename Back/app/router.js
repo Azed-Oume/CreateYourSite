@@ -48,6 +48,7 @@ router.delete('/api/remove/article', jwtGuard, roleCheck([1,2,3,4,5]), articleCo
 router.patch('/api/update/love', jwtGuard, roleCheck([1,2,3,4,5]), articleController.updateLove); // pérmet la mise a jour du champ love nbr de likes
 // router.post('/api/uploade/image/article', jwtGuard, roleCheck([1,2,3,4,5]), uploadImageArticle.single('image Article'), articleController.updateImageArticle);
 router.patch('/api/uploade/image/article/:articleId', jwtGuard, roleCheck([1,2,3,4,5]), uploadImageArticle.single('image_couverture'), articleController.updateImageArticle);
+router.patch('/api/uploade/image/article', jwtGuard, roleCheck([1,2,3,4,5]), uploadImageArticle.single('image_couverture'), articleController.updateImageArticle);
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX//
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX//
 router.post('/api/create/comment', jwtGuard, roleCheck([1,2,3,4,5]), commentController.setComment); // pérmer de créer un Commentaire !

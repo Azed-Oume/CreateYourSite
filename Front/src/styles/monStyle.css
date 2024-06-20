@@ -110,21 +110,21 @@
     /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
     .hover-effect:hover {
       transition: 0.3s;
-      background-color: rgb(207, 207, 207) !important;
-      color: black;
+      background-color: rgba(25, 135, 84, .4) !important;
+      color: whitesmoke !important;
       transform: scale(1.1);
       border: 3px solid gray !important;
       box-shadow: -20px 20px 10px 0px rgba(0, 0, 0, 0.5);
-      border-radius: 2rem;
+      border-radius: .5rem;
       margin: -1rem;
     }
     .no-hover {
       border: 3px solid gray;
-      border-radius: 1rem;
+      border-radius: .5rem;
     }
     .no-hover-bg {
       border: 3px solid gray;
-      border-radius: 1rem;
+      border-radius: .5rem;
       background-color: rgb(203, 219, 253) !important;
     }
     /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
@@ -232,6 +232,8 @@
 /* monStyle.css */
  .falling-logo {
   opacity: 0;
+}
+.animate-logos .falling-logo {
   animation: fallIn .7s ease-out forwards;
 }
 
