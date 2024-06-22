@@ -290,98 +290,100 @@ const Blog = () => {
   const paginate = pageNumber => setCurrentPage(pageNumber);
 
   return (
-    <section className="row col-md-11 mx-auto mt-5">
-      <nav className="d-flex justify-content-around gap-2 mx-auto m-4 text-center" aria-label="Main Navigation">
-        <Link to={"/Article"}>
-          <Button variant="success" className="btn graylogo text-white fw-bold" aria-label="Publier un article">Publier Un Article</Button>
-        </Link>
-        <BackButton />
-        <Link to={"/ReadArticles"}>
-          <Button variant="success" className="btn graylogo text-white fw-bold" aria-label="Voir mes articles">Voir Mes Articles</Button>
-        </Link>
-      </nav>
-      <h2 className="h2 mx-auto graylogo text-center text-white fw-bold border border-5 border-secondary rounded col-md-10 mb-4">Les Articles du Blog</h2>
+    <>
+        <section className="row col-md-11 mx-auto mt-5">
+          <nav className="d-flex justify-content-around gap-2 mx-auto m-4 text-center" aria-label="Main Navigation">
+            <Link to={"/Article"}>
+              <Button variant="success" className="btn graylogo text-white fw-bold" aria-label="Publier un article">Publier Un Article</Button>
+            </Link>
+            <BackButton />
+            <Link to={"/ReadArticles"}>
+              <Button variant="success" className="btn graylogo text-white fw-bold" aria-label="Voir mes articles">Voir Mes Articles</Button>
+            </Link>
+          </nav>
+          <h2 className="h2 mx-auto graylogo text-center text-white fw-bold border border-5 border-secondary rounded col-md-10 mb-4">Les Articles du Blog</h2>
 
-      {currentArticles.map((article, index) => (
-        <article key={index} className="col-md-10 mx-auto article-container mb-5 p-1 text-white fw-bold border border-5 border-secondary rounded">
-          <header className="mx-auto">
-            <div className="row mx-auto">
-              <div className="col-md-6 p-3 border mx-auto">
-                <h3 className="h4 border-bottom text-center p-1">{article.titre}</h3>
-                <p className="p-1">{article.contenu}</p>
-              </div>
-              <div className="col-md-6 p-3 border mx-auto">
-                {article.image_couverture && (
-                  <img
-                    src={article.image_couverture}
-                    alt={`Image illustrant l'article, ${article.titre}`}
-                    style={{ width: '30rem', height: '30rem', objectFit: 'cover' }}
-                    className="img-fluid border border-secondary border-5 row mx-auto m-3 rounded rounded-5"
-                  />
+          {currentArticles.map((article, index) => (
+            <article key={index} className="col-md-10 mx-auto article-container mb-5 p-1 text-white card">
+              <header className="mx-auto">
+                <div className="row mx-auto">
+                  <div className=" p-3 border mx-auto">
+                      <h3 className="h3 border-bottom text-center p-1">{article.titre}</h3>
+                            <p className='p-1'>
+                                <img 
+                                src={article.image_couverture}
+                                className="img-fluid row mx-auto p-2 img-art-hover"
+                                alt="Image illustrant l'article"
+                                aria-label="Image illustrant l'article" 
+                                style={{ float: 'right', clear: 'both', width: '50%' }}
+                                />
+                                {article.contenu}
+                            </p>
+                  </div>
+                  
+                  <div className="d-flex justify-content-around p-2">
+                    <p className="p-1">Catégorie : {article.category.nom}</p>
+                    <p className="p-1">Vu(s) : {article.vues}</p>
+
+                    <Button
+                      className="heart-button"
+                      aria-label="J'aime"
+                      variant="outline-secondary"
+                      onClick={() => handleLoveClick(article.article_id, article.love)}
+                    >
+                      {article.love} <span role="img" aria-label="Cœur">💚</span> {loveArticles[article.article_id]}
+                    </Button>
+                  </div>
+                </div>
+              </header>
+              <hr />
+              <section aria-label="Commentaires">
+                {article.comments && article.comments.length > 0 ? (
+                  <aside className="border border-4 mb-3">
+                    <h3 className="h3 p-1">Commentaires :</h3>
+                    {article.comments.map((comment, idx) => (
+                      <article key={idx} className="comment">
+                        <p className="p-1"><strong>Titre :</strong> {comment.titre}</p>
+                        <p className="p-1"><strong>Auteur :</strong> {comment.auteur}</p>
+                        <p className="p-1"><strong>Date :</strong> {comment.date_commentaire}</p>
+                        <p className="p-1"><strong>Contenu :</strong> {comment.contenu}</p>
+                        <DeleteCommentModal commentId={comment.commentId} articleId={article.article_id} />
+                        <hr />
+                      </article>
+                    ))}
+                  </aside>
+                ) : (
+                  <h4 className="p-3">Soyez le Premier à laisser un Commentaire.</h4>
                 )}
-              </div>
-              <div className="d-flex justify-content-around p-2">
-                <p className="p-1">Catégorie : {article.category.nom}</p>
-                <p className="p-1">Vu(s) : {article.vues}</p>
-
-                <Button
-                  className="heart-button"
-                  aria-label="J'aime"
-                  variant="outline-secondary"
-                  onClick={() => handleLoveClick(article.article_id, article.love)}
-                >
-                  {article.love} <span role="img" aria-label="Cœur">💚</span> {loveArticles[article.article_id]}
-                </Button>
-              </div>
-            </div>
-          </header>
-          <hr />
-          <section aria-label="Commentaires">
-            {article.comments && article.comments.length > 0 ? (
-              <>
-                <h3 className="h4 p-1">Commentaires :</h3>
-                {article.comments.map((comment, idx) => (
-                  <article key={idx} className="comment">
-                    <p className="p-1"><strong>Titre :</strong> {comment.titre}</p>
-                    <p className="p-1"><strong>Auteur :</strong> {comment.auteur}</p>
-                    <p className="p-1"><strong>Date :</strong> {comment.date_commentaire}</p>
-                    <p className="p-1"><strong>Contenu :</strong> {comment.contenu}</p>
-                    <DeleteCommentModal commentId={comment.commentId} articleId={article.article_id} />
-                    <hr />
-                  </article>
-                ))}
-              </>
-            ) : (
-              <h4 className="p-3">Soyez le Premier à laisser un Commentaire.</h4>
-            )}
-          </section>
-          <footer className="d-flex justify-content-around gap-2 mx-auto m-3 text-center">
-            <AddCommentModal articleId={article.article_id} />
-            <DeleteArticleModal articleId={article.article_id} fetchArticles={fetchArticles} />
-          </footer>
-        </article>
-      ))}
-      <nav aria-label="Pagination">
-        <Pagination className="pagination justify-content-center">
-          <Pagination.Prev onClick={() => setCurrentPage(currentPage === 1 ? 1 : currentPage - 1)} disabled={currentPage === 1} />
-          {Array.from({ length: Math.ceil(articles.length / articlesPerPage) }, (_, i) => (
-            <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => paginate(i + 1)}>
-              {i + 1}
-            </Pagination.Item>
+              </section>
+              <footer className="d-flex justify-content-around gap-2 mx-auto m-3 text-center">
+                <AddCommentModal articleId={article.article_id} />
+                <DeleteArticleModal articleId={article.article_id} fetchArticles={fetchArticles} />
+              </footer>
+            </article>
           ))}
-          <Pagination.Next onClick={() => setCurrentPage(currentPage === Math.ceil(articles.length / articlesPerPage) ? currentPage : currentPage + 1)} disabled={currentPage === Math.ceil(articles.length / articlesPerPage)} />
-        </Pagination>
-      </nav>
-      <nav className="d-flex justify-content-around mx-auto m-3 text-center" aria-label="Secondary Navigation">
-        <Link to={"/Article"}>
-          <Button variant="success" className="graylogo text-white fw-bold" aria-label="Publier un article">Publier Un Article</Button>
-        </Link>
-        <BackButton />
-        <Link to={"/ReadArticles"}>
-          <Button variant="success" className="graylogo text-white fw-bold" aria-label="Voir mes articles">Voir Mes Articles</Button>
-        </Link>
-      </nav>
-    </section>
+          <nav aria-label="Pagination">
+            <Pagination className="pagination justify-content-center">
+              <Pagination.Prev onClick={() => setCurrentPage(currentPage === 1 ? 1 : currentPage - 1)} disabled={currentPage === 1} />
+              {Array.from({ length: Math.ceil(articles.length / articlesPerPage) }, (_, i) => (
+                <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => paginate(i + 1)}>
+                  {i + 1}
+                </Pagination.Item>
+              ))}
+              <Pagination.Next onClick={() => setCurrentPage(currentPage === Math.ceil(articles.length / articlesPerPage) ? currentPage : currentPage + 1)} disabled={currentPage === Math.ceil(articles.length / articlesPerPage)} />
+            </Pagination>
+          </nav>
+          <nav className="d-flex justify-content-around mx-auto m-3 text-center" aria-label="Secondary Navigation">
+            <Link to={"/Article"}>
+              <Button variant="success" className="btn graylogo text-white fw-bold" aria-label="Publier un article">Publier Un Article</Button>
+            </Link>
+            <BackButton />
+            <Link to={"/ReadArticles"}>
+              <Button variant="success" className="btn graylogo text-white fw-bold" aria-label="Voir mes articles">Voir Mes Articles</Button>
+            </Link>
+          </nav>
+        </section>
+    </>
   );
 };
 

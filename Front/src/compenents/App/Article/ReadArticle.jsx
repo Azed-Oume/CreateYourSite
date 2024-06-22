@@ -150,90 +150,90 @@ const ReadArticles = () => {
         </section>
         ) : (
         
-        <section className='row mt-5 col-md-11 mx-auto' >
-            <div className='d-flex justify-content-around gap-2 mx-auto m-3 text-center'>
+        <section className='row col-md-11 mx-auto mt-5' >
+            <nav className='d-flex justify-content-around mx-auto m-3 text-center'              aria-label="Secondary Navigation">
                 <Link to={"/Article"} >
-                    <Button variant='success' className="btn graylogo text-white fw-bold">Publier Un Article</Button>
+                    <Button variant='success' className="btn graylogo text-white fw-bold" aria-label="Publier un article">Publier Un Article</Button>
                 </Link>
                 <BackButton />
                 <Link to={"/Blog"} >
-                    <Button variant='success' className="btn graylogo text-white fw-bold">Voir Les Articles du Blog</Button>
+                    <Button variant='success' className="btn graylogo text-white fw-bold" aria-label="Voir Les Articles du Blog">Voir Les Articles du Blog</Button>
                 </Link>
-            </div>
+            </nav>
             <h2 className='h2 mx-auto graylogo text-center text-white fw-bold border border-5 border-secondary rounded col-md-10 mb-4'>Mes sujets préférés.</h2>
 
             {articles.length > 0 ? (
                 currentArticles.map((article, index) => (
-                    <article key={index} className="col-md-10 mx-auto article-container mb-5 p-1 text-white fw-bold border border-5 border-secondary rounded">
-                        <div className='slide-article mx-auto'>
-                            <div className="row m-2 mx-auto">
-                                <div className='col-md-6 p-3 border mx-auto'>
-                                    <h2 className='h4 border-bottom text-center p-1'>{article.titre}</h2>
-                                    <p className='p-1'>{article.contenu}</p>
+                    <article key={index} className="col-md-10 mx-auto article-container mb-5 p-1 text-white card">
+                        <header className='mx-auto'>
+                            <div className="row mx-auto">
+                                <div className=" p-3 border mx-auto">
+                                    <h3 className="h3 border-bottom text-center p-1">{article.titre}</h3>
+                                            <p className='p-1'>
+                                                <img 
+                                                src={article.image_couverture}
+                                                className="img-fluid row mx-auto p-2 img-art-hover"
+                                                alt="Image illustrant l'article"
+                                                aria-label="Image illustrant l'article" 
+                                                style={{ float: 'right', clear: 'both', width: '50%' }}
+                                                />
+                                                {article.contenu}
+                                            </p>
                                 </div>
-                                <div className='col-md-6 p-3 border mx-auto'>
-                                    {article.image_couverture ? (
-                                        <img
-                                            src={article.image_couverture}
-                                            style={{ width: "100%", height: "auto" }}
-                                            className="img-fluid border border-secondary border-5 row mx-auto m-3 rounded rounded-5"
-                                            alt="Image illustrant l'article"
-                                            aria-label="Image illustrant l'article"
-                                        />
-                                    ) : null}
+                                <div className="d-flex justify-content-around p-2">
+                                    <p className='p-1'>Catégorie : {article.category.nom}</p>
+                                    <p className='p-1'>Vu(s) : {article.vues}</p>
+                                    <Button
+                                        className="heart-button"
+                                        aria-label="J'aime"
+                                        variant="outline-secondary"
+                                        onClick={() => handleLoveClick(article.article_id, article.love)}
+                                    >
+                                        {article.love}
+                                        <span role="img" aria-label="Cœur">💚</span> {loveArticles[article.article_id]}
+                                    </Button>
                                 </div>
                             </div>
-                            <div className="d-flex justify-content-around p-2">
-                                <p className='p-1'>Catégorie : {article.category.nom}</p>
-                                <p className='p-1'>Vu(s) : {article.vues}</p>
-                                <Button
-                                    className="heart-button"
-                                    aria-label="J'aime"
-                                    variant="outline-secondary"
-                                    onClick={() => handleLoveClick(article.article_id, article.love)}
-                                >
-                                    {article.love}
-                                    <span role="img" aria-label="Cœur">💚</span> {loveArticles[article.article_id]}
-                                </Button>
-                            </div>
-                            <p className="border-bottom border-gray"></p>
-                            {article.comments && article.comments.length > 0 ? (
-                                <aside className="border border-4 mb-3">
-                                    <h3 className='h4 p-1'>Commentaires :</h3>
-                                    {article.comments.map((comment, idx) => (
-                                        <aside key={idx} className="comment">
-                                            <p className='p-1'><strong>Titre :</strong> {comment.titre}</p>
-                                            <p className='p-1'><strong>Auteur :</strong> {comment.auteur}</p>
-                                            <p className='p-1'><strong>Date :</strong> {comment.date_commentaire}</p>
-                                            <p className='p-1'><strong>Contenu :</strong> {comment.contenu}</p>
-                                            <p className='p-1'><strong>commentId :</strong> {comment.commentId}</p>
-                                            <DeleteCommentModal commentId={comment.commentId} articleId={article.article_id} />
-                                            <p className="border-bottom border-gray"></p>
-                                        </aside>
-                                    ))}
-                                </aside>
-                            ) : (
-                                <h4 className='p-3'>Soyez le Premier à laisser un Commentaire.</h4>
-                            )}
-                        </div>
-                        <div className="d-flex justify-content-around gap-2 mx-auto m-3 text-center">
+                        </header>
+                            <hr />
+                            <section aria-label="Commentaires">
+                                {article.comments && article.comments.length > 0 ? (
+                                    <aside className="border border-4 mb-3">
+                                        <h3 className='h3 p-1'>Commentaires :</h3>
+                                        {article.comments.map((comment, idx) => (
+                                            <aside key={idx} className="comment">
+                                                <p className='p-1'><strong>Titre :</strong> {comment.titre}</p>
+                                                <p className='p-1'><strong>Auteur :</strong> {comment.auteur}</p>
+                                                <p className='p-1'><strong>Date :</strong> {comment.date_commentaire}</p>
+                                                <p className='p-1'><strong>Contenu :</strong> {comment.contenu}</p>
+                                                <p className='p-1'><strong>commentId :</strong> {comment.commentId}</p>
+                                                <DeleteCommentModal commentId={comment.commentId} articleId={article.article_id} />
+                                                <p className="border-bottom border-gray"></p>
+                                            </aside>
+                                        ))}
+                                    </aside>
+                                ) : (
+                                    <h4 className='p-3'>Soyez le Premier à laisser un Commentaire.</h4>
+                                )}
+                            </section>
+                        <footer className="d-flex justify-content-around gap-2 mx-auto m-3 text-center">
                             <AddCommentModal articleId={article.article_id} />
                             <DeleteArticleModal articleId={article.article_id} fetchArticles={fetchArticles} />
-                        </div>
+                        </footer>
                     </article>
                 ))
             ) : (
                 <div className="row no-articles mx-auto" style={{ marginTop: "140px" }}>
                     <h2 className='h3 graylogo text-center mx-auto text-white fw-bold col-md-4 border border-5 border-secondary rounded'>Vous n'avez pas d'articles !</h2>
-                    <div className="row no-articles mx-auto text-center">
+                    <nav className="row no-articles mx-auto text-center">
                         <Link to={"/Article"} >
                             <Button className="btn graylogo text-white fw-bold">Publier votre premier Article</Button>
                         </Link>
-                    </div>
+                    </nav>
                 </div>
             )}
-            <div className="pagination justify-content-center">
-                <Pagination>
+            <nav aria-label="Pagination">
+                <Pagination className="pagination justify-content-center">
                     <Pagination.Prev onClick={() => setCurrentPage(currentPage === 1 ? 1 : currentPage - 1)} disabled={currentPage === 1} />
                     {Array.from({ length: Math.ceil(articles.length / articlesPerPage) }, (_, i) => (
                         <Pagination.Item key={i + 1} active={i + 1 === currentPage} onClick={() => setCurrentPage(i + 1)}>
@@ -242,15 +242,16 @@ const ReadArticles = () => {
                     ))}
                     <Pagination.Next onClick={() => setCurrentPage(currentPage === Math.ceil(articles.length / articlesPerPage) ? currentPage : currentPage + 1)} disabled={currentPage === Math.ceil(articles.length / articlesPerPage)} />
                 </Pagination>
-            </div>
-            <div className='d-flex justify-content-around mx-auto m-3 text-center'>
+            </nav>
+            <nav className='d-flex justify-content-around mx-auto m-3 text-center'              aria-label="Secondary Navigation">
                 <Link to={"/Article"} >
-                    <Button variant='success' className="btn graylogo text-white fw-bold">Publier Un Article</Button>
+                    <Button variant='success' className="btn graylogo text-white fw-bold" aria-label="Publier un article">Publier Un Article</Button>
                 </Link>
+                <BackButton />
                 <Link to={"/Blog"} >
-                    <Button variant='success' className="btn graylogo text-white fw-bold">Voir Les Articles du Blog</Button>
+                    <Button variant='success' className="btn graylogo text-white fw-bold" aria-label="Voir Les Articles du Blog">Voir Les Articles du Blog</Button>
                 </Link>
-            </div>
+            </nav>
         </section>
     )}
     </>

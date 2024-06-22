@@ -7,6 +7,8 @@ const DeleteArticleModal = ({ articleId, fetchArticles }) => {
     const handleDelete = async () => {
         try {
             const token = localStorage.getItem('token');
+            if (!token) { return  alert("Vous n'êtes pas autorisé à supprimer cet article, connécter vous si vous etes l'auteur de cette article !");}
+                    
             const response = await fetch(`http://localhost:3000/api/remove/article`, {
                 method: 'DELETE',
                 headers: {
@@ -17,7 +19,7 @@ const DeleteArticleModal = ({ articleId, fetchArticles }) => {
             });
             const data = await response.json(); // Parse la réponse JSON
             if (!response.ok) {
-                throw new Error(data.message, handleCloseModal()); // Lance une erreur avec le message d'erreur du backend
+                throw new Error(data.message); // Lance une erreur avec le message d'erreur du backend
                 
             }
             // Réponse réussie, vous pouvez effectuer des opérations supplémentaires si nécessaire
