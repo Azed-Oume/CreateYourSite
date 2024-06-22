@@ -4,6 +4,7 @@ import { Sequelize } from 'sequelize';
 import {Op, literal} from 'sequelize';
 import Article from '../models/articles.js';
 import Articles_tags from '../models/articles_tags.js';
+// import UserArticleLove from '../models/userArticleLove.js';
 import Category from '../models/categories.js';
 import Comment from '../models/commentaires.js';
 import Tags from '../models/tags.js';
@@ -13,6 +14,7 @@ import { fileURLToPath } from 'url';
 import path from 'path';
 // import fs from 'fs/promises';
 import fs from 'fs';
+import UserArticleLove from '../models/userArticleLove.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -315,6 +317,7 @@ const articleController = {
             res.status(500).json({ message: 'Une erreur est survenue lors de la suppression de l\'article' });
         }
     },
+    
 
     updateLove: async function(req, res) {
         let t;
@@ -324,30 +327,50 @@ const articleController = {
             // Récupération de l'ID de l'utilisateur à partir du token décodé par le middleware jwtGuard
             const utilisateur_id = req.user.utilisateur_id;
             
-            console.log(articleId, "en ligne 326 XXXXXXXXXX");
-            console.log(loveCount, "en ligne 327 XXXXXXXXXX");
-            console.log(utilisateur_id, "en ligne 328 XXXXXXXXX")
-            // Commencer une transaction
+            // Démarrer une transaction
             t = await sequelize.transaction();
     
-            // Mise à jour du champ "love" de l'article dans la base de données
-            await Article.update({ love: loveCount }, { where: { article_id: articleId }, transaction: t });
+            // Vérifier si l'utilisateur a déjà aimé cet article
+            const existingLove = await UserArticleLove.findOne({
+                where: { utilisateur_id, article_id: articleId },
+                transaction: t
+            });
+    
+            if (existingLove) {
+                // Retirer le "love" existant en supprimant l'enregistrement dans UserArticleLove
+                await existingLove.destroy({ transaction: t });
+    
+                // Décrémenter le compteur "love" dans l'article
+                await Article.decrement('love', { where: { article_id: articleId }, transaction: t });
+    
+                console.log('Love retiré car vous avez déjà aimé cet article');
+            } else {
+                // Ajouter un nouvel enregistrement dans la table UserArticleLove
+                await UserArticleLove.create({
+                    utilisateur_id,
+                    article_id: articleId
+                }, { transaction: t });
+    
+                // Incrémenter le compteur "love" dans l'article
+                await Article.increment('love', { where: { article_id: articleId }, transaction: t });
+    
+                console.log('Nouvel enregistrement ajouté dans UserArticleLove');
+            }
     
             // Valider la transaction
             await t.commit();
     
-            // Réponse avec le message de succès
+            // Renvoyer une réponse de succès
             res.status(200).json({ message: 'Nombre de loves mis à jour avec succès' });
         } catch (error) {
-            // Gestion des erreurs
-            console.error('Erreur lors de la mise à jour du nombre de love :', error);
-            if (t) await t.rollback(); // Annuler la transaction en cas d'erreur
+            // Si une erreur survient, annuler la transaction
+            if (t) await t.rollback();
+            // Renvoyer une réponse d'erreur
+            console.error('Erreur lors de la mise à jour du nombre de loves :', error);
             res.status(500).json({ message: 'Une erreur est survenue lors de la mise à jour du nombre de loves' });
         }
     },
-
-
-
+    
 
 
     updateImageArticle: async function (req, res) {
