@@ -192,10 +192,6 @@ const envoyerDevis = async (numeroDevis, devisId, panierDuDevis) => {
     throw new Error('Le panier est vide');
   }
 
-  console.log(numeroDevis, " en ligne 50 XXXXXXXXXXXXXXXXXXXXX");
-  console.log(panierDuDevis, "en ligne 51 XXXXXXXXXXXXXXXXXX");
-  console.log(devisId, " en ligne 52 XXXXXXXXXXXXXXXXXXX");
-
   try {
     const token = localStorage.getItem('token');
     const response = await fetch(`http://localhost:3000/api/update/devis/${devisId}`, {
@@ -226,7 +222,6 @@ const envoyerDevis = async (numeroDevis, devisId, panierDuDevis) => {
 
     // Récupérer les données de la réponse
     const data = await response.json();
-    console.log(data);
     window.location.href = "/VoirMesDevis";
 
   } catch (error) {

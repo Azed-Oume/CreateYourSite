@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Button, Form, FormControl, FormGroup, FormLabel, Modal } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import Paiement from "./Paiement.jsx";
 import ReserveForAdmin from "../../../../AuthSecure/ReserveForAdmin.jsx";
 
@@ -15,6 +16,7 @@ const [showPaiementModal, setShowPaiementModal] = useState(false); // Modal de p
 const [totalAvecRemise, setTotalAvecRemise] = useState(null); // Définissez l'état pour totalAvecRemise
 const [erreur, setErreur] = useState('');
 
+const navigate = useNavigate();
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 let total = 0;
@@ -53,6 +55,15 @@ const finaliserAchats = () => {
     // Transmettez le total avec remise au composant Paiement
     setTotalAvecRemise(totalAvecRemise);
   };
+  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  const handlePaymentResponse = async (responseMessage) => {
+    alert(responseMessage);
+    setShowPaiementModal(false);
+  
+    if (responseMessage === 'Paiement accepté') {
+        navigate("/facture-Boutique", { state: {panier}});
+    }
+  };
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // Definition des code Promo
@@ -79,49 +90,6 @@ useEffect(() => {
  })
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-const handlePaymentResponse = async (responseMessage) => {
-  alert(responseMessage);
-  setShowPaiementModal(false);
-
-  if (responseMessage === 'Paiement accepté') {
-      try {
-        const token = localStorage.getItem('token');
-          // Préparez les données de la facture à envoyer
-          const factureData = {
-            numeroFacture: numero_facture,
-            dateFacture: date_facture,
-            dateEcheance: date_echeance,
-            montantTotal: montant_total,
-            detailProjet: detail_projet,
-            modePaiement: mode_paiement,
-            informationPaiement: information_paiement,
-            statutFacture: statut_facture,
-            panier: panier,
-        };console.log(token, " en ligne 100 XXXXXXXXXXXXXXXXXXX");
-        console.log(factureData, " en ligne 101 XXXXXXXXXXXXXXXXXXX");
-
-          const response = await fetch('http://localhost:3000/api/create/facture', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: `Bearer ${token}`
-              },
-              body: JSON.stringify(factureData)
-          });
-
-          if (!response.ok) {
-              throw new Error('Erreur lors de la création de la facture');
-          }
-
-          const result = await response.json();
-          alert('Facture créée avec succès');
-      } catch (error) {
-          console.error('Erreur:', error);
-          setErreur('Erreur lors de la création de la facture. Veuillez réessayer.');
-      }
-  }
-};
-
 
 
     return(

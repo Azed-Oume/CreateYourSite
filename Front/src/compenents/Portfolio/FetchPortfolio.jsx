@@ -30,7 +30,6 @@ const FetchPortfolio = () => {
                 body: JSON.stringify(imageData)
             });
             const data = await response.json();
-            console.log('Image created:', data);
             getAllImages(); // Refresh the image list
         } catch (error) {
             console.error('Error creating image:', error);
@@ -49,7 +48,6 @@ const FetchPortfolio = () => {
             });
             const data = await response.json();
             setImages(data);
-            console.log('All images:', data);
         } catch (error) {
             console.error('Error fetching images:', error);
         }
@@ -66,7 +64,6 @@ const FetchPortfolio = () => {
                 }
             });
             const data = await response.json();
-            console.log('Image by ID:', data);
         } catch (error) {
             console.error('Error fetching image by ID:', error);
         }
@@ -84,7 +81,6 @@ const FetchPortfolio = () => {
                 body: JSON.stringify(imageData)
             });
             const data = await response.json();
-            console.log('Updated image:', data);
             getAllImages(); // Refresh the image list
         } catch (error) {
             console.error('Error updating image:', error);
@@ -102,10 +98,9 @@ const FetchPortfolio = () => {
                 }
             });
             if (response.status === 204) {
-                console.log('Image deleted successfully');
                 getAllImages(); // Refresh the image list
             } else {
-                console.log('Error deleting image:', response.status);
+                console.error('Error deleting image:', response.status);
             }
         } catch (error) {
             console.error('Error deleting image:', error);

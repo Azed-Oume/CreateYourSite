@@ -21,11 +21,9 @@ const SupprimerProduit = ({ produitId, fetchProduits }) => {
                     'Authorization': `Bearer ${token}`
                 },
             };
-            console.log(produitId, " en ligne 24");
             // Supprimer le produit en envoyant une requête DELETE au serveur
             const response = await fetch(`http://localhost:3000/api/delete/product/${produitId}`, fetchOptions);
-            console.log(produitId, " en ligne 27");
-                
+
             if (response.ok) {
                 // Rafraîchir la liste des articles après suppression
                 // alert("Le produit a était Spprimer avec succès !");

@@ -57,7 +57,7 @@ const thickChevronStyle = {
         });
         if (!response.ok) {
             if (response.status === 404) {
-                alert("Vous n'avez pas de produits pour le moment.");
+                alert("Pas de produits pour le moment.");
             } else {
                 throw new Error('Une erreur est survenue lors du FETCH');
             }
@@ -218,7 +218,7 @@ const filteredProduits = produits.filter(produit => produit.statut === 1);
         </div>
       </section>
       <PanierIsVisible  panier={panier} />
-      <FactureBoutique panier={panier} />
+      {/* <FactureBoutique panier={panier} /> */}
 
 
     </>

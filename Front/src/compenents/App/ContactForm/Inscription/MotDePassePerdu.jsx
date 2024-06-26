@@ -28,7 +28,7 @@ const MotDePassePerdu = () => {
             if (response.status === 200) {
                 // La demande a réussi
                 setMessage('Un lien pour régénérer le mot de passe a été envoyé à votre adresse e-mail.');
-                console.log(responseData);
+                
             } else if (response.status === 404) {
                 // Email non trouvé
                 setMessage("Cet e-mail n'existe pas dans notre base de données.");
@@ -37,7 +37,7 @@ const MotDePassePerdu = () => {
                 setMessage("Une erreur s'est produite. Veuillez réessayer.");
             }
         } catch (error) {
-            console.log('Fetch error: ', error);
+            
             setMessage("Une erreur s'est produite lors de la connexion. Veuillez réessayer.");
         }
     };

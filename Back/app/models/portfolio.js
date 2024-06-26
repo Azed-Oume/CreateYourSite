@@ -32,7 +32,7 @@ const Portfolio = sequelize.define('Portfolio', {
         allowNull: true
     }
 }, {
-    tableName: 'PORTFOLIO',
+    tableName: 'portfolio',
     timestamps: false
 });
 

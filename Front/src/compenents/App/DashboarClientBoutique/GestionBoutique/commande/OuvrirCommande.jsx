@@ -62,7 +62,7 @@ const handleModifierCommande = () => {
                         'Content-Type': 'application/json',
                         Authorization: `Bearer ${token}`
                     }
-                });    // console.log(commandeId, "en ligne 123 de OuvrirCommande XXXXXXXXXXXX");
+                }); 
 
                 if (!response.ok) {
                     throw new Error('Une erreur est survenue lors de la récupération des commandes');

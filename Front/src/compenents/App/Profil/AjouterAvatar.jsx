@@ -40,7 +40,7 @@ const AjouterAvatar = () => {
               } catch (error) {
                   console.error(error);
               }
-          };console.log("voici le statut: " + userStatut)
+          };
           
     /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
     /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
@@ -51,9 +51,6 @@ const AjouterAvatar = () => {
         const formData = new FormData();
         formData.append('avatar', selectedFile);
         formData.append('fileName', fileName); // Ajout du nom du fichier à formData
-        console.log(selectedFile);
-        console.log(fileName);
-        console.log(formData);
 
         if (selectedFile) {
             try {
@@ -74,7 +71,6 @@ const AjouterAvatar = () => {
                 
 
                 if (response.ok) {
-                    console.log('Téléchargemnt de l\'Avatar Reussi  :', response.status);
                     setIsFileSubmitted(true);
                     setTimeout(() => {
                         window.location.href = "/Profil";
@@ -84,10 +80,10 @@ const AjouterAvatar = () => {
                 }
                 
             } catch (error) {
-                console.log('Erreur Fetch: ', error);
+                console.error('Erreur Fetch: ', error);
             }
         } else {
-            console.log('Aucun fichier sélectionné.');
+            console.error('Aucun fichier sélectionné.');
         }
     };
 

@@ -46,12 +46,16 @@ const VoirMesFactures = () => {
 useEffect(() => {
     const fetchSociete = async () => {
         try {
-            const response = await fetch('http://localhost:3000/api/getSociete/2');
+            const response = await fetch('http://localhost:3000/api/getSociete/2', {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             if (!response.ok) {
                 throw new Error('Erreur lors de la récupération des informations de la société');
             }
             const data = await response.json();
-            console.log(data, " en ligne 39 XXXXXXXXXXXXXXXXXXXX");
             setSociete(data);
         } catch (error) {
             console.error(error);
@@ -63,11 +67,11 @@ useEffect(() => {
             const token = localStorage.getItem('token');
             if (!token) {
                 // Si le token est absent, ne pas faire de fetch
-                console.log('Token absent, aucune requête fetch effectuée.');
-                // alert("Connectez-vous ou créez un compte pour ajouter un devis !");
+                alert("Connectez-vous ou créez un compte pour ajouter une facture !");
                 return;
               }
             const response = await fetch('http://localhost:3000/api/getUser', {
+                method: 'GET',
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -76,7 +80,6 @@ useEffect(() => {
                 throw new Error('Erreur lors de la récupération des informations du client');
             }
             const data = await response.json();
-            console.log(data, " en ligne 67 XXXXXXXXXXXXXXXXXXXX");
             setClient(data);
         } catch (error) {
             console.error(error);
@@ -107,7 +110,6 @@ const fetchFacture = async () => {
         const data = await response.json();
         setFactureData(data.facture);
         setLoading(false);
-        console.log(data, " en ligne 110 XXXXXXXXXXXXXXX");
     } catch (error) {
         setError(error.message);
         setLoading(false);

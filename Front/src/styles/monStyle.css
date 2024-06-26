@@ -126,27 +126,11 @@
     /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
     /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
       /* css pour les images des article dans Blog.jsx et ReadArticle.jsx */
-    /* .img-art-hover:hover {
-      transition: 0.2s;
-      transition-duration: 1s;
-      border: 2px solid rgb(74, 82, 75) ;
-      border-radius: 10px;
-      transform: scale(1.3) translateX(-40%) ;
-      animation-duration: 3s;
-      transform-origin: bottom-left;
-    } */
-    .img-art-hover {
-      transition: transform 0.2s, border 0.2s;
-      border-radius: 10px;
-    }
-    
     .img-art-hover:hover {
-      border: 2px solid rgb(74, 82, 75);
-      border-radius: 10px;
-      transform: scale(1.4);
-      transform-origin: right;
-    }
-    
+      transform: scale(1.3) translateX(-40%);
+      transform-origin: bottom-left;
+      transition: transform 1s;
+  }
     /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
     /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
 

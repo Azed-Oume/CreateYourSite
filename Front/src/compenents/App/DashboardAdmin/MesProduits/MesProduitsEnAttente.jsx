@@ -29,7 +29,6 @@ const MesProduitsEnAttente = () => {
         const token = localStorage.getItem('token');
         if (!token) {
           // Si le token est absent, ne pas faire de fetch
-          console.log('Token absent, aucune requête fetch effectuée.');
           return;
         }
         // permet de récupérer tout les produits
@@ -49,9 +48,7 @@ const MesProduitsEnAttente = () => {
         } else {
 
             const data = await response.json();
-            console.log(data, "en ligne 48");
             setProduits(data.produits);
-            console.log(data, "en ligne 50");
         }
     } catch (error) {
         console.error('Error fetching produits:', error);

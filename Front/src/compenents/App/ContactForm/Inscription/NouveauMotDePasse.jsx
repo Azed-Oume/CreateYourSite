@@ -30,9 +30,6 @@ const validatePassword = (password, options) => {
 const NouveauMotDePasse = (req, res) => {
     
     const { token }  = useParams();
-    console.log(token, " en ligne 33 XXXXXXXX");
-
-
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -80,7 +77,7 @@ const NouveauMotDePasse = (req, res) => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ token, newPassword: password })
-            });console.log(token, password, "en ligne 83 XXXXXXXXXXXXXXX")
+            });
 
             const data = await response.json();
             setMessage(data.message);

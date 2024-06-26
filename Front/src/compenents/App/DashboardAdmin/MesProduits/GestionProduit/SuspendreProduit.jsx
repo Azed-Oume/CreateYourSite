@@ -5,12 +5,9 @@ import { Button } from 'react-bootstrap';
 const SuspendreProduit = ({produitId, fetchProduits, userStatut}) => {
     // const { produitId } = useParams(); // Récupérer l'identifiant du produit depuis les paramètres de l'URL
     const [statut, setStatut] = useState(userStatut); // État local pour stocker le statut du produit, par défaut à 1
-    // console.log("c'est le numero de l'ID: ", produitId, "C'est le numero du Statut :", userStatut, "en ligne 8" );
     // Fonction pour mettre à jour le statut du produit
     const handleUpdateStatut = async () => {
         try {
-            
-            console.log("c'est le numero de l'ID: ", produitId, "C'est le numero du Statut :", userStatut, "en ligne 13" );
             const nouveauStatut = statut === 1 ? 2 : 1; // Inverser le statut actuel
             const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:3000/api/update/statut/product/${produitId}`, {

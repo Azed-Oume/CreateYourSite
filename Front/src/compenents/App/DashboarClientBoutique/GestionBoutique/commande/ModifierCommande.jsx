@@ -192,10 +192,6 @@ const envoyerCommande = async (numeroCommande, commandeId, panierDeCommande) => 
     throw new Error('Le panier est vide');
   }
 
-  console.log(numeroCommande, " en ligne 50 XXXXXXXXXXXXXXXXXXXXX");
-  console.log(panierDeCommande, "en ligne 51 XXXXXXXXXXXXXXXXXX");
-  console.log(commandeId, " en ligne 52 XXXXXXXXXXXXXXXXXXX");
-
   try {
     const token = localStorage.getItem('token');
     const response = await fetch(`http://localhost:3000/api/update/commande/${commandeId}`, {
@@ -226,7 +222,6 @@ const envoyerCommande = async (numeroCommande, commandeId, panierDeCommande) => 
 
     // Récupérer les données de la réponse
     const data = await response.json();
-    console.log(data);
     window.location.href = "/VoirMesCommande";
 
   } catch (error) {

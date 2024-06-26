@@ -29,7 +29,6 @@ const Connexion = () => {
 
       if (response.status === 200) {
         // La connexion a réussi, on stocke le token et les informations de l'utilisateur
-        console.log('Connexion réussie');
         const responseData = await response.json();
         const token = responseData.token;
         const utilisateur_id = responseData.utilisateur_id
@@ -46,16 +45,13 @@ const Connexion = () => {
         // On redirige l'utilisateur vers une autre page 
       } else if (response.status === 401) {
         // Identifiants incorrects
-        console.log('Erreur de connexion');
         alert("Une erreur s'est produite lors de la connexion. Veuillez réessayer.");
         
       } else {
         // oû d'autres cas d'erreur
-        console.log('Identifiants incorrects');
         alert("Erreur de l'identifiant ou du mot de passe. Veuillez réessayer.");
       }
     } catch (error) {
-      console.log('Fetch error: ', error);
       alert("Une erreur s'est produite lors de la connexion. Veuillez réessayer.");
     }
   };

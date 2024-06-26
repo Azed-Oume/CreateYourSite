@@ -1,74 +1,3 @@
-
-// import React, { useState, useEffect } from 'react';
-// import {useParams, useNavigate} from "react-router-dom"
-// import logo from "../../images/logofondblanc.png";
-
-// const AjouterImageArticle = () => {
-//     const { articleId } = useParams();
-//     console.log(articleId, " en ligne 8 XXXXXXXXXXX");
-//     const [selectedFile, setSelectedFile] = useState(null);
-//     const [fileName, setFileName] = useState("");
-//     const [uploadProgress, setUploadProgress] = useState(0);
-//     const [isFileSubmitted, setIsFileSubmitted] = useState(false);
-//     const [userStatut, setUserStatut] = useState(3);
-//     const navigate = useNavigate();
-
-//     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-//     const handleFileSubmit = async (e) => {
-//         e.preventDefault();
-
-//         const formData = new FormData();
-//         formData.append('image_couverture', selectedFile);
-//         formData.append('fileName', fileName); // Ajout du nom du fichier à formData
-//         console.log(selectedFile);
-//         console.log(fileName);
-//         console.log(formData);
-
-//         console.log(articleId, " en ligne 27 XXXXXXXXXXX");
-//         if (selectedFile) {
-//             try {
-//                 for (let i = 0; i <= 100; i += 10) {
-//                     setTimeout(() => setUploadProgress(i), 1000);
-//                 }
-
-//                 const token = localStorage.getItem('token');
-//                 const response = await fetch(`http://localhost:3000/api/uploade/image/article/${articleId}`, {
-//                     method: 'PATCH',
-//                     headers: {
-//                         'Authorization': `Bearer ${token}`,
-//                     },
-//                     body: formData,
-//                 });
-                
-
-//                 if (response.ok) {
-//                     console.log('Téléchargemnt de l\'image de l\'article Reussi  :', response.status);
-//                     navigate("/ReadArticles");
-//                 } else if (!response.ok) {
-//                     console.error('Erreur lors de la requête :', response.status, response.statusText);
-//                 }
-                
-//                 else {
-//                     setIsFileSubmitted(true);
-//                 }
-//             } catch (error) {
-//                 console.log('Erreur Fetch: ', error);
-//             }
-//         } else {
-//             console.log('Aucun fichier sélectionné.');
-//         }
-//     };
-
-//     const handleFileChange = (e) => {
-//         const file = e.target.files[0];
-//         if (file) {
-//             setSelectedFile(file);
-//             setFileName(file.name);
-//         }
-//     };
-
-
 import React, { useState } from 'react';
 import { useParams, useNavigate } from "react-router-dom";
 import logo from "../../images/logofondblanc.png";
@@ -106,7 +35,6 @@ const AjouterImageArticle = () => {
                 });
 
                 if (response.ok) {
-                    console.log('Téléchargement de l\'image de l\'article réussi :', response.status);
                     setUploadProgress(100);
                     setTimeout(() => navigate("/ReadArticles"), 2000); // Attendez 2 secondes avant de rediriger
                 } else {
@@ -116,7 +44,7 @@ const AjouterImageArticle = () => {
                 console.error('Erreur Fetch: ', error);
             }
         } else {
-            console.log('Aucun fichier sélectionné.');
+            alert('Aucun fichier sélectionné.');
         }
     };
 

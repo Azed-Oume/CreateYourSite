@@ -33,7 +33,6 @@ const AjouterPhotoPortfolio = () => {
             const token = localStorage.getItem('token');
             if (!token) {
                 // Si le token est absent, ne pas faire de fetch
-                console.log('Token absent, aucune requête fetch effectuée.');
                 return;
               }
             const fetchOptions = {
@@ -47,7 +46,6 @@ const AjouterPhotoPortfolio = () => {
             const response = await fetch(`http://localhost:3000/api/images`, fetchOptions);
 
             if (response.ok) {
-                console.log('Téléchargement des photos réussi :', response.status);
                 setIsFileSubmitted(true);
                 setTimeout(() => {
                     window.location.href = "/portfolio";
@@ -56,7 +54,6 @@ const AjouterPhotoPortfolio = () => {
                 console.error('Erreur lors du Téléchargement des photos :', response.status, response.statusText);
             }
         } catch (error) {
-            console.log('Erreur du Fetch lors du Téléchargement des photos : ', error);
         }
     };
 

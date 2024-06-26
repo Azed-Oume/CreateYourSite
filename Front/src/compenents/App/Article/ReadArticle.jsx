@@ -39,9 +39,7 @@ const ReadArticles = () => {
                     }
                 } else {
                     const data = await response.json();
-                    console.log(data, "en ligne 33");
                     setArticles(data.articles);
-                    console.log(data.articles, "en ligne 35");
                 }
             } catch (error) {
                 console.error('Error fetching articles:', error);
@@ -49,7 +47,6 @@ const ReadArticles = () => {
         };
 
         const numberLove = articles;
-        console.log(numberLove, "en ligne 46");
 
         const handleLoveClick = async (articleId, love) => {
             try {
@@ -63,8 +60,7 @@ const ReadArticles = () => {
                     // Sinon, on ajoute 1 pour aimer l'article
                     newLoveCount = love + 1;
                 }
-                
-                console.log(love, " en ligne 54 xxxxxxxxxxxxxxxx");
+
                 const response = await fetch(`http://localhost:3000/api/update/love`, {
                     method: 'PATCH',
                     headers: {
@@ -73,8 +69,6 @@ const ReadArticles = () => {
                     },
                     body: JSON.stringify({ articleId, loveCount: newLoveCount }) // Utilisez articleId ici
                 });
-                
-                console.log(newLoveCount, "en ligne 61");
                 
                 if (!response.ok) {
                     throw new Error('Une erreur est survenue lors de la mise à jour du nombre de loves');

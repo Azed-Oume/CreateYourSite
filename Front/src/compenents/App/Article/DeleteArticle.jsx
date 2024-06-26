@@ -23,7 +23,6 @@ const DeleteArticleModal = ({ articleId, fetchArticles }) => {
                 
             }
             // Réponse réussie, vous pouvez effectuer des opérations supplémentaires si nécessaire
-            console.log('Article supprimé avec succès');
             alert('Article supprimé avec succès');
             handleCloseModal();
             fetchArticles(); // Récupère à nouveau les articles après la suppression réussie

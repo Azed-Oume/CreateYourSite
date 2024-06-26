@@ -55,7 +55,6 @@ const Portfolio = () => {
             });
             const data = await response.json();
             setImage(data.images);
-            console.log('All images:', data);
 
             // Générer des symboles aléatoires pour chaque image
             const generatedSymbols = data.images.map(() => getRandomSymbol());

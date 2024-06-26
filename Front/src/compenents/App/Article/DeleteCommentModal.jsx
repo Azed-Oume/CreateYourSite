@@ -14,14 +14,13 @@ const DeleteCommentModal = ({ commentId, articleId, fetchArticles }) => {
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({ commentId: commentId, articleId: articleId})
-            });console.log(commentId, " en ligne 17", articleId);
+            });
             const data = await response.json(); // Parse la réponse JSON
             if (!response.ok) {
                 throw new Error(data.message, handleCloseModal()); // Lance une erreur avec le message d'erreur du backend
                 
             }
             // Réponse réussie, vous pouvez effectuer des opérations supplémentaires si nécessaire
-            console.log('Commentaire supprimé avec succès');
             alert('Commentaires supprimé avec succès');
             handleCloseModal();
             fetchArticles(); // Récupère à nouveau les articles après la suppression réussie

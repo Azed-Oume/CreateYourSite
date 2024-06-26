@@ -25,7 +25,6 @@ const Ajouterproduit = () => {
             const token = localStorage.getItem('token');
             if (!token) {
                 // Si le token est absent, ne pas faire de fetch
-                console.log('Token absent, aucune requête fetch effectuée.');
                 return;
               }
             // Pérmet de récuperer toutes les Categories
@@ -41,7 +40,6 @@ const Ajouterproduit = () => {
                 throw new Error('Une erreur est survenue lors du FETCH');
             } else {
                 const data = await response.json();
-                console.log(data, "en ligne XX"); // Remplacez XX par le numéro de ligne approprié
                 setCategories(data.categorie);
             }
         } catch (error) {

@@ -11,7 +11,6 @@ import { Form } from 'react-bootstrap';
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 const AjouterPhoto = () => {
     const { produitId } = useParams();
-    console.log(produitId, "en ligne 13");
 
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [uploadProgress, setUploadProgress] = useState(0);
@@ -42,7 +41,6 @@ const AjouterPhoto = () => {
             const response = await fetch(`http://localhost:3000/api/get/photos/${produitId}`, fetchOptions);
             
             if (response.ok) {
-                console.log('Téléchargement des photos réussi  :', response.status);
                 window.location.href = "/VoirMesProduits";
             } else {
                 console.error('Erreur lors du Téléchargement des photos :', response.status, response.statusText);
@@ -50,7 +48,7 @@ const AjouterPhoto = () => {
 
             setIsFileSubmitted(true);
         } catch (error) {
-            console.log('Erreur du Fetch lors du Téléchargement des photos : ', error);
+            alert('Erreur du Fetch lors du Téléchargement des photos : ', error);
         }
     };
 

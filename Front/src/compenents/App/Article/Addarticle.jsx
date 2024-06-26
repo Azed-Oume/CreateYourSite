@@ -78,6 +78,7 @@ const Article = () => {
                                 maxLength={155}
                                 value={titre}
                                 onChange={(event) => setTitre(event.target.value)}
+                                required
                             />
                         </FormGroup>
                         <FormGroup className="text-center col-md-6">
@@ -90,13 +91,13 @@ const Article = () => {
                                     required
                                 >
                                     <option value="">Sélectionnez une catégorie</option>
-                                    <option value="Dév">Dév</option>
-                                    <option value="Politique">Politique</option>
-                                    <option value="Business">Business</option>
                                     <option value="Bio">Bio</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Cuisine">Cuisine</option>
+                                    <option value="Mode">Mode</option>
+                                    <option value="Politique">Politique</option>
                                     <option value="Technologie">Technologie</option>
                                     <option value="Voyages">Voyages</option>
-                                    <option value="Cuisine">Cuisine</option>
                                 </select>
                         </FormGroup>
                         </div>
@@ -108,6 +109,7 @@ const Article = () => {
                                 name='contenu'
                                 value={contenu}
                                 onChange={(event) => setContenu(event.target.value)}
+                                required
                             />
                         </FormGroup>
                     </fieldset>

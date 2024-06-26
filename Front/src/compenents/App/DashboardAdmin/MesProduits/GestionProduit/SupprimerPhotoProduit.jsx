@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 
 const SupprimerPhotoProduit = ({ imageId, fetchOneProduit }) => {
-    console.log(imageId, "en ligne 5");
     const [showModal, setShowModal] = useState(false);
 
     // Fonction pour ouvrir la modal
@@ -22,10 +21,8 @@ const SupprimerPhotoProduit = ({ imageId, fetchOneProduit }) => {
                     'Authorization': `Bearer ${token}`
                 },
             };
-            console.log(imageId, " en ligne 24");
             // Supprimer le produit en envoyant une requête DELETE au serveur
             const response = await fetch(`http://localhost:3000/api/delete/photo/${imageId}`, fetchOptions);
-            console.log(imageId, " en ligne 27");
                 
             if (response.ok) {
                 // Rafraîchir la liste des articles après suppression

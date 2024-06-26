@@ -17,9 +17,7 @@ const ModiffierProduit = () => {
         tarif: "",
         categoriesproduits_id: "",
         photo: ""
-    });
-    console.log(produitId, "en ligne 20");
-    
+    });   
     
     /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
     /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
@@ -50,7 +48,6 @@ const ModiffierProduit = () => {
                         categoriesproduits_id: data.produit.categorie,
                         photo: data.produit.photos.photo
                     });
-                    console.log(data, "en ligne 52");
                 };
             } catch (error) {
                 console.error('Erreur du Fetch fetchProduit:', error);
@@ -95,7 +92,6 @@ const ModiffierProduit = () => {
                 throw new Error('Une erreur est survenue lors de la mise à jour du produit');
             }
             // Mise à jour réussie, vous pouvez effectuer des actions supplémentaires si nécessaire
-            console.log('Produit mis à jour avec succès');
             handleCloseModal();
             alert("vos Modifications sont prise en compte avec success");
         } catch (error) {

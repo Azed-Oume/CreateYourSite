@@ -64,16 +64,14 @@ const thickChevronStyle = {
         });
         if (!response.ok) {
             if (response.status === 404) {
-                alert("Vous n'avez pas d'articles pour le moment.");
+                alert("Vous n'avez pas de devis pour le moment.");
             } else {
                 throw new Error('Une erreur est survenue lors du FETCH');
             }
         } else {
 
             const data = await response.json();
-            // console.log(data, "en ligne 48");
             setProduits(data.produits);
-            // console.log(data, "en ligne 70");
         }
     } catch (error) {
         console.error('Error fetching produits:', error);
@@ -153,7 +151,6 @@ const handleClick = (index) => {
 const indexOfLastProduit = currentPage * produitsPerPage;
 const indexOfFirstProduit = indexOfLastProduit - produitsPerPage;
 const currentProduits = produits.slice(indexOfFirstProduit, indexOfLastProduit);
-// console.log(currentProduits, "List des produits présent dans la boutiqueen ligne 137");
 const paginate = pageNumber => setCurrentPage(pageNumber);
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
@@ -161,7 +158,6 @@ const paginate = pageNumber => setCurrentPage(pageNumber);
 const userStatut = currentProduits.map(produit => produit.statut);
 // Filtrer les produits ayant le statut 1
 const filteredProduits = produits.filter(produit => produit.statut === 1);
-// console.log(userStatut, "Montre le statut des Produits (1 = en vente, 2 = en attente) en ligne 145");
 
 
 

@@ -33,7 +33,7 @@ const Contact = () => {
             ...prevData,
             pseudo: data.pseudo || '',
             email: data.email || '',
-          }));console.log(data.utilisateur_id,  " en ligne 36 XXXXXXXXXXXXXXXXXXXXXXX");
+          }));
         }
       } catch (error) {
         console.error('Error fetching user profile:', error);
@@ -58,7 +58,6 @@ const Contact = () => {
     try {
       const token = localStorage.getItem('token');
       const utilisateurId = localStorage.getItem('id');
-      console.log(token, utilisateurId, " en ligne 62 XXXXXXXXXXXXX");
       const endpoint = token ? `http://localhost:3000/api/formvip/contact/${utilisateurId} ` : 'http://localhost:3000/api/form/contact';
       const response = await fetch(endpoint, {
         method: 'POST',

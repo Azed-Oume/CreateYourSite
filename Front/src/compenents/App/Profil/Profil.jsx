@@ -48,7 +48,6 @@ const Profil = () => {
                 const token = localStorage.getItem('token');
                 if (!token) {
                     // Si le token est absent, ne pas faire de fetch
-                    console.log('Token absent, aucune requête fetch effectuée.');
                     return;
                   }
                 const response = await fetch('http://localhost:3000/api/getUser', {
@@ -64,7 +63,6 @@ const Profil = () => {
                     const data = await response.json();
                     setProfileData(data);
                     setFormData(data); // Remplir les données du formulaire avec les données du profil
-                    console.log(data);
                 };
             } catch (error) {
                 console.error('Error fetching user profile:', error);
@@ -91,7 +89,6 @@ const Profil = () => {
                 throw new Error('Une erreur est survenue lors de la mise à jour du profil utilisateur');
             }
             // Mise à jour réussie, vous pouvez effectuer des actions supplémentaires si nécessaire
-            console.log('Profil utilisateur mis à jour avec succès');
             fetchProfile();
             setProfileData(formData);
             handleCloseModal();

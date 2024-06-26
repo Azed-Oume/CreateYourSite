@@ -21,7 +21,6 @@ const AfficherDevis = ({ panier }) => {
         setDetailProjet(e.target.value);
     };
 
-    console.log(panier, " en ligne 22 XXXXXXXXXXXXX");
     useEffect(() => {
         if (panier && panier.length > 0) {
             setIsVisible(true); // Mettre à jour isVisible si le panier n'est pas vide
@@ -51,8 +50,7 @@ const AfficherDevis = ({ panier }) => {
                 const token = localStorage.getItem('token');
                 if (!token) {
                     // Si le token est absent, ne pas faire de fetch
-                    console.log('Token absent, aucune requête fetch effectuée.');
-                    // alert("Connectez-vous ou créez un compte pour ajouter un devis !");
+                    alert("Connectez-vous ou créez un compte pour ajouter un devis !");
                     return;
                   }
                 const response = await fetch('http://localhost:3000/api/getUser', {

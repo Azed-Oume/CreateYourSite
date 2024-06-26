@@ -1,30 +1,21 @@
 
 import React, { useState, useEffect } from 'react';
 import { Form, Row, Col, Button } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
-const FactureBoutique = ({ panier }) => {
-    const [panierFacture, setPanierFacture] = useState({panier});
+const FactureBoutique = () => {
+    const location = useLocation();
+    const {panier, numeroDocument} = location.state;
+    // const numeroDocumentOrigine = `FAC/${numeroDocument}`;
+
+    const [panierFacture, setPanierFacture] = useState(panier);
     const [societe, setSociete] = useState("");
     const [client, setClient] = useState("");
     const [numeroFacture, setNumeroFacture] = useState('En attente de génération...'); // Variable d'état pour stocker le numéro de facture
-    const [isVisible, setIsVisible] = useState(false);
     const [detailProjet, setDetailProjet] = useState("");
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-    const handleChangeDetailProjet = (e) => {
-        setDetailProjet(e.target.value);
-    };
 
-    console.log(panier, " en ligne 19 XXXXXXXXXXXXX");
-    useEffect(() => {
-        if (panier && panier.length > 0) {
-            setIsVisible(true); // Mettre à jour isVisible si le panier n'est pas vide
-        } else {
-            setIsVisible(false); // Sinon, masquer le facture
-        }
-    }, [panier]); // Surveiller les changements dans le panier pour mettre à jour la visibilité
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
@@ -73,8 +64,8 @@ const FactureBoutique = ({ panier }) => {
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     useEffect(() => {
-        if (client) {
-            // Génération du numéro de commande unique
+        if (client && !numeroDocument) {
+            // Génération du numéro de facture unique
             const generateNumeroFacture = () => {
                 const date = new Date();
                 const annee = date.getFullYear().toString().substr(-2);
@@ -85,29 +76,38 @@ const FactureBoutique = ({ panier }) => {
                 const nomClient = client.nom.slice(0, 2).toUpperCase();
                 const prenomClient = client.prenom.slice(0, 2).toUpperCase();
                 const randomDigits = Math.floor(100 + Math.random() * 900);
-                const numeroFacture = `FAC${annee}${mois}${jour}${minutes}${seconds}/${nomClient}${prenomClient}/${randomDigits}`;
-                setNumeroFacture(numeroFacture); // Met à jour la variable d'état avec le numéro de commande généré
+                const generatedNumeroFacture = `FAC${annee}${mois}${jour}${minutes}${seconds}/${nomClient}${prenomClient}/${randomDigits}`;
+                setNumeroFacture(generatedNumeroFacture); // Met à jour la variable d'état avec le numéro de commande généré
             };
 
             generateNumeroFacture(); // Appel de la fonction pour générer le numéro de commande unique
+        }else if (numeroDocument) {
+            setNumeroFacture(`FAC/${numeroDocument}`);
         }
-    }, [client]);
+    }, [client, numeroDocument]);
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     const validateFacture = "Aprés réglement";
     const conditionsPaiement = "Comptant "
     const modePaiement = "Carte Bancaire";
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX    
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+const handleChangeDetailProjet = (e) => {
+    setDetailProjet(e.target.value);
+};    
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX   
+    const currentNumeroFacture = (numeroDocument ||  numeroFacture);
+    console.log("c'est le numero de facture :", numeroFacture);
+    console.log("c'est le numero de Document :", numeroDocument);
     // Fonction pour générer le PDF
     const handleDownloadPDF = async () => {
-        if (!societe || !client || !numeroFacture) return;
+        if (!societe || !client || !numeroFacture ) return;
     
         const pdf = new jsPDF();
-    
         // Définit la taille du papier au format A4
         pdf.setFontSize(12);
-        
+        // const currentNumeroFacture = (`FAC/${numeroDocument}` ||  numeroFacture);
         // Encadré pour les informations sur la société
         pdf.rect(20, 15, 80, 60); // Rectangle pour encadrer les informations sur la société
         pdf.text(`${societe.societe || ""}`, 25, 20);
@@ -115,10 +115,9 @@ const FactureBoutique = ({ panier }) => {
         pdf.text(`${societe.ville || ""}`, 25, 40);
         pdf.text(`${societe.code_postal || ""}`, 25, 50);
         pdf.text(`${societe.nom || ""}`, 25, 60);
-        // Génération du numéro de facture unique
         
         pdf.rect(55, 83, 110, 10); // Rectangle pour encadrer les informations sur le client
-        pdf.text(`Facture numéro: ${numeroFacture}`, 60 ,90); // Affiche le numéro de Commande à la position spécifiée
+        pdf.text(`Facture numéro: ${currentNumeroFacture}`, 60 ,90); // Affiche le numéro de Commande à la position spécifiée
         
         // Encadré pour les informations sur le client
         pdf.rect(110, 15, 80, 60); // Rectangle pour encadrer les informations sur le client
@@ -139,12 +138,19 @@ const FactureBoutique = ({ panier }) => {
                 // Les données du panier
                 // ['Nom', 'Tarif', 'Quantité', 'Total'],
                 ["Nom", "Tarif HT", "Quantité", "TVA 20%", "Total TTC"],
-                ...panier.map(produit => [produit.nom, produit.tarif + ' €', produit.quantite, (produit.tarif *.2).toFixed(2), (produit.tarif * produit.quantite * 1.2).toFixed(2) + ' €'])
+                ...panier.map(produit => [
+                    produit.nom, 
+                    produit.tarif + ' €', 
+                    produit.quantite, 
+                    (produit.tarif *.2).toFixed(2), 
+                    (produit.tarif * produit.quantite * 1.2).toFixed(2) + ' €'
+                ])
             ]
         });
 
         // Total de la commande
         const total = panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0).toFixed(2); // Calcul du total de la commande
+
         pdf.text(`Total a régler : ${total} €`, 140, pdf.autoTable.previous.finalY + 10); // Affichage du total de la commande
         
         pdf.text(`Facture régler en ${modePaiement} `, 120, pdf.autoTable.previous.finalY + 20); 
@@ -182,14 +188,17 @@ const FactureBoutique = ({ panier }) => {
             });
     
         // Télécharge le PDF avec le nom 'facture.pdf'
-        pdf.save(`Facture${numeroFacture}.pdf`);
+        pdf.save(`Facture${currentNumeroFacture}.pdf`);
         
-        await envoyerFacture(numeroFacture, panier, total, modePaiement, null, validateFacture, detailProjet);
+        envoyerFacture(currentNumeroFacture, panier, total, modePaiement, null, validateFacture, detailProjet);
     };
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+// Total de la commande
+const total = panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0).toFixed(2); // Calcul du total de la commande
    // Fonction pour envoyer la commande en base de données
-const envoyerFacture = async (numeroFacture, panierFacture, total, modePaiement, informationPaiement, validateFacture, detailProjet) => {
+const envoyerFacture = async (currentNumeroFacture, panierFacture, total, modePaiement, informationPaiement, validateFacture, detailProjet) => {
     
     if (!panierFacture.length) {
         throw new Error('Le panier est vide');
@@ -205,7 +214,7 @@ const envoyerFacture = async (numeroFacture, panierFacture, total, modePaiement,
                 Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
-                numeroFacture: numeroFacture,
+                numeroFacture: currentNumeroFacture,
                 detailProjet: detailProjet,
                 montantTotal: total,
                 modePaiement: modePaiement,
@@ -239,10 +248,9 @@ const envoyerFacture = async (numeroFacture, panierFacture, total, modePaiement,
 
     return (
             <>
-            {isVisible && (
                 <section id="facture" className="container  graylogo p-4 mt-5 rounded-4 mx-auto">
                     <header>
-                        <h3 className='p-3 text-center rounded'>Commande numéro : {numeroFacture} </h3>
+                        <h3 className='p-3 text-center rounded'>Numéro facture : {currentNumeroFacture} </h3>
                     </header>
                     <Form>
                         <Row>
@@ -310,7 +318,8 @@ const envoyerFacture = async (numeroFacture, panierFacture, total, modePaiement,
                                 <tr>
                                     <td colSpan="4" className="fw-bold text-end" >Total de la facture :</td>
                                     <td className="fw-bold" >
-                                        <span name="total" value={panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0).toFixed(2)}>{panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0).toFixed(2)} €</span>
+                                        {/* <span name="total" value={ panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0).toFixed(2)}>{ panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0).toFixed(2) } €</span> */}
+                                        <span name="total" value={ total }>{ total } €</span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -381,7 +390,6 @@ const envoyerFacture = async (numeroFacture, panierFacture, total, modePaiement,
                         </footer>
                     </section>
                 </section>
-                )}
             </>
 
 

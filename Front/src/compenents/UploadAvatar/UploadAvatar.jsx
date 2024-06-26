@@ -43,7 +43,7 @@ const UploadAvatar = () => {
               } catch (error) {
                   console.error(error);
               }
-          };console.log("voici le statut: " + userStatut)
+          };
           
           ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -55,9 +55,7 @@ const UploadAvatar = () => {
         const formData = new FormData();
         formData.append('avatar', selectedFile);
         formData.append('fileName', fileName); // Ajout du nom du fichier à formData
-        console.log(selectedFile);
-        console.log(fileName);
-        console.log(formData);
+        
 
         if (selectedFile) {
             try {
@@ -88,10 +86,10 @@ const UploadAvatar = () => {
                     setIsFileSubmitted(true);
                 }
             } catch (error) {
-                console.log('Erreur Fetch: ', error);
+                console.error('Erreur Fetch: ', error);
             }
         } else {
-            console.log('Aucun fichier sélectionné.');
+            alert('Aucun fichier sélectionné.');
         }
     };
 

@@ -14,7 +14,6 @@ const AmonSujet = () => {
             }
             const data = await response.json();
             setSociete(data);
-            console.log(data, " en ligne 16 XXXXXXXXXXXXXXXXXX");
         } catch (error) {
             console.error(error);
         }

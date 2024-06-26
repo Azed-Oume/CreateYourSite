@@ -18,7 +18,6 @@ const AfficherCommande = ({ panier }) => {
         setDetailProjet(e.target.value);
     };
 
-    console.log(panier, " en ligne 19 XXXXXXXXXXXXX");
     useEffect(() => {
         if (panier && panier.length > 0) {
             setIsVisible(true); // Mettre à jour isVisible si le panier n'est pas vide
@@ -48,8 +47,7 @@ const AfficherCommande = ({ panier }) => {
                 const token = localStorage.getItem('token');
                 if (!token) {
                     // Si le token est absent, ne pas faire de fetch
-                    console.log('Token absent, aucune requête fetch effectuée.');
-                    // alert("Connectez-vous ou créez un compte pour ajouter une commande !");
+                    alert("Connectez-vous ou créez un compte pour ajouter une commande !");
                     return;
                   }
                 const response = await fetch('http://localhost:3000/api/getUser', {
@@ -303,7 +301,7 @@ const conditionsPaiement = "A la commande "
                                         <td>{produit.nom}</td>
                                         <td>{produit.tarif} €</td>
                                         <td>{produit.quantite}</td>
-                                        <td>{produit.tarif * .2}</td>
+                                        <td>{(produit.tarif * .2).toFixed(2)}</td>
                                         <td>{(produit.tarif * produit.quantite * 1.2).toFixed(2)} €</td>
                                   </tr>
                                 ))}

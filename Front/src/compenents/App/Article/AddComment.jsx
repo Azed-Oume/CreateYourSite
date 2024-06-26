@@ -45,7 +45,6 @@ const AddCommentModal = ({ articleId }) => {
             }
     
             // Réponse réussie, vous pouvez effectuer des opérations supplémentaires si nécessaire
-            console.log('Commentaire ajouté avec succès');
             handleCloseModal();
         } catch (error) {
             // Gestion des erreurs
