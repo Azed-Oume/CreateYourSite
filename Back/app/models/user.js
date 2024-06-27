@@ -54,7 +54,7 @@ const User = sequelize.define('User', {
     statut: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: 3
+        defaultValue: 0
     },
     date_inscription: {
         type: DataTypes.DATE,

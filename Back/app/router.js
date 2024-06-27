@@ -36,6 +36,8 @@ router.post('/api/user/register', usersController.setUser);//Permet l'enregistre
 router.post('/api/set-new-login', usersController.setNewLogin); // Route pour demander la réinitialisation du mot de passe
 router.post('/api/reset-password/:token',decodeToken, usersController.resetPassword); // Route pour réinitialiser le mot de passe
 router.get('/api/getUser', jwtGuard ,roleCheck([1,2,3,4,5]), usersController.getUser );  // pérmet de récuperer le profil de l'utilisateur connécter
+router.get('/api/getAllUser', jwtGuard ,roleCheck([1,2,3,4,5]), usersController.getAllUser );  // pérmet de récuperer la listes des utilisateur
+router.put('/api/updateUserStatut/:userId', jwtGuard, roleCheck([1]), usersController.updateUserStatut) 
 router.get('/api/getSociete/:utilisateurId', usersController.getSociete );  // pérmet de récuperer le profil de la société du site !
 router.patch('/api/updateUser', jwtGuard, roleCheck([1,2,3,4,5]), usersController.updateUser); // pérmet de modiffier le profil de l'utilisateur connécter
 router.post('/api/users/login', connexionController.login);// Gère l'authentification des utilisateurs  //

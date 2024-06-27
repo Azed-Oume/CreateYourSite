@@ -368,7 +368,7 @@ const VoirMesCommande = () => {
                                                 <Modal.Title>Confirmation de Suppression de la Commande</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                                Êtes-vous sûr de vouloir supprimer cette Commande ? Cette action est irréversible.
+                                                Êtes-vous sûr de vouloir supprimer cette Commande {commande.numero_commande} ? Cette action est irréversible.
                                             </Modal.Body>
                                             <Modal.Footer>
                                                 <Button variant="secondary" onClick={() => handleToggleModal(commande.commande_id)}>Annuler</Button>

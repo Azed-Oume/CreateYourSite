@@ -151,7 +151,7 @@ const VoirMesDevis = () => {
                                                 <Modal.Title>Confirmation de Suppression du devis</Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                                Êtes-vous sûr de vouloir supprimer ce devis ? Cette action est irréversible.
+                                                Êtes-vous sûr de vouloir supprimer ce devis {devis.numero_devis} ? Cette action est irréversible.
                                             </Modal.Body>
                                             <Modal.Footer>
                                                 <Button variant="secondary" onClick={() => handleToggleModal(devis.devis_id)}>Annuler</Button>

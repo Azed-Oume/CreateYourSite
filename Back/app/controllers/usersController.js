@@ -249,6 +249,121 @@ resetPassword: async (req, res) => {
         }
     },
 
+
+    getAllUser: async function (req, res) {
+        try {
+            // Vérifier si l'utilisateur est authentifié et a un rôle défini
+            if (!req.user || typeof req.user.role_id !== 'number') {
+                return res.status(401).json({ message: "Utilisateur non authentifié ou rôle non défini" });
+            }
+    
+            // Récupérer le rôle de l'utilisateur connecté
+            const roleId = req.user.role_id;
+            console.log(`Rôle de l'utilisateur connecté: ${roleId}`);
+    
+            // Vérifier si l'utilisateur est administrateur
+            if (roleId !== 1) {
+                return res.status(403).json({ message: "Cette section est réservée à l'administrateur" });
+            }
+    
+            // Récupérer tous les utilisateurs si le rôle est administrateur
+            const utilisateurs = await User.findAll({
+                attributes: { exclude: ['mot_de_passe'] } // Exclure le mot de passe de la réponse
+            });
+    
+            // Renvoyer les informations des utilisateurs
+            res.status(200).json(utilisateurs);
+        } catch (error) {
+            console.error("Erreur lors de la récupération des informations des utilisateurs :", error);
+            res.status(500).json({ error: 'Erreur de serveur lors de la récupération des informations des utilisateurs' });
+        }
+    },
+
+
+    updateUserStatut : async function (req, res) {
+        const { userId } = req.params; // Récupérer l'ID de l'utilisateur à partir des paramètres de la requête
+        const { statut } = req.body; // Récupérer le nouveau statut à partir du corps de la requête
+    
+        const transaction = await sequelize.transaction();
+        
+        try {
+            // Vérifier si l'utilisateur existe
+            const utilisateur = await User.findByPk(userId, { transaction });
+    
+            if (!utilisateur) {
+                await transaction.rollback();
+                return res.status(404).json({ message: "Utilisateur non trouvé" });
+            }
+    
+            // Mettre à jour le statut de l'utilisateur
+            utilisateur.statut = statut;
+            await utilisateur.save({ transaction });
+    
+            // Valider la transaction
+            await transaction.commit();
+
+            // Renvoyer l'utilisateur mis à jour en réponse
+            const utilisateurSansMotDePasse = await User.findByPk(userId, {
+                attributes: { exclude: ['mot_de_passe'] }, // Exclure le mot de passe de la réponse
+            });
+            res.status(200).json(utilisateurSansMotDePasse);
+    
+
+        } catch (error) {
+            // Annuler la transaction en cas d'erreur
+            await transaction.rollback();
+            console.error("Erreur lors de la modification du statut de l'utilisateur :", error);
+            res.status(500).json({ error: 'Erreur de serveur lors de la modification du statut de l\'utilisateur' });
+        }
+    },
+
+    // updateUserStatut: async function (req, res) {
+    //     const { userId } = req.params; // Récupérer l'ID de l'utilisateur à partir des paramètres de la requête
+    //     const { statut } = req.body; // Récupérer le nouveau statut à partir du corps de la requête
+    
+    //     let transaction;
+        
+    //     try {
+    //         // Début de la transaction
+    //         transaction = await sequelize.transaction();
+    
+    //         // Vérifier si l'utilisateur existe
+    //         const utilisateur = await User.findByPk(userId, { transaction });
+    
+    //         if (!utilisateur) {
+    //             await transaction.rollback();
+    //             return res.status(404).json({ message: "Utilisateur non trouvé" });
+    //         }
+    
+    //         // Mettre à jour le statut de l'utilisateur
+    //         utilisateur.statut = statut;
+    //         await utilisateur.save({ transaction });
+    
+    //         // Valider la transaction
+    //         await transaction.commit();
+    
+    //         // Renvoyer l'utilisateur mis à jour en réponse
+    //         const utilisateurSansMotDePasse = await User.findByPk(userId, {
+    //             attributes: { exclude: ['mot_de_passe'] }, // Exclure le mot de passe de la réponse
+    //             transaction
+    //         });
+    //         res.status(200).json(utilisateurSansMotDePasse);
+    //     } catch (error) {
+    //         // Vérifier si la transaction existe et rollback si elle n'a pas été validée
+    //         if (transaction) {
+    //             try {
+    //                 await transaction.rollback();
+    //             } catch (rollbackError) {
+    //                 console.error("Erreur lors du rollback de la transaction :", rollbackError);
+    //             }
+    //         }
+    
+    //         console.error("Erreur lors de la modification du statut de l'utilisateur :", error);
+    //         res.status(500).json({ error: 'Erreur de serveur lors de la modification du statut de l\'utilisateur' });
+    //     }
+    // },
+    
+    
     getSociete: async function (req, res) {
         const transaction = await sequelize.transaction();
         try {

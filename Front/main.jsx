@@ -54,6 +54,7 @@ import Facture from './src/compenents/App/DashboarClientBoutique/GestionBoutique
 import VoirMesFactures from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/VoirMesFactures.jsx';
 import OuvrirFacture from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/OuvrirFacture.jsx';
 import FactureBoutique from './src/compenents/App/DashboarClientBoutique/GestionBoutique/Facture/FactureBoutique.jsx';
+import RoleUtilisateurs from './src/compenents/App/RoleUtilisateurs/RoleUtilisateurs.jsx';
 
 function detectLanguage() {
   const userLang = navigator.language || navigator.userLanguage;
@@ -83,6 +84,7 @@ root.render(
         <Route path="AjouterCategorie" element={<AjouterCategorie />} />
         <Route path="VoirMesProduits" element={<VoirMesProduits />} />
         <Route path="MesProduitsEnAttente" element={<MesProduitsEnAttente />} />
+        <Route path="Utilisateurs" element={<RoleUtilisateurs />} />
         <Route path="ModiffierProduit/:produitId" element={<ModiffierProduit />} />
         <Route path="AjouterPhoto/:produitId" element={<AjouterPhoto />} />
         <Route path="Blog" element={<Blog />} />
