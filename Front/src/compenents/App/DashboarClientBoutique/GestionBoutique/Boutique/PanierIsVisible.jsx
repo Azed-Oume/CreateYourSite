@@ -6,7 +6,7 @@ import Paiement from "./Paiement.jsx";
 import ReserveForAdmin from "../../../../AuthSecure/ReserveForAdmin.jsx";
 
 const PanierIsVisible = ({ panier}) => {
-    console.log(panier, " en ligne 7 XXXXXXXXXXXXXXXXXXXXXXXXXX");
+    // console.log(panier, " en ligne 7 XXXXXXXXXXXXXXXXXXXXXXXXXX");
 const [isVisible, setIsVisible] = useState(false);
 const [isCodeVisible, setIsCodeVisible] = useState(false);
 const [payementIsVisible, setPayementIsVisible] = useState(false);
@@ -22,15 +22,15 @@ const navigate = useNavigate();
 let total = 0;
 // Calcul du total du panier
 const calculerTotalPanier = () => {
-  console.log('panier:', panier); // Ajoutez ceci pour vérifier le contenu du panier
+  // console.log('panier:', panier); // Ajoutez ceci pour vérifier le contenu du panier
   total = panier.reduce((total, produit) => total + produit.tarif * produit.quantite * 1.2, 0);
-  console.log('total avant toFixed:', total); // Ajoutez ceci pour vérifier la valeur de total avant toFixed
+  // console.log('total avant toFixed:', total); // Ajoutez ceci pour vérifier la valeur de total avant toFixed
   return total;
 };
 
 // Appel de la fonction et formatage du total
 const totalFormatted = parseFloat(calculerTotalPanier()).toFixed(2);
-console.log(totalFormatted, " en ligne 30 XXXXXXXXXXXXXXXXXXXXXXXXXX");
+// console.log(totalFormatted, " en ligne 30 XXXXXXXXXXXXXXXXXXXXXXXXXX");
 
   const calculerNombreArticlesDansPanier = () => {
     return panier.length;

@@ -7,11 +7,10 @@ import AttenteConfirmation from './AttenteConfirmation';
 
 const PrivateRoute = ({ children, ...rest }) => {
     const token = localStorage.getItem('token');
-    const statut = localStorage.getItem('statut');
-    const role_id = localStorage.getItem('role');
-
+    const role_id = parseInt(localStorage.getItem('role'));
+    const statut = parseInt(localStorage.getItem('statut'));
     if (token) {
-        if (statut === "3") {
+        if (statut === 3) {
             return children;
         } else {
             return  <AttenteConfirmation />;

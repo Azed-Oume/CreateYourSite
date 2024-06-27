@@ -11,8 +11,8 @@ const RoleUtilisateurs = () => {
             const token = localStorage.getItem("token");
 
             const role = parseInt(localStorage.getItem('role'));
-            console.log(role, "en ligne 15 XXXXXXXXXXXXX")  
-            console.log(typeof role, "en ligne 15 XXXXXXXXXXXXX")  
+            // console.log(role, "en ligne 15 XXXXXXXXXXXXX")  
+            // console.log(typeof role, "en ligne 15 XXXXXXXXXXXXX")  
             if(role !== 1){
                 setCompenentsIsVisible(false);
                 return;
@@ -49,7 +49,7 @@ const RoleUtilisateurs = () => {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify({ statut: 2 }) // Remplacez "NOUVEAU_STATUT" par le statut souhaité
+                body: JSON.stringify({ statut: 3 }) // Remplacez "NOUVEAU_STATUT" par le statut souhaité
             });
 
             if (!response.ok) {

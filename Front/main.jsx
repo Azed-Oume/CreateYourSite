@@ -70,47 +70,47 @@ root.render(
       <Header />
       <main className="flex-grow-1">
     <Routes>
-        <Route index element={<Acceuil />} />
+        <Route index element={<PrivateRoute> <Acceuil /> </PrivateRoute>} />
         <Route path="Inscription" element={<Inscription />} />
-        <Route path="Connexion" element={<Connexion />} />
+        <Route path="Connexion" element={ <Connexion />} />
         <Route path="Contact" element={<Contact />} />
-        <Route path="Profil" element={<Profil />} />
-        <Route path="Ajouter/Avatar" element={<AjouterAvatar />} />
-        <Route path="Boutique" element={<Boutique />} />
-        <Route path="devis" element={<Devis />} />
-        <Route path="VoirMesDevis" element={<VoirMesDevis />} />
-        <Route path="AfficherDevis" element={<AfficherDevis />} />
-        <Route path="AjouterProduit" element={<Ajouterproduit />} />
-        <Route path="AjouterCategorie" element={<AjouterCategorie />} />
-        <Route path="VoirMesProduits" element={<VoirMesProduits />} />
-        <Route path="MesProduitsEnAttente" element={<MesProduitsEnAttente />} />
-        <Route path="Utilisateurs" element={<RoleUtilisateurs />} />
-        <Route path="ModiffierProduit/:produitId" element={<ModiffierProduit />} />
-        <Route path="AjouterPhoto/:produitId" element={<AjouterPhoto />} />
-        <Route path="Blog" element={<Blog />} />
-        <Route path="Cgu" element={<ConditionGeneralUtilisation />} />
-        <Route path="Prestations" element={<Prestations />} />
-        <Route path="Article" element={<Article />} />
-        <Route path="/AjouterImageArticle/:articleId" element={<AjouterImageArticle />} />
-        <Route path="AjouterImageArticle" element={<AjouterImageArticle />} />
-        <Route path="ReadArticles" element={<ReadArticles />} />
-        <Route path="ouvrirDevis/:devisId" element={<OuvrirLeDevis />} />
-        <Route path="ouvrirCommande/:commandeId" element={<OuvrirCommande />} />
-        <Route path="facture" element={<VoirMesFactures />} />
-        <Route path="factureCommande" element={<Facture type="commande" />} />
-        <Route path="factureDevis" element={<Facture type="devis" />} />
-        <Route path="ouvrirFacture/:factureId" element={<OuvrirFacture />} />
-        <Route path="modifierDevis" element={<ModifierDevis />} />
-        <Route path="modifierCommande" element={<ModifierCommande />} />
-        <Route path="commande" element={<Commande />} />
-        <Route path="VoirMesCommande" element={<VoirMesCommande />} />
-        <Route path="portfolio" element={<Portfolio />} />
-        <Route path="ajouterImagesPortfolio" element={<AjouterImagePortfolio />} />
+        <Route path="Profil" element={<PrivateRoute> <Profil /> </PrivateRoute>} />
+        <Route path="Ajouter/Avatar" element={<PrivateRoute> <AjouterAvatar /> </PrivateRoute>} />
+        <Route path="Boutique" element={<PrivateRoute> <Boutique /> </PrivateRoute>} />
+        <Route path="devis" element={<PrivateRoute> <Devis /> </PrivateRoute>} />
+        <Route path="VoirMesDevis" element={<PrivateRoute> <VoirMesDevis /> </PrivateRoute>} />
+        <Route path="AfficherDevis" element={<PrivateRoute> <AfficherDevis /> </PrivateRoute>} />
+        <Route path="AjouterProduit" element={<PrivateRoute> <Ajouterproduit /> </PrivateRoute>} />
+        <Route path="AjouterCategorie" element={<PrivateRoute> <AjouterCategorie /> </PrivateRoute>} />
+        <Route path="VoirMesProduits" element={<PrivateRoute> <VoirMesProduits /> </PrivateRoute>} />
+        <Route path="MesProduitsEnAttente" element={<PrivateRoute> <MesProduitsEnAttente /> </PrivateRoute>} />
+        <Route path="Utilisateurs" element={<PrivateRoute> <RoleUtilisateurs /> </PrivateRoute>} />
+        <Route path="ModiffierProduit/:produitId" element={<PrivateRoute> <ModiffierProduit /> </PrivateRoute>} />
+        <Route path="AjouterPhoto/:produitId" element={<PrivateRoute> <AjouterPhoto /> </PrivateRoute>} />
+        <Route path="Blog" element={<PrivateRoute> <Blog /> </PrivateRoute>} />
+        <Route path="Cgu" element={<PrivateRoute> <ConditionGeneralUtilisation /> </PrivateRoute>} />
+        <Route path="Prestations" element={<PrivateRoute> <Prestations /> </PrivateRoute>} />
+        <Route path="Article" element={<PrivateRoute> <Article /> </PrivateRoute>} />
+        <Route path="/AjouterImageArticle/:articleId" element={<PrivateRoute> <AjouterImageArticle /> </PrivateRoute>} />
+        <Route path="AjouterImageArticle" element={<PrivateRoute> <AjouterImageArticle /> </PrivateRoute>} />
+        <Route path="ReadArticles" element={<PrivateRoute> <ReadArticles /> </PrivateRoute>} />
+        <Route path="ouvrirDevis/:devisId" element={<PrivateRoute> <OuvrirLeDevis /> </PrivateRoute>} />
+        <Route path="ouvrirCommande/:commandeId" element={<PrivateRoute> <OuvrirCommande /> </PrivateRoute>} />
+        <Route path="facture" element={<PrivateRoute> <VoirMesFactures /> </PrivateRoute>} />
+        <Route path="factureCommande" element={<PrivateRoute> <Facture type="commande" /> </PrivateRoute>} />
+        <Route path="factureDevis" element={<PrivateRoute> <Facture type="devis" /> </PrivateRoute>} />
+        <Route path="ouvrirFacture/:factureId" element={<PrivateRoute> <OuvrirFacture /> </PrivateRoute>} />
+        <Route path="modifierDevis" element={<PrivateRoute> <ModifierDevis /> </PrivateRoute>} />
+        <Route path="modifierCommande" element={<PrivateRoute> <ModifierCommande /> </PrivateRoute>} />
+        <Route path="commande" element={<PrivateRoute> <Commande /> </PrivateRoute>} />
+        <Route path="VoirMesCommande" element={<PrivateRoute> <VoirMesCommande /> </PrivateRoute>} />
+        <Route path="portfolio" element={<PrivateRoute> <Portfolio /> </PrivateRoute>} />
+        <Route path="ajouterImagesPortfolio" element={<PrivateRoute> <AjouterImagePortfolio /> </PrivateRoute>} />
         <Route path="motDePassePerdu" element={<MotDePassePerdu />} />
         <Route path="api/reset-password/:token" element={<NouveauMotDePasse />} />
-        <Route path="aMonSujet" element={<AmonSujet />} />
+        <Route path="aMonSujet" element={<PrivateRoute> <AmonSujet /> </PrivateRoute>} />
         <Route path="reserver-pour-utilisateur" element={<ReserveForUser/>} />
-        <Route path="/facture-Boutique" element={<FactureBoutique />} />
+        <Route path="/facture-Boutique" element={<PrivateRoute> <FactureBoutique /> </PrivateRoute>} />
         {/* <Route path="factureCommande" element={<FactureCommande/>} />
         <Route path="factureDevis" element={<FactureDevis/>} /> */}
     </Routes>

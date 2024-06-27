@@ -7,7 +7,7 @@ const AttenteConfirmation = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowTitle(false);
-        }, 10000); // Affiche le titre pendant 10 secondes
+        }, 15000); // Affiche le titre pendant 15 secondes
 
         return () => clearTimeout(timer);
     }, []); // Utilisez un tableau vide pour exécuter cet effet une seule fois après le premier rendu
