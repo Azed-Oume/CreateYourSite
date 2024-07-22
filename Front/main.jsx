@@ -2,11 +2,9 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { createRoot } from 'react-dom/client';
-
 // Import de Stripe et React-Stripe  
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 // Import des fichiers bootstrap et des fichiers reset 
 import '../Front/src/styles/reset.css';
@@ -66,6 +64,8 @@ import FactureBoutique from './src/compenents/App/DashboarClientBoutique/Gestion
 import AjouterDescription from './src/compenents/Portfolio/AjouterDescription.jsx';
 import Presentation from './src/compenents/App/Router/Presentation/Presentation.jsx';
 import PaymentForm from './src/compenents/SecurePayment/PaymentForm.jsx';
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 function detectLanguage() {
   const userLang = navigator.language || navigator.userLanguage;

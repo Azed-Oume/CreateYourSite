@@ -19,6 +19,8 @@ CREATE TABLE `PORTFOLIO` (
     `type` VARCHAR(100) NOT NULL,
     `description` VARCHAR(1024),
     `url` VARCHAR(255) NOT NULL,  -- Champ pour stocker le chemin de l'image
+    `utilisateur_id` INT NULL,
+    FOREIGN KEY (`utilisateur_id`) REFERENCES `UTILISATEURS`(`utilisateur_id`)
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -200,7 +202,7 @@ CREATE TABLE `COMMENTAIRES` (
     `contenu` TEXT,
     `date_commentaire` TIMESTAMP,
     `auteur` VARCHAR(255),
-    `statut_commentaire` TINYINT NOT NULL DEFAULT 0,
+    `statut_commentaire` TINYINT NOT NULL DEFAUL1T 0,
     `article_id` INT NOT NULL,
     FOREIGN KEY (`article_id`) REFERENCES `ARTICLES`(`article_id`)
 );
