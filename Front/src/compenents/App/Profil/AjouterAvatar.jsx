@@ -12,6 +12,7 @@ const AjouterAvatar = () => {
     /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
           // Permet de savoir si le compte est validé ou pas
           const [userStatut, setUserStatut] = useState(null);
+          const [userAvatar, setUserAvatar] = useState(null);
     /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
     /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
           // Fonction asynchrone pour récupérer le statut depuis l'API
@@ -37,11 +38,12 @@ const AjouterAvatar = () => {
                   const data2 = await response2.json();
                   // Met à jour l'état local 'userStatut' avec le statut récupéré
                   setUserStatut(data2.statut);
+                  setUserAvatar(data2.avatar);
               } catch (error) {
                   console.error(error);
               }
           };
-          
+          console.log(userAvatar, " en ligne 46 XXXXXXXXXXXXXXXXXXXXXXX");
     /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
     /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
 
@@ -51,6 +53,7 @@ const AjouterAvatar = () => {
         const formData = new FormData();
         formData.append('avatar', selectedFile);
         formData.append('fileName', fileName); // Ajout du nom du fichier à formData
+        formData.append('userAvatar', userAvatar);
 
         if (selectedFile) {
             try {

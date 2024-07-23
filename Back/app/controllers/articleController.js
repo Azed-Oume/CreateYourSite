@@ -1,7 +1,8 @@
-import validator from 'validator';
-import bcrypt from 'bcrypt';
-import { Sequelize } from 'sequelize';
-import {Op, literal} from 'sequelize';
+// import validator from 'validator';
+// import bcrypt from 'bcrypt';
+// import { Sequelize } from 'sequelize';
+// import {Op, literal} from 'sequelize';
+import { config as configDotenv } from 'dotenv';
 import Article from '../models/articles.js';
 import Articles_tags from '../models/articles_tags.js';
 // import UserArticleLove from '../models/userArticleLove.js';
@@ -16,6 +17,8 @@ import path from 'path';
 import fs from 'fs';
 import UserArticleLove from '../models/userArticleLove.js';
 
+configDotenv();
+const URL_API = process.env.URL_API;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -390,43 +393,46 @@ const articleController = {
         }
     },
     
-
-
     updateImageArticle: async function (req, res) {
-        if (req.file) {
+        const t = await sequelize.transaction(); // Démarrer une transaction
+        try {
+            if (!req.file) {
+                console.log('Aucun fichier téléchargé.');
+                return res.status(400).json({ error: 'Aucun fichier téléchargé' });
+            }
+
             console.log('Fichier téléchargé :', req.file);
             const fileName = req.file.filename;
-    
+
             // Formez l'URL directe vers le fichier téléchargé
-            const fileURL = `http://localhost:3000/imageArticle/${fileName}`; // Modifier avec l'URL correcte
-            // 
+            const fileURL = `${URL_API}/imageArticle/${fileName}`; // Utilisez la variable d'environnement
+
             // Récupérez l'ID de l'article
             const articleId = req.params.articleId;
-    
-            try {
-                // Mettez à jour le champ "image_couverture" pour l'article spécifié avec l'URL directe
-                const result = await Article.update(
-                    { image_couverture: fileURL },
-                    { where: { article_id: articleId } }
-                );
-                
-                if (result[0] === 1) {
-                    console.log('Téléchargement de l\'image de couverture réussi');
-    
-                    // Renvoyer un message de succès dans la réponse JSON
-                    return res.status(200).json({ message: 'Téléchargement de l\'image de couverture réussi' });
-                } else {
-                    throw new Error("Échec du Téléchargement de l'image de couverture !");
-                }
-            } catch (error) {
-                console.error("Erreur lors du Téléchargement de l'image de couverture :", error);
-                return res.status(500).json({ error: "Erreur lors du Téléchargement de l'image de couverture" });
+
+            // Mettez à jour le champ "image_couverture" pour l'article spécifié avec l'URL directe
+            const result = await Article.update(
+                { image_couverture: fileURL },
+                { where: { article_id: articleId }, transaction: t } // Inclure la transaction
+            );
+
+            if (result[0] !== 1) {
+                throw new Error("Échec du Téléchargement de l'image de couverture !");
             }
-        } else {
-            console.log('Aucun fichier téléchargé.');
-            return res.status(400).json({ error: 'Aucun fichier téléchargé' });
+
+            // Confirmer la transaction
+            await t.commit();
+            console.log('Téléchargement de l\'image de couverture réussi');
+
+            // Renvoyer un message de succès dans la réponse JSON
+            return res.status(200).json({ message: 'Téléchargement de l\'image de couverture réussi' });
+        } catch (error) {
+            // Annuler la transaction en cas d'erreur
+            await t.rollback();
+            console.error("Erreur lors du Téléchargement de l'image de couverture :", error);
+            return res.status(500).json({ error: "Erreur lors du Téléchargement de l'image de couverture" });
         }
-    }    
+    },
 
 }
 
