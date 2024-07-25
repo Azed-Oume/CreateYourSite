@@ -62,7 +62,7 @@ const Profil = () => {
                 } else {
                     const data = await response.json();
                     setProfileData(data);
-                    console.log(data, "en ligne 65 XXXXXXXXXXXXXXXXXXXXX");
+                    // console.log(data, "en ligne 65 XXXXXXXXXXXXXXXXXXXXX");
                     setFormData(data); // Remplir les données du formulaire avec les données du profil
                 };
             } catch (error) {

@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: 'Montserrat';
     src: url('../Fonts/static/Montserrat-Regular.ttf') format('truetype');
@@ -34,12 +35,21 @@
      p, li{
       font-size:larger;
      }
-
-
-
-
-
-
+     .text-p {
+      transition: 0.3s;
+      background-color: rgba(182, 236, 211, 0.4) ;
+      color: black !important;
+      font-size: x-large;
+      border: 3px solid gray !important;
+      border-radius: .5rem;
+    }
+     .text-p:hover {
+      transform: scale(1.1);
+      box-shadow: -20px 20px 10px 0px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+     /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
+    /* xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx */
   
   @keyframes scintillement {
     0% {
@@ -312,60 +322,60 @@
 
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
-/* Définition de l'animation 'deal' pour simuler la distribution des cartes */
-/* @keyframes deal {
-  0% {
-      transform: translateY(100vh) rotate(0deg); 
-      opacity: 0; 
-      
-  }
-  100% {
-      transform: translateY(0) rotate(360deg); 
-      opacity: 1; 
-  }
-} */
-
-/* Conteneur des cartes avec des propriétés pour l'effet 3D */
-/* .card-container-beta {
-  transform-origin: center center; 
-  perspective: 1000px; 
-  opacity: 0;
-  position: relative;
-} */
-
-/* Classe appliquée pour animer les cartes */
- /* Applique l'animation 'deal' avec une durée de 0.5s et un easing 'ease-out' */
-/* .card-container-beta.animate {
-  animation: deal 0.5s ease-in forwards;
-} */
-
-
-/* Styles pour les symboles de cartes */
-/* Ajustez la taille du symbole selon vos besoins */
-/* .symbol {
-  position: absolute;
-  font-size: 2rem; 
+/* Bleu marine */
+.bg-dark-marine {
+  background-color: #003366; /* Bleu marine */
 }
 
-.top-left {
-  top: -10px;
-  left: 5px;
+.text-dark-marine {
+  color: #003366; /* Bleu marine pour le texte */
 }
 
-.top-right {
-  top: -10px;
-  right: 5px;
+/* Rouge brique ou bordeaux */
+.bg-red-brick {
+  background-color: #8B0000; /* Rouge brique foncé */
 }
 
-.bottom-left {
-  bottom: -10px;
-  left: 5px;
+.text-red-brick {
+  color: #8B0000; /* Rouge brique foncé pour le texte */
 }
 
-.bottom-right {
-  bottom: -10px;
-  right: 5px;
-} */
+/* Vert émeraude */
+.bg-emerald-green {
+  background-color: #50C878; /* Vert émeraude */
+}
+
+.text-emerald-green {
+  color: #50C878; /* Vert émeraude pour le texte */
+}
+
+/* Jaune moutarde */
+.bg-mustard-yellow {
+  background-color: #FFDB58; /* Jaune moutarde */
+}
+
+.text-mustard-yellow {
+  color: #FFDB58; /* Jaune moutarde pour le texte */
+}
+
+/* Rose pâle */
+.bg-pale-pink {
+  background-color: #FFC0CB; /* Rose pâle */
+}
+
+.text-pale-pink {
+  color: #FFC0CB; /* Rose pâle pour le texte */
+}
+
+/* Orange brûlé */
+.bg-burnt-orange {
+  background-color: #CC5500; /* Orange brûlé */
+}
+
+.text-burnt-orange {
+  color: #CC5500; /* Orange brûlé pour le texte */
+}
+
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 /* XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX */
 .my-masonry-grid {

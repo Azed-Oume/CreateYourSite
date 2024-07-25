@@ -1,6 +1,5 @@
--- Insertion de données de test dans la table ROLE
--- Insertion de données de test dans la table ROLE
-INSERT INTO ROLE (nom) VALUES ('Administrateur'), ('Utilisateur'), ('Abonné'), ('Auteur'), ('Client');
+-- Insertion de données de test pour l'ensembles des tables!
+INSERT INTO ROLE (nom) VALUES ('Administrateur'), ('Portfolio'), ('E-commerce'), ('Visiteur'), ('Client');
 
 -- Insertion de données de test dans la table UTILISATEURS
 INSERT INTO UTILISATEURS (nom, prenom, societe, pseudo, adresse_email, mot_de_passe, rue, code_postal, ville, date_inscription, avatar, biographie, role_id) 
@@ -13,7 +12,16 @@ VALUES
 
 
 -- Insertion de données de test dans la table CATEGORIES
-INSERT INTO CATEGORIES (nom, description) VALUES ('Technologie', 'Articles liés à la technologie'), ('Mode', 'Articles liés à la mode');
+INSERT INTO CATEGORIESARTICLES (nom, description) 
+VALUES 
+    ('Bio', 'Articles liés à la biologie'),
+    ('Business', 'Articles liés au monde des affaires'),
+    ('Cuisine', 'Articles liés à la cuisine'),
+    ('Mode', 'Articles liés à la mode'),
+    ('Politique', 'Articles liés à la politique'),
+    ('Technologie', 'Articles liés à la technologie'),
+    ('Voyages', 'Articles liés aux voyages');
+
 
 -- Insertion de données de test dans la table TAGS
 INSERT INTO TAGS (nom) VALUES ('Informatique'), ('Science'), ('Design'), ('Vêtements'), ('Accessoires');
