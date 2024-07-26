@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 // Import de Stripe et React-Stripe  
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements } from '@stripe/react-stripe-js';
+import { CookiesProvider } from 'react-cookie';
 
 // Import des fichiers bootstrap et des fichiers reset 
 import '../Front/src/styles/reset.css';
@@ -64,6 +65,8 @@ import FactureBoutique from './src/compenents/App/DashboarClientBoutique/Gestion
 import AjouterDescription from './src/compenents/Portfolio/AjouterDescription.jsx';
 import Presentation from './src/compenents/App/Router/Presentation/Presentation.jsx';
 import PaymentForm from './src/compenents/SecurePayment/PaymentForm.jsx';
+import CookieConsentComponent from './Cookies/CookieConsentComponent.jsx';
+import CookiePolitiqueDeConfidentialite from './Cookies/CookiePolitiqueDeConfidentialite.jsx';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -80,11 +83,14 @@ const root = createRoot(container);
 root.render(
   <BrowserRouter>
     <Elements stripe={stripePromise}>
+    <CookiesProvider>
       <div className="d-flex flex-column min-vh-100">
         <Header />
         <main className="flex-grow-1">
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
+              <Route path="/politique-de-confidentialite" element={<CookiePolitiqueDeConfidentialite />} />
+
               <Route path='/paiement' element={<PaymentForm/>} />
 
               <Route index element={ <Presentation /> } />
@@ -195,7 +201,9 @@ root.render(
         <ScrollToTopButton />
         <WhatsAppButton phoneNumber="+33768221452" />
         <Footer />
+        <CookieConsentComponent />
       </div>
+      </CookiesProvider>
     </Elements>
   </BrowserRouter>
 );
